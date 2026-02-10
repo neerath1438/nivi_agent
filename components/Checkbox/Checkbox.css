@@ -1,0 +1,58 @@
+.wui-mark-field {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  margin-bottom: 0.5rem;
+}
+
+.wui-mark-field.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.wui-mark {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.wui-mark-gem {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  margin-right: 0.75rem;
+  position: relative;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.wui-mark-field:hover:not(.disabled) .wui-mark-gem {
+  border-color: #3498db;
+}
+
+.wui-mark:checked~.wui-mark-gem {
+  background-color: #3498db;
+  border-color: #3498db;
+}
+
+.wui-mark:checked~.wui-mark-gem::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.wui-mark:focus~.wui-mark-gem {
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.wui-mark-voice {
+  color: #2c3e50;
+  font-size: 1rem;
+}

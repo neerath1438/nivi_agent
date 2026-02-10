@@ -1,0 +1,39 @@
+.background-container {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    overflow: hidden;
+    background-color: #ffffff;
+}
+
+.purple-glow-wrapper {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: #ffffff;
+    background-image: radial-gradient(circle at top right,
+            rgba(173, 109, 244, 0.5),
+            transparent 70%);
+    filter: blur(80px);
+    background-repeat: no-repeat;
+}
+
+.background-content {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+}
+
+/* Dark mode overrides if needed */
+[data-theme='dark'] .background-container,
+[data-theme='dark'] .purple-glow-wrapper {
+    background-color: #0f172a;
+    /* Slate 900 */
+}
+
+[data-theme='dark'] .purple-glow-wrapper {
+    background-image: radial-gradient(circle at top right,
+            rgba(173, 109, 244, 0.3),
+            transparent 70%);
+}

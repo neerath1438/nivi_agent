@@ -1,0 +1,7732 @@
+# UI COMPONENT LIBRARY - REFERENCE FOR AI GENERATION
+
+## COMPONENT: Accordion
+### STRUCTURE (JSX Snippet):
+```jsx
+import React, { useState } from 'react';
+import { Briefcase, Shuffle, AlertCircle, BookOpen, Wallet, Mail, ShieldCheck, MonitorPlay, ChevronDown } from 'lucide-react';
+import './Accordion.css';
+
+const AccordionItem = ({ item, isOpen, onToggle }) => {
+    return (
+        <div className="wui-layer-brick">
+            <button className="wui-layer-trigger" onClick={onToggle}>
+                <div className="wui-layer-intent">
+                    {item.icon}
+                    <span className="wui-layer-voice">{item.question}</span>
+                </div>
+                <ChevronDown size={20} className={`wui-layer-dial ${isOpen ? 'open' : ''}`} />
+            </button>
+            <div className={`wui-layer-depth ${isOpen ? 'open' : ''}`}>
+                <div className="wui-layer-well">
+                    <p>{item.answer}</p>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+const Accordion = ({ data, defaultOpen = null }) => {
+    const [openIndex, setOpenIndex] = useState(defaultOpen);
+
+    const handleToggle = (index) => {
+        setOpenIndex(openIndex === index ? null : index);
+    };
+
+    return (
+        <div className="wui-layer-stage">
+            <h1 className="wui-layer-crown">General Questions</h1>
+            <div className="wui-layer-stack">
+                {data.map((item, index) => (
+                    <AccordionItem
+                        key={index}
+                        item={item}
+                        isOpen={openIndex === index}
+                        onToggle={() => handleToggle(index)}
+                    />
+                ))}
+            </div>
+        </div>
+    );
+};
+
+export default Accordion;
+
+```
+### STYLES (CSS Snippet):
+```css
+.wui-layer-stage {
+    width: 100%;
+    max-width: 42rem;
+    margin: 0 auto;
+}
+
+.wui-layer-crown {
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-align: center;
+    color: #1f2937;
+    margin-bottom: 1.5rem;
+}
+
+.wui-layer-stack {
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+/* Accordion Item */
+.wui-layer-brick {
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.wui-layer-brick:last-child {
+    border-bottom: none;
+}
+
+.wui-layer-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 1rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    transition: background-color 0.2s;
+}
+
+.wui-layer-trigger:hover {
+    background-color: #f9fafb;
+}
+
+.wui-layer-trigger:focus {
+    outline: none;
+}
+
+.wui-layer-intent {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.wui-layer-intent svg {
+    color: #6b7280;
+    flex-shrink: 0;
+}
+
+.wui-layer-voice {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #1f2937;
+}
+
+.wui-layer-dial {
+    color: #6b7280;
+    transition: transform 0.3s;
+    flex-shrink: 0;
+}
+
+.wui-layer-dial.open {
+    transform: rotate(180deg);
+}
+
+/* Accordion Content */
+.wui-layer-depth {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.3s ease-in-out;
+}
+
+.wui-layer-depth.open {
+    max-height: 24rem;
+}
+
+.wui-layer-well {
+    padding: 1rem;
+    padding-left: 3rem;
+}
+
+.wui-layer-well p {
+    margin: 0;
+    color: #4b5563;
+    line-height: 1.6;
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+    .wui-layer-crown {
+        color: #f9fafb;
+    }
+
+    .wui-layer-stack {
+        border-color: #374151;
+    }
+
+    .wui-layer-brick {
+        border-color: #374151;
+    }
+
+    .wui-layer-trigger:hover {
+        background-color: #1f2937;
+    }
+
+    .wui-layer-intent svg {
+        color: #9ca3af;
+    }
+
+    .wui-layer-voice {
+        color: #e5e7eb;
+    }
+
+    .wui-layer-dial {
+        color
+```
+--------------------------------------------------
+
+## COMPONENT: Alert
+### STRUCTURE (JSX Snippet):
+```jsx
+import './Alert.css'
+
+const Alert = ({
+  type = 'info',
+  message,
+  title,
+  onClose,
+  showIcon = true,
+  className = ''
+}) => {
+  const icons = {
+    success: '✓',
+    error: '✕',
+    warning: '⚠',
+    info: 'ℹ'
+  }
+
+  return (
+    <div className={`wui-signal wui-signal-${type} ${className}`}>
+      <div className="wui-signal-orbit">
+        {showIcon && <span className="wui-signal-atom">{icons[type]}</span>}
+        <div className="wui-signal-core">
+          {title && <div className="wui-signal-crown">{title}</div>}
+          {message && <div className="wui-signal-voice">{message}</div>}
+        </div>
+      </div>
+      {onClose && (
+        <button className="wui-signal-exit" onClick={onClose}>
+          ×
+        </button>
+      )}
+    </div>
+  )
+}
+
+export default Alert
+
+
+```
+### STYLES (CSS Snippet):
+```css
+.wui-signal {
+  padding: 1rem;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  border-left: 4px solid;
+}
+
+.wui-signal-orbit {
+  display: flex;
+  align-items: flex-start;
+  flex: 1;
+}
+
+.wui-signal-atom {
+  font-size: 1.25rem;
+  margin-right: 0.75rem;
+  flex-shrink: 0;
+}
+
+.wui-signal-core {
+  flex: 1;
+}
+
+.wui-signal-crown {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.wui-signal-voice {
+  font-size: 0.875rem;
+}
+
+.wui-signal-success {
+  background-color: #d4edda;
+  border-color: #28a745;
+  color: #155724;
+}
+
+.wui-signal-error {
+  background-color: #f8d7da;
+  border-color: #dc3545;
+  color: #721c24;
+}
+
+.wui-signal-warning {
+  background-color: #fff3cd;
+  border-color: #ffc107;
+  color: #856404;
+}
+
+.wui-signal-info {
+  background-color: #d1ecf1;
+  border-color: #17a2b8;
+  color: #0c5460;
+}
+
+.wui-signal-exit {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 1rem;
+  opacity: 0.7;
+  transition: opacity 0.3s;
+  flex-shrink: 0;
+}
+
+.wui-signal-exit:hover {
+  opacity: 1;
+}
+```
+--------------------------------------------------
+
+## COMPONENT: Background
+### STRUCTURE (JSX Snippet):
+```jsx
+import React from 'react';
+import './Background.css';
+
+const PurpleGlowBackground = ({ children, className = "" }) => {
+    return (
+        <div className={`background-container ${className}`}>
+            <div className="purple-glow-wrapper" />
+            <div className="background-content">
+                {children}
+            </div>
+        </div>
+    );
+};
+
+export default PurpleGlowBackground;
+
+```
+### STYLES (CSS Snippet):
+```css
+.background-container {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    overflow: hidden;
+    background-color: #ffffff;
+}
+
+.purple-glow-wrapper {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: #ffffff;
+    background-image: radial-gradient(circle at top right,
+            rgba(173, 109, 244, 0.5),
+            transparent 70%);
+    filter: blur(80px);
+    background-repeat: no-repeat;
+}
+
+.background-content {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+}
+
+/* Dark mode overrides if needed */
+[data-theme='dark'] .background-container,
+[data-theme='dark'] .purple-glow-wrapper {
+    background-color: #0f172a;
+    /* Slate 900 */
+}
+
+[data-theme='dark'] .purple-glow-wrapper {
+    background-image: radial-gradient(circle at top right,
+            rgba(173, 109, 244, 0.3),
+            transparent 70%);
+}
+```
+--------------------------------------------------
+
+## COMPONENT: Badge
+### STRUCTURE (JSX Snippet):
+```jsx
+import React from 'react';
+import './Badge.css';
+
+const Badge = ({
+    children,
+    className = '',
+    onDismiss,
+    onClick,
+    href,
+    iconLeft,
+    iconRight,
+    ...props
+}) => {
+    const baseClass = 'wui-gem';
+    const combinedClass = `${baseClass} ${className}`.trim();
+
+    if (href) {
+        return (
+            <a href={href} className={combinedClass} {...props}>
+                {iconLeft && <span className="wui-gem-left">{iconLeft}</span>}
+                {children}
+                {iconRight && <span className="wui-gem-right">{iconRight}</span>}
+            </a>
+        );
+    }
+
+    if (onClick) {
+        return (
+            <button onClick={onClick} className={combinedClass} {...props}>
+                {iconLeft && <span className="wui-gem-left">{iconLeft}</span>}
+                {children}
+                {iconRight && <span className="wui-gem-right">{iconRight}</span>}
+            </button>
+        );
+    }
+
+    return (
+        <span className={combinedClass} {...props}>
+            {iconLeft && <span className="wui-gem-left">{iconLeft}</span>}
+            {children}
+            {iconRight && <span className="wui-gem-right">{iconRight}</span>}
+            {onDismiss && (
+                <button
+                    onClick={onDismiss}
+                    className="wui-gem-exit"
+                    aria-label="Dismiss"
+                >
+                    ×
+                </button>
+            )}
+        </span>
+    );
+};
+
+export default Badge;
+
+```
+### STYLES (CSS Snippet):
+```css
+/* Base Badge Styles */
+.wui-gem {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.375rem 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    border-radius: 9999px;
+    background-color: #dbeafe;
+    color: #1e40af;
+    border: none;
+    cursor: default;
+    transition: all 0.3s ease;
+}
+
+.wui-gem-left,
+.wui-gem-right {
+    display: inline-flex;
+    align-items: center;
+    width: 1rem;
+    height: 1rem;
+}
+
+.wui-gem-left svg,
+.wui-gem-right svg {
+    width: 100%;
+    height: 100%;
+}
+
+.wui-gem-exit {
+    margin-left: 0.25rem;
+    padding: 0;
+    background: none;
+    border: none;
+    color: inherit;
+    font-size: 1.25rem;
+    line-height: 1;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.wui-gem-exit:hover {
+    opacity: 1;
+}
+
+/* Clickable Badge */
+button.wui-gem,
+a.wui-gem {
+    cursor: pointer;
+    text-decoration: none;
+}
+
+button.wui-gem:hover,
+a.wui-gem:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+button.wui-gem:active,
+a.wui-gem:active {
+    transform: translateY(0);
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+    .wui-gem {
+        background-color: #1e3a8a;
+        color: #bfdbfe;
+    }
+}
+```
+--------------------------------------------------
+
+## COMPONENT: BlogHeader
+### STRUCTURE (JSX Snippet):
+```jsx
+import { useState, useEffect } from "react";
+import { Menu, X, Search } from "lucide-react";
+import "./BlogHeader.css";
+
+const BlogHeader = () => {
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const navLinks = [
+        { href: "#", text: "Home" },
+        { href: "#", text: "Articles" },
+        { href: "#", text: "Tutorials" },
+        { href: "#", text: "Reviews" },
+        { href: "#", text: "About" }
+    ];
+
+    useEffect(() => {
+        if (isMenuOpen) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "auto";
+        }
+        return () => {
+            document.body.style.overflow = "auto";
+        };
+    }, [isMenuOpen]);
+
+    return (
+        <div className="blog-header-wrapper">
+            <header className="blog-header">
+                <div className="blog-container">
+                    <div className="blog-header-inner">
+                        {/* Logo */}
+                        <div className="blog-logo-container">
+                            <a href="#" className="blog-logo">
+                                <div className="blog-logo-icon">
+                                    <span>T</span>
+                                </div>
+                                <span className="blog-logo-text">
+                                    TechBlog
+                                </span>
+                            </a>
+                        </div>
+
+                        {/* Navigation Desktop */}
+                        <nav className="blog-nav-desktop">
+                            {navLinks.map(link => (
+                                <a key={link.text} href={link.href} className="blog-nav-link">
+                                    {link.text}
+                                </a>
+                            ))}
+                        </nav>
+
+                        {/* Actions Desktop */}
+                        <div className="blog-actions-desktop">
+                     
+```
+### STYLES (CSS Snippet):
+```css
+.blog-header-wrapper {
+    width: 100%;
+}
+
+.blog-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid #e5e7eb;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.dark .blog-header {
+    background-color: rgba(17, 24, 39, 0.8);
+    border-color: #1f2937;
+}
+
+.blog-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+@media (min-width: 640px) {
+    .blog-container {
+        padding: 0 1.5rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .blog-container {
+        padding: 0 2rem;
+    }
+}
+
+.blog-header-inner {
+    display: flex;
+    height: 4rem;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Logo */
+.blog-logo-container {
+    flex-shrink: 0;
+}
+
+.blog-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+}
+
+.blog-logo-icon {
+    width: 2rem;
+    height: 2rem;
+    background-color: #059669;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.blog-logo-icon span {
+    color: white;
+    font-weight: 700;
+    font-size: 0.875rem;
+}
+
+.blog-logo-text {
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: #111827;
+}
+
+.dark .blog-logo-text {
+    color: white;
+}
+
+/* Navigation Desktop */
+.blog-nav-desktop {
+    display: none;
+    align-items: center;
+    gap: 2rem;
+}
+
+@media (min-width: 768px) {
+    .blog-nav-desktop {
+        display: flex;
+    }
+}
+
+.blog-nav-link {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #4b5563;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.dark .blog-nav-link {
+    color: #d1d5db;
+}
+
+.blog-nav-link:hover {
+    color: #059669;
+}
+
+.dark .blog-nav-link:hover {
+    color: #34d399;
+}
+
+/* Actions Desktop */
+.blog-actions-desktop {
+    display: none;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+@media (min-width: 768px) {
+    .blog-actions-desktop {
+     
+```
+--------------------------------------------------
+
+## COMPONENT: Button
+### STRUCTURE (JSX Snippet):
+```jsx
+import './Button.css'
+
+const Button = ({
+  children,
+  onClick,
+  variant = 'default',
+  size = 'medium',
+  disabled = false,
+  type = 'button',
+  loading = false,
+  iconLeft = null,
+  iconRight = null,
+  className = '',
+  ...props
+}) => {
+  // Map size shortcuts to full names for backward compatibility
+  const sizeMap = {
+    'sm': 'small',
+    'lg': 'large',
+    'small': 'small',
+    'medium': 'medium',
+    'large': 'large'
+  }
+
+  const mappedSize = sizeMap[size] || 'medium'
+
+  // Combine classes
+  const buttonClasses = `wui-trigger wui-trigger-${variant} wui-trigger-${mappedSize} ${className}`.trim()
+
+  // Check if it's an icon-only button
+  const isIconOnly = !children && (iconLeft || iconRight)
+
+  return (
+    <button
+      className={buttonClasses}
+      onClick={onClick}
+      disabled={disabled || loading}
+      type={type}
+      {...props}
+    >
+      {loading && (
+        <span className="wui-pulse"></span>
+      )}
+      {!loading && iconLeft && (
+        <span className="wui-trigger-left">{iconLeft}</span>
+      )}
+      {!loading && children && (
+        <span className={isIconOnly ? '' : 'wui-trigger-voice'}>{children}</span>
+      )}
+      {!loading && iconRight && (
+        <span className="wui-trigger-right">{iconRight}</span>
+      )}
+    </button>
+  )
+}
+
+export default Button
+
+
+```
+### STYLES (CSS Snippet):
+```css
+.wui-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: 2px solid transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  outline: none;
+  white-space: nowrap;
+  font-family: inherit;
+}
+
+.wui-trigger:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.wui-trigger:focus-visible {
+  outline: 2px solid #3498db;
+  outline-offset: 2px;
+}
+
+/* Icon positioning */
+.wui-trigger-left {
+  display: inline-flex;
+  align-items: center;
+}
+
+.wui-trigger-right {
+  display: inline-flex;
+  align-items: center;
+}
+
+.wui-trigger-voice {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Loading spinner */
+.wui-pulse {
+  width: 16px;
+  height: 16px;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: wui-pulse-spin 0.6s linear infinite;
+}
+
+@keyframes wui-pulse-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Variant: Default */
+.wui-trigger-default {
+  background-color: #0f172a;
+  color: white;
+  border-color: #0f172a;
+}
+
+.wui-trigger-default:hover:not(:disabled) {
+  background-color: #1e293b;
+  border-color: #1e293b;
+}
+
+/* Variant: Destructive */
+.wui-trigger-destructive {
+  background-color: #ef4444;
+  color: white;
+  border-color: #ef4444;
+}
+
+.wui-trigger-destructive:hover:not(:disabled) {
+  background-color: #dc2626;
+  border-color: #dc2626;
+}
+
+/* Variant: Outline */
+.wui-trigger-outline {
+  background-color: transparent;
+  color: #0f172a;
+  border-color: #e2e8f0;
+}
+
+.wui-trigger-outline:hover:not(:disabled) {
+  background-color: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+/* Variant: Secondary */
+.wui-trigger-secondary {
+  background-color: #f1f5f9;
+  color: #0f172a;
+  border-color: #f1f5f9;
+}
+
+.wui-trigger-secondary:hover:not(:disabled) {
+  background-color: #e2e8f0;
+  border-color: #e2e8f0;
+}
+
+/* Variant: Ghost */
+.wui-trigger-ghost {
+  background-color: transparent;
+  color: #0f172a;
+  border-color: transparent;
+}
+
+.wui-tri
+```
+--------------------------------------------------
+
+## COMPONENT: Card
+### STRUCTURE (JSX Snippet):
+```jsx
+import './Card.css'
+
+const Card = ({ children, title, className = '' }) => {
+  return (
+    <div className={`wui-frame ${className}`}>
+      {title && <h3 className="wui-frame-crown">{title}</h3>}
+      <div className="wui-frame-core">
+        {children}
+      </div>
+    </div>
+  )
+}
+
+export default Card
+
+
+```
+### STYLES (CSS Snippet):
+```css
+.wui-frame {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.wui-frame-crown {
+  margin-bottom: 1rem;
+  color: #2c3e50;
+  font-size: 1.25rem;
+}
+
+.wui-frame-core {
+  color: #555;
+}
+```
+--------------------------------------------------
+
+## COMPONENT: CategoryMultiSelect
+### STRUCTURE (JSX Snippet):
+```jsx
+import React, { useState, useRef, useEffect } from 'react';
+import './CategoryMultiSelect.css';
+
+const ALL_CATEGORIES = [
+    { id: 1, name: 'Technology', value: 'technology', icon: '💻', description: 'Tech-related content', count: 245 },
+    { id: 2, name: 'Design', value: 'design', icon: '🎨', description: 'UI/UX and visual design', count: 189 },
+    { id: 3, name: 'Business', value: 'business', icon: '💼', description: 'Business and entrepreneurship', count: 156 },
+    { id: 4, name: 'Marketing', value: 'marketing', icon: '📈', description: 'Marketing and growth', count: 134 },
+    { id: 5, name: 'Education', value: 'education', icon: '📚', description: 'Learning and tutorials', count: 298 },
+    { id: 6, name: 'Health', value: 'health', icon: '🏥', description: 'Health and wellness', count: 87 },
+    { id: 7, name: 'Travel', value: 'travel', icon: '✈️', description: 'Travel and adventure', count: 76 },
+    { id: 8, name: 'Food', value: 'food', icon: '🍕', description: 'Recipes and cooking', count: 123 },
+    { id: 9, name: 'Sports', value: 'sports', icon: '⚽', description: 'Sports and fitness', count: 98 },
+    { id: 10, name: 'Entertainment', value: 'entertainment', icon: '🎬', description: 'Movies, music, and fun', count: 167 }
+];
+
+const XIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="cat-multiselect-x">
+        <path d="M18 6 6 18" />
+        <path d="m6 6 12 12" />
+    </svg>
+);
+
+const CheckIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="cat-multiselect-check">
+        <path d="M20 6 9 17l-5-5" />
+    </svg>
+);
+
+const HashIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentCo
+```
+### STYLES (CSS Snippet):
+```css
+.cat-multiselect-wrapper {
+    width: 100%;
+    max-width: 28rem;
+    margin: 0 auto;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.cat-multiselect-container {
+    position: relative;
+}
+
+/* Input Area */
+.cat-multiselect-input-area {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    min-height: 3rem;
+    border: 1px solid #cbd5e1;
+    background: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    cursor: text;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.cat-multiselect-input-area:focus-within {
+    border-color: transparent;
+    outline: 2px solid #0f172a;
+    outline-offset: 2px;
+}
+
+/* Tags */
+.cat-multiselect-tag {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.25rem 0.5rem;
+    background: linear-gradient(to right, #f8fafc, #f1f5f9);
+    border: 1px solid #e2e8f0;
+    border-radius: 0.375rem;
+    color: #1e293b;
+    font-weight: 500;
+    font-size: 0.875rem;
+    animation: tag-pop 0.2s ease-out;
+}
+
+@keyframes tag-pop {
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.cat-tag-icon {
+    font-size: 1rem;
+}
+
+.cat-multiselect-hash {
+    width: 0.75rem;
+    height: 0.75rem;
+    color: #94a3b8;
+}
+
+.cat-tag-name {
+    margin-right: 0.25rem;
+}
+
+.cat-tag-count {
+    font-size: 0.75rem;
+    background: #cbd5e1;
+    color: #475569;
+    padding: 0.125rem 0.375rem;
+    border-radius: 9999px;
+    font-weight: 600;
+}
+
+.cat-tag-remove {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.125rem;
+    margin-left: 0.25rem;
+    border: none;
+    background: none;
+    border-radius: 9999px;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.cat-tag-remove:hover {
+    background: #e2e8f0;
+    color: #0f172a;
+}
+
+.cat-multiselect-x {
+    width: 0.75rem;
+    height: 0.75rem;
+}
+
+/*
+```
+--------------------------------------------------
+
+## COMPONENT: ChatbotUI
+### STRUCTURE (JSX Snippet):
+```jsx
+import React, { useState, useEffect, useRef } from 'react';
+import { Zap, Code, FileText, Paperclip, Globe, Bell, Send } from 'lucide-react';
+import './ChatbotUI.css';
+
+const ChatbotUI = () => {
+    const [prompt, setPrompt] = useState('');
+    const [isToolsOpen, setToolsOpen] = useState(false);
+    const toolsRef = useRef(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (toolsRef.current && !toolsRef.current.contains(event.target)) {
+                setToolsOpen(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
+    const handleSend = () => {
+        if (!prompt.trim()) return;
+        console.log(`Sending prompt: "${prompt}"`);
+        setPrompt('');
+    };
+
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            handleSend();
+        }
+    };
+
+    const suggestionChips = [
+        { icon: <Zap size={16} />, text: "Generate rest API" },
+        { icon: <Code size={16} />, text: "Debug Python code" },
+        { icon: <FileText size={16} />, text: "Explain React hooks" }
+    ];
+
+    return (
+        <div className="chatbot-landing">
+            {/* Star Icon */}
+            <div className="chatbot-star-icon">
+                <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+                    <path d="M30 0L32.5 27.5L60 30L32.5 32.5L30 60L27.5 32.5L0 30L27.5 27.5L30 0Z" fill="url(#starGradient)" />
+                    <defs>
+                        <linearGradient id="starGradient" x1="0" y1="0" x2="60" y2="60">
+                            <stop offset="0%" stopColor="#ec4899" />
+                            <stop offset="50%" stopColor="#8b5cf6" />
+                            <stop offset="100%" stopColor="#3b82f6" />
+                        </linearGradient>
+          
+```
+### STYLES (CSS Snippet):
+```css
+.chatbot-landing {
+    width: 100%;
+    max-width: 52rem;
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+/* Star Icon */
+.chatbot-star-icon {
+    margin-bottom: 1rem;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* Heading */
+.chatbot-heading {
+    font-size: 3.5rem;
+    font-weight: 700;
+    text-align: center;
+    color: white;
+    line-height: 1.1;
+    margin: 0;
+}
+
+.chatbot-heading-gradient {
+    background: linear-gradient(135deg, #9ca3af 0%, #6b7280 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Suggestion Chips */
+.chatbot-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.chatbot-chip {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.75rem;
+    color: #d1d5db;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.chatbot-chip:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.chatbot-chip svg {
+    color: #60a5fa;
+}
+
+/* Input Container */
+.chatbot-input-container {
+    width: 100%;
+    max-width: 48rem;
+}
+
+.chatbot-input-wrapper {
+    background: rgba(31, 41, 55, 0.8);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(75, 85, 99, 0.5);
+    border-radius: 1.5rem;
+    padding: 1rem;
+    transition: all 0.3s ease;
+}
+
+.chatbot-input-wrapper:focus-within {
+    border-color: rgba(96, 165, 250, 0.5);
+    box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);
+}
+
+.chatbot-input {
+    wi
+```
+--------------------------------------------------
+
+## COMPONENT: Checkbox
+### STRUCTURE (JSX Snippet):
+```jsx
+import './Checkbox.css'
+
+const Checkbox = ({
+  label,
+  checked = false,
+  onChange,
+  disabled = false,
+  className = '',
+  ...props
+}) => {
+  return (
+    <label className={`wui-mark-field ${className} ${disabled ? 'disabled' : ''}`}>
+      <input
+        type="checkbox"
+        checked={checked}
+        onChange={onChange}
+        disabled={disabled}
+        className="wui-mark"
+        {...props}
+      />
+      <span className="wui-mark-gem"></span>
+      {label && <span className="wui-mark-voice">{label}</span>}
+    </label>
+  )
+}
+
+export default Checkbox
+
+
+```
+### STYLES (CSS Snippet):
+```css
+.wui-mark-field {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  margin-bottom: 0.5rem;
+}
+
+.wui-mark-field.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.wui-mark {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.wui-mark-gem {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  margin-right: 0.75rem;
+  position: relative;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.wui-mark-field:hover:not(.disabled) .wui-mark-gem {
+  border-color: #3498db;
+}
+
+.wui-mark:checked~.wui-mark-gem {
+  background-color: #3498db;
+  border-color: #3498db;
+}
+
+.wui-mark:checked~.wui-mark-gem::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.wui-mark:focus~.wui-mark-gem {
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.wui-mark-voice {
+  color: #2c3e50;
+  font-size: 1rem;
+}
+```
+--------------------------------------------------
+
+## COMPONENT: CodeArea
+### STRUCTURE (JSX Snippet):
+```jsx
+import React from 'react';
+import './CodeArea.css';
+
+const CodeArea = ({ code, language = 'JavaScript', filename = 'index.js' }) => {
+    return (
+        <div className="wui-codex-frame">
+            {/* Top Streak */}
+            <div className="wui-codex-streak">
+                <div className="wui-codex-streak-left"></div>
+                <div className="wui-codex-streak-right"></div>
+            </div>
+
+            {/* Header */}
+            <div className="wui-codex-apex">
+                <div className="wui-codex-controls">
+                    <div className="wui-codex-dot red"></div>
+                    <div className="wui-codex-dot orange"></div>
+                    <div className="wui-codex-dot green"></div>
+                </div>
+                <div className="wui-codex-label">{filename}</div>
+            </div>
+
+            {/* Content Area */}
+            <div className="wui-codex-void">
+                <div className="wui-codex-glow-left"></div>
+                <div className="wui-codex-glow-right"></div>
+
+                <pre className="wui-codex-pre">
+                    <code>{code || '// No code provided'}</code>
+                </pre>
+            </div>
+
+            {/* Footer */}
+            <div className="wui-codex-footer">
+                <span>UTF-8</span>
+                <span>{language}</span>
+            </div>
+        </div>
+    );
+};
+
+export default CodeArea;
+
+```
+### STYLES (CSS Snippet):
+```css
+.wui-codex-frame {
+    display: flex;
+    flex-direction: column;
+    background: #09090b;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    width: 100%;
+    margin: 0;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+.wui-codex-streak {
+    display: flex;
+    height: 2px;
+    width: 100%;
+}
+
+.wui-codex-streak-left {
+    flex: 1;
+    background: linear-gradient(to right, transparent, #ec4899, #8b5cf6);
+}
+
+.wui-codex-streak-right {
+    flex: 1;
+    background: linear-gradient(to right, #8b5cf6, transparent);
+}
+
+.wui-codex-apex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.wui-codex-controls {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.wui-codex-dot {
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 50%;
+}
+
+.wui-codex-dot.red {
+    background: #ef4444;
+}
+
+.wui-codex-dot.orange {
+    background: #fb923c;
+}
+
+.wui-codex-dot.green {
+    background: #4ade80;
+}
+
+.wui-codex-label {
+    font-family: monospace;
+    font-size: 0.75rem;
+    color: #71717a;
+    letter-spacing: 0.05em;
+}
+
+.wui-codex-void {
+    position: relative;
+    padding: 1rem;
+    overflow: hidden;
+}
+
+.wui-codex-glow-left {
+    position: absolute;
+    top: -5rem;
+    left: -5rem;
+    width: 12rem;
+    height: 12rem;
+    background: #3b82f6;
+    opacity: 0.15;
+    filter: blur(40px);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.wui-codex-glow-right {
+    position: absolute;
+    bottom: -5rem;
+    right: -5rem;
+    width: 12rem;
+    height: 12rem;
+    background: #ec4899;
+    opacity: 0.15;
+    filter: blur(40px);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.wui-codex-pre {
+    margin: 0;
+    padding: 0.5rem;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: #e4e4e7;
+  
+```
+--------------------------------------------------
+
+## COMPONENT: CodeProfile
+### STRUCTURE (JSX Snippet):
+```jsx
+import React from "react";
+import "./CodeProfile.css";
+
+const coderData = {
+    name: "Zane Whitaker",
+    role: "Frontend Developer",
+    seniority: "Mid-Level",
+    location: "Bangladesh",
+    skills: [
+        "React",
+        "Next.js",
+        "JavaScript",
+        "TypeScript",
+        "TailwindCSS",
+        "CSS",
+        "Figma",
+        "GitHub",
+        "HTML",
+        "Astro",
+        "Node.js",
+        "Express",
+        "MongoDB",
+        "Firebase",
+        "Git",
+    ],
+};
+
+const CodeProfile = () => {
+    return (
+        <div className="wui-codex-bay">
+            <div className="wui-codex-well">
+                {/* Decorative Top Border */}
+                <div className="wui-codex-streak">
+                    <div />
+                    <div />
+                </div>
+
+                {/* Window Header */}
+                <div className="wui-codex-header">
+                    <div className="wui-codex-controls">
+                        <div className="wui-codex-dot red" />
+                        <div className="wui-codex-dot orange" />
+                        <div className="wui-codex-dot green" />
+                    </div>
+                    <div className="wui-codex-filename">
+                        coder.js
+                    </div>
+                </div>
+
+                {/* Code Content */}
+                <div className="wui-codex-core">
+                    {/* Decorative Glows */}
+                    <div className="wui-codex-glow-left" />
+                    <div className="wui-codex-glow-right" />
+
+                    <div className="wui-codex-portal">
+                        {/* Line Numbers */}
+                        <div className="wui-codex-gutters">
+                            {Array.from({ length: 12 }, (_, i) => (
+                                <div key={i} className="wui-codex-line-number">
+                                    {i + 1}
+                                </div>
+                            ))}
+                      
+```
+### STYLES (CSS Snippet):
+```css
+.wui-codex-bay {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    font-family: 'Inter', sans-serif;
+    background-color: transparent;
+}
+
+.wui-codex-well {
+    max-width: 42rem;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    background: linear-gradient(to right, #f4f4f5, #e4e4e7);
+    border: 1px solid #d4d4d8;
+    position: relative;
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+@media (prefers-color-scheme: dark) {
+    .wui-codex-well {
+        background: linear-gradient(to right, #000000, #0a0d37);
+        border-color: rgba(27, 44, 104, 0.6);
+    }
+}
+
+.wui-codex-streak {
+    display: flex;
+    flex-direction: row;
+}
+
+.wui-codex-streak>div:first-child {
+    height: 2px;
+    width: 100%;
+    background: linear-gradient(to right, transparent, #ec4899, #7c3aed);
+}
+
+.wui-codex-streak>div:last-child {
+    height: 2px;
+    width: 100%;
+    background: linear-gradient(to right, #7c3aed, transparent);
+}
+
+.wui-codex-header {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #e4e4e7;
+}
+
+@media (min-width: 1024px) {
+    .wui-codex-header {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    .wui-codex-header {
+        background-color: #000000;
+    }
+}
+
+.wui-codex-controls {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+}
+
+.wui-codex-dot {
+    height: 0.75rem;
+    width: 0.75rem;
+    border-radius: 9999px;
+}
+
+.wui-codex-dot.red {
+    background-color: #ef4444;
+}
+
+.wui-codex-dot.orange {
+    background-color: #fb923c;
+}
+
+.wui-codex-dot.green {
+    background-color: #4ade80;
+}
+
+.wui-codex-filename {
+    font-size: 0.75rem;
+    color: #52525b;
+    font-family: monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+    .wui-codex-fi
+```
+--------------------------------------------------
+
+## COMPONENT: Dropdown
+### STRUCTURE (JSX Snippet):
+```jsx
+import { useState, useRef, useEffect } from 'react'
+import './Dropdown.css'
+
+const Dropdown = ({
+  options = [],
+  value,
+  onChange,
+  placeholder = 'Select an option',
+  label,
+  error,
+  disabled = false,
+  className = ''
+}) => {
+  const [isOpen, setIsOpen] = useState(false)
+  const dropdownRef = useRef(null)
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
+  const selectedOption = options.find(opt => opt.value === value)
+
+  const handleSelect = (option) => {
+    onChange(option.value)
+    setIsOpen(false)
+  }
+
+  return (
+    <div className={`wui-cascade-bay ${className}`} ref={dropdownRef}>
+      {label && (
+        <label className={`wui-cascade-herald ${error ? 'error' : ''}`}>
+          {label}
+        </label>
+      )}
+      <div className={`wui-cascade-well ${isOpen ? 'open' : ''} ${error ? 'error' : ''} ${disabled ? 'disabled' : ''}`}>
+        <button
+          type="button"
+          className="wui-cascade-trigger"
+          onClick={() => !disabled && setIsOpen(!isOpen)}
+          disabled={disabled}
+        >
+          <span className={selectedOption ? 'selected' : 'placeholder'}>
+            {selectedOption ? selectedOption.label : placeholder}
+          </span>
+          <span className="wui-cascade-dial">▼</span>
+        </button>
+        {isOpen && (
+          <div className="wui-cascade-orbit">
+            {options.length === 0 ? (
+              <div className="wui-cascade-atom disabled">No options available</div>
+            ) : (
+              options.map((option) => (
+                <div
+                  key={option.value}
+                  className={`wui-cascade-atom ${value === option.value ? 'selected' : ''}`}
+                  onClick={() => handleSelect(o
+```
+### STYLES (CSS Snippet):
+```css
+.wui-cascade-bay {
+  position: relative;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+.wui-cascade-herald {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #2c3e50;
+  font-size: 0.875rem;
+}
+
+.wui-cascade-herald.error {
+  color: #e74c3c;
+}
+
+.wui-cascade-well {
+  position: relative;
+  width: 100%;
+}
+
+.wui-cascade-trigger {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  background: white;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.3s ease;
+  text-align: left;
+}
+
+.wui-cascade-trigger:hover:not(.disabled) {
+  border-color: #3498db;
+}
+
+.wui-cascade-trigger:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.wui-cascade-well.open .wui-cascade-trigger {
+  border-color: #3498db;
+}
+
+.wui-cascade-well.error .wui-cascade-trigger {
+  border-color: #e74c3c;
+}
+
+.wui-cascade-well.disabled .wui-cascade-trigger {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.wui-cascade-trigger .placeholder {
+  color: #999;
+}
+
+.wui-cascade-trigger .selected {
+  color: #2c3e50;
+}
+
+.wui-cascade-dial {
+  color: #999;
+  font-size: 0.75rem;
+  transition: transform 0.3s ease;
+}
+
+.wui-cascade-well.open .wui-cascade-dial {
+  transform: rotate(180deg);
+}
+
+.wui-cascade-orbit {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 2px solid #ddd;
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 100;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: -2px;
+}
+
+.wui-cascade-atom {
+  padding: 0.75rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  color: #2c3e50;
+}
+
+.wui-cascade-atom:hover {
+  background-color: #f5f5f5;
+}
+
+.wui-cascade-atom.selected {
+  background-color: #3498db;
+  color: white;
+}
+
+.wui-cascade-atom.disabled {
+  color: #999;
+  cursor: not-allowed;
+}
+
+.wui-cascade-clash {
+  display: block;
+  ma
+```
+--------------------------------------------------
+
+## COMPONENT: ExpandedTabs
+### STRUCTURE (JSX Snippet):
+```jsx
+import React, { useState, useRef, useEffect } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import './ExpandedTabs.css';
+
+const HomeIcon = ({ className = 'icon' }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+        <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+        <polyline points="9 22 9 12 15 12 15 22" />
+    </svg>
+);
+
+const UserIcon = ({ className = 'icon' }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+        <circle cx="12" cy="7" r="4" />
+    </svg>
+);
+
+const SettingsIcon = ({ className = 'icon' }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+        <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 0 2l-.15.08a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.38a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1 0-2l.15-.08a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
+        <circle cx="12" cy="12" r="3" />
+    </svg>
+);
+
+const MailIcon = ({ className = 'icon' }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={class
+```
+### STYLES (CSS Snippet):
+```css
+.expanded-tabs-container {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem;
+    border-radius: 9999px;
+    border: 1px solid #e2e8f0;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.tab-button {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    border: none;
+    background: transparent;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #64748b;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.tab-button:hover {
+    color: #334155;
+}
+
+.tab-button.selected {
+    color: #0f172a;
+}
+
+.tab-pill {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    border-radius: 9999px;
+    background: white;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.tab-content {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.tab-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    flex-shrink: 0;
+}
+
+.tab-text {
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.tab-separator {
+    height: 1.75rem;
+    width: 1px;
+    background-color: #e2e8f0;
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+    .expanded-tabs-container {
+        border-color: #334155;
+        background: rgba(0, 0, 0, 0.7);
+    }
+
+    .tab-button {
+        color: #cbd5e1;
+    }
+
+    .tab-button:hover {
+        color: #f1f5f9;
+    }
+
+    .tab-button.selected {
+        color: #86efac;
+    }
+
+    .tab-pill {
+        background: rgba(34, 197, 94, 0.2);
+        border-color: rgba(34, 197, 94, 0.3);
+    }
+
+    .tab-separator {
+        background-color: #334155;
+    }
+}
+```
+--------------------------------------------------
+
+## COMPONENT: ExpandingMenu
+### STRUCTURE (JSX Snippet):
+```jsx
+import React from 'react';
+import './ExpandingMenu.css';
+
+const ExpandingMenu = ({ className = '' }) => {
+    return (
+        <div className={`expanding-menu-wrapper ${className}`}>
+            <div className="expanding-menu">
+                <a href="#" className="expanding-menu__link">
+                    <span className="expanding-menu__icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width={192} height={192} fill="currentColor" viewBox="0 0 256 256">
+                            <rect width={256} height={256} fill="none" />
+                            <path d="M213.3815,109.61945,133.376,36.88436a8,8,0,0,0-10.76339.00036l-79.9945,72.73477A8,8,0,0,0,40,115.53855V208a8,8,0,0,0,8,8H208a8,8,0,0,0,8-8V115.53887A8,8,0,0,0,213.3815,109.61945Z" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={16} />
+                        </svg>
+                    </span>
+                    <span className="expanding-menu__title">Home</span>
+                </a>
+                <a href="#" className="expanding-menu__link">
+                    <span className="expanding-menu__icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width={192} height={192} fill="currentColor" viewBox="0 0 256 256">
+                            <rect width={256} height={256} fill="none" />
+                            <polyline points="76.201 132.201 152.201 40.201 216 40 215.799 103.799 123.799 179.799" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={16} />
+                            <line x1={100} y1={156} x2={160} y2={96} fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={16} />
+                            <path d="M82.14214,197.45584,52.201,227.397a8,8,0,0,1-11.31371,0L28.603,215.11268a8,8,0,0,1,0-11.31371l29.94113-29.94112a8,8,0,0,0,0-11.31371L37.65685,141.65685a8,8,0,0,1,0-11.3137l12.6863-12.6863a8,8,0,0,1,11.3137,0l76.6863,76.6863a8,8,
+```
+### STYLES (CSS Snippet):
+```css
+.expanding-menu-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    width: 100%;
+}
+
+.expanding-menu {
+    padding: 0.5rem;
+    background-color: #ffffff;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px 0 rgba(0, 0, 0, 0.075);
+}
+
+.expanding-menu__link {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 70px;
+    height: 50px;
+    border-radius: 8px;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    transform-origin: center left;
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-decoration: none;
+    color: #1a1a1a;
+}
+
+.expanding-menu__link:before {
+    position: absolute;
+    z-index: -1;
+    content: "";
+    display: block;
+    border-radius: 8px;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    transform: translateX(100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: center right;
+    background-color: #f3f4f6;
+}
+
+.expanding-menu__link:hover,
+.expanding-menu__link:focus {
+    outline: 0;
+    width: 130px;
+    color: #ea580c;
+}
+
+.expanding-menu__link:hover:before,
+.expanding-menu__link:focus:before {
+    transform: translateX(0);
+}
+
+.expanding-menu__link:hover .expanding-menu__title,
+.expanding-menu__link:focus .expanding-menu__title {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.expanding-menu__icon {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    left: 23px;
+    position: absolute;
+    flex-shrink: 0;
+    transition: color 0.3s ease;
+}
+
+.expanding-menu__icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+.expanding-menu__title {
+    transform: translateX(100%);
+    opacity: 0;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+    transform-origin: center right;
+    display: block;
+    text-align: center;
+    padding-left: 28px;
+ 
+```
+--------------------------------------------------
+
+## COMPONENT: FileTree
+### STRUCTURE (JSX Snippet):
+```jsx
+import React, { useState } from 'react';
+import './FileTree.css';
+
+const FileIcon = () => (
+    <svg className="file-tree-icon file-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+    </svg>
+);
+
+const JsIcon = () => (
+    <svg className="file-tree-icon js-icon" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 48 48">
+        <path fill="#ffd600" d="M6,42V6h36v36H6z"></path>
+        <path fill="none" stroke="#000001" strokeMiterlimit="10" strokeWidth="3.3" d="M23.783,22.352v9.819 c0,3.764-4.38,4.022-6.283,0.802"></path>
+        <path fill="none" stroke="#000001" strokeMiterlimit="10" strokeWidth="3.3" d="M34.69,25.343 c-1.739-2.727-5.674-2.345-5.84,0.558c-0.214,3.757,6.768,2.938,6.247,7.107c-0.365,2.92-4.874,3.858-7.193-0.065"></path>
+    </svg>
+);
+
+const HtmlIcon = () => (
+    <svg className="file-tree-icon html-icon" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 48 48">
+        <path fill="#E65100" d="M41,5H7l3,34l14,4l14-4L41,5L41,5z"></path>
+        <path fill="#FF6D00" d="M24 8L24 39.9 35.2 36.7 37.7 8z"></path>
+        <path fill="#FFF" d="M24,25v-4h8.6l-0.7,11.5L24,35.1v-4.2l4.1-1.4l0.3-4.5H24z M32.9,17l0.3-4H24v4H32.9z"></path>
+        <path fill="#EEE" d="M24,30.9v4.2l-7.9-2.6L15.7,27h4l0.2,2.5L24,30.9z M19.1,17H24v-4h-9.1l0.7,12H24v-4h-4.6L19.1,17z"></path>
+    </svg>
+);
+
+const CssIcon = () => (
+    <svg className="file-tree-icon css-icon" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 48 48">
+        <path fill="#0277BD" d="M41,5H7l3,34l14,4l14-4L41,5L41,5z"></path>
+        <path fill="#039BE5" d="M24 8L24 39.9 35.2 36.7 37.7 8z"></path>
+        <path fill="#FFF" d="M33.1 13L24 13 24 17 28.9 17 28.6 21 24 21 24 25 28.4 25 28.1 29.5 24 30.9 24 35.1 31.9 32.5 32.6 21 32.6 21z"
+```
+### STYLES (CSS Snippet):
+```css
+.file-tree-container {
+    font-family: 'Courier New', monospace;
+    padding: 1rem;
+    background: white;
+    border-radius: 0.5rem;
+    border: 1px solid #e5e7eb;
+}
+
+.file-tree {
+    width: 100%;
+    max-width: 20rem;
+}
+
+/* Tree Node */
+.tree-node {
+    position: relative;
+    color: #374151;
+}
+
+.tree-node-item {
+    display: flex;
+    align-items: center;
+    padding: 0.375rem 0.5rem;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    transition: background-color 0.15s;
+}
+
+.tree-node-item:hover {
+    background-color: #f3f4f6;
+}
+
+.tree-node-item.selected {
+    background-color: #dbeafe;
+    color: #1d4ed8;
+}
+
+.tree-node-content {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.tree-node-label {
+    display: flex;
+    align-items: center;
+    margin-left: 0.25rem;
+}
+
+.tree-node-name {
+    font-size: 0.875rem;
+    margin-left: 0.375rem;
+}
+
+/* Icons */
+.file-tree-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-right: 0.5rem;
+    flex-shrink: 0;
+}
+
+.file-icon {
+    color: #6b7280;
+}
+
+.folder-icon {
+    color: #eab308;
+}
+
+.react-icon {
+    color: #06b6d4;
+}
+
+.chevron-icon {
+    width: 1rem;
+    height: 1rem;
+    color: #6b7280;
+    transition: transform 0.2s;
+    flex-shrink: 0;
+}
+
+.chevron-icon.open {
+    transform: rotate(90deg);
+}
+
+.tree-spacer {
+    width: 1rem;
+    flex-shrink: 0;
+}
+
+/* Tree Children */
+.tree-children {
+    padding-left: 1rem;
+    position: relative;
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.3s ease-in-out;
+}
+
+.tree-children.open {
+    max-height: 1000px;
+}
+
+.tree-line {
+    position: absolute;
+    left: 0.8125rem;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background-color: #d1d5db;
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+    .file-tree-container {
+        background: #000000;
+        border-color: #1f2937;
+    }
+
+    .tree-node {
+        color: #d1d5db;
+    }
+
+    .tree-node-item:hover {
+        background-color: #1f2937;
+    }
+
+    .tree-node-item.selected {
+    
+```
+--------------------------------------------------
+
+## COMPONENT: Footer
+### STRUCTURE (JSX Snippet):
+```jsx
+import './Footer.css'
+
+const Footer = () => {
+  return (
+    <footer className="footer">
+      <div className="footer-container">
+        <p>&copy; 2024 Wersel-Components. All rights reserved.</p>
+      </div>
+    </footer>
+  )
+}
+
+export default Footer
+
+
+```
+### STYLES (CSS Snippet):
+```css
+.footer {
+  background-color: #000000;
+  color: #8E8E8E;
+  padding: 2rem;
+  margin-top: auto;
+  border-top: 1px solid #262626;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 0.875rem;
+}
+```
+--------------------------------------------------
+
+## COMPONENT: GlitchVault
+### STRUCTURE (JSX Snippet):
+```jsx
+import React, { useEffect, useRef } from 'react'
+import './GlitchVault.css'
+
+const GlitchVault = ({
+  children,
+  className = '',
+  glitchColor = '#0AF0F0',
+  glitchRadius = 120,
+  ...props
+}) => {
+  const containerRef = useRef(null)
+
+  useEffect(() => {
+    const container = containerRef.current
+    if (!container) return
+
+    const handleMouseMove = (e) => {
+      const rect = container.getBoundingClientRect()
+      const x = e.clientX - rect.left
+      const y = e.clientY - rect.top
+
+      container.style.setProperty('--glitch-x', `${x}px`)
+      container.style.setProperty('--glitch-y', `${y}px`)
+    }
+
+    container.addEventListener('mousemove', handleMouseMove)
+
+    return () => {
+      container.removeEventListener('mousemove', handleMouseMove)
+    }
+  }, [])
+
+  return (
+    <div
+      ref={containerRef}
+      className={`glitch-vault ${className}`}
+      style={{
+        '--glitch-color': glitchColor,
+        '--glitch-radius': `${glitchRadius}px`
+      }}
+      {...props}
+    >
+      {children}
+    </div>
+  )
+}
+
+export default GlitchVault
+
+
+```
+### STYLES (CSS Snippet):
+```css
+.glitch-vault {
+  position: relative;
+  --glitch-x: 50%;
+  --glitch-y: 50%;
+}
+
+.glitch-vault::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    circle var(--glitch-radius) at var(--glitch-x) var(--glitch-y),
+    var(--glitch-color),
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 1;
+  mix-blend-mode: screen;
+}
+
+.glitch-vault:hover::before {
+  opacity: 0.3;
+}
+
+.glitch-vault > * {
+  position: relative;
+  z-index: 2;
+}
+
+
+```
+--------------------------------------------------
+
+## COMPONENT: GlowButton
+### STRUCTURE (JSX Snippet):
+```jsx
+import React, { useEffect, useState } from "react";
+import './GlowButton.css';
+
+const variants = {
+    blue: {
+        light: {
+            outerGlow: "rgba(59, 130, 246, 0.4)",
+            blobGlow: "rgba(59, 130, 246, 0.6)",
+            blobHighlight: "#60a5fa",
+            blobShadow: "rgba(59, 130, 246, 0.25)",
+            innerGlow: "rgba(59, 130, 246, 0.1)",
+            innerHighlight: "rgba(147, 197, 253, 0.15)",
+            outerBg: "linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)",
+            innerBg: "linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%)",
+            textColor: "#1e293b"
+        },
+        dark: {
+            outerGlow: "rgba(255, 255, 255, 0.35)",
+            blobGlow: "rgba(0, 0, 255, 0.5)",
+            blobHighlight: "#3fe9ff",
+            blobShadow: "rgba(0, 81, 255, 0.18)",
+            innerGlow: "rgba(0, 0, 255, 0.07)",
+            innerHighlight: "rgba(0, 225, 255, 0.1)",
+            outerBg: "radial-gradient(circle 80px at 80% -10%, #ffffff, #181b1b)",
+            innerBg: "radial-gradient(circle 80px at 80% -50%, #777777, #0f1111)",
+            textColor: "#ffffff"
+        }
+    },
+    pink: {
+        light: {
+            outerGlow: "rgba(236, 72, 153, 0.4)",
+            blobGlow: "rgba(236, 72, 153, 0.6)",
+            blobHighlight: "#f472b6",
+            blobShadow: "rgba(236, 72, 153, 0.25)",
+            innerGlow: "rgba(236, 72, 153, 0.1)",
+            innerHighlight: "rgba(251, 207, 232, 0.15)",
+            outerBg: "linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%)",
+            innerBg: "linear-gradient(135deg, #ffffff 0%, #fdf2f8 100%)",
+            textColor: "#831843"
+        },
+        dark: {
+            outerGlow: "rgba(255, 230, 255, 0.4)",
+            blobGlow: "rgba(255, 0, 150, 0.5)",
+            blobHighlight: "#ff66cc",
+            blobShadow: "rgba(255, 0, 150, 0.18)",
+            innerGlow: "rgba(255, 0, 150, 0.07)",
+            innerHighlight: "rgba(255, 102, 204, 0.1)",
+            outerBg: "radial-gradient
+```
+### STYLES (CSS Snippet):
+```css
+.glow-button-outer {
+    position: relative;
+    cursor: pointer;
+    border-radius: 1rem;
+    border: none;
+    padding: 0.125rem;
+    transition: transform 0.3s ease-in-out;
+}
+
+.glow-button-outer:hover {
+    transform: scale(1.05);
+}
+
+.glow-button-outer:active {
+    transform: scale(0.95);
+}
+
+.glow-button-outer-glow {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 60%;
+    width: 65%;
+    border-radius: 120px;
+    z-index: -10;
+}
+
+.glow-button-blob {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 100%;
+    width: 70px;
+    border-radius: 1rem;
+}
+
+.glow-button-inner {
+    position: relative;
+    z-index: 20;
+    display: flex;
+    height: 2.75rem;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 0.875rem;
+    padding: 0 2rem;
+}
+
+.glow-button-inner-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    border-radius: 0.875rem;
+}
+
+.glow-button-text {
+    position: relative;
+    z-index: 10;
+    white-space: nowrap;
+    font-size: 1.125rem;
+    font-weight: 600;
+}
+```
+--------------------------------------------------
+
+## COMPONENT: GlowLine
+### STRUCTURE (JSX Snippet):
+```jsx
+import React from 'react'
+import './GlowLine.css'
+
+// Color schemes configuration
+const COLOR_SCHEMES = {
+  purple: {
+    core: 'purple-400',
+    glow: ['purple-400', 'purple-500', 'purple-400', 'purple-300']
+  },
+  blue: {
+    core: 'blue-400',
+    glow: ['blue-400', 'blue-500', 'blue-400', 'blue-300']
+  },
+  green: {
+    core: 'green-400',
+    glow: ['green-400', 'green-500', 'green-400', 'green-300']
+  },
+  red: {
+    core: 'red-400',
+    glow: ['red-400', 'red-500', 'red-400', 'red-300']
+  }
+}
+
+const GlowLine = ({
+  orientation = 'horizontal',
+  position = '50%',
+  className = '',
+  color = 'purple'
+}) => {
+  const isVertical = orientation === 'vertical'
+  const selectedScheme = COLOR_SCHEMES[color] || COLOR_SCHEMES.purple
+
+  const positionStyle = isVertical
+    ? { left: position }
+    : { top: position }
+
+  const glowLayers = [
+    {
+      size: isVertical ? 'w-1 -ml-0.5' : 'h-1 -mt-0.5',
+      blur: 'blur-sm',
+      opacity: 'opacity-100',
+      color: selectedScheme.glow[0]
+    },
+    {
+      size: isVertical ? 'w-2 -ml-1' : 'h-2 -mt-1',
+      blur: 'blur-md',
+      opacity: 'opacity-80',
+      color: selectedScheme.glow[1]
+    },
+    {
+      size: isVertical ? 'w-4 -ml-2' : 'h-4 -mt-2',
+      blur: 'blur-lg',
+      opacity: 'opacity-60',
+      color: selectedScheme.glow[2]
+    }
+  ]
+
+  return (
+    <div
+      className={`glow-line-container ${isVertical ? 'glow-line-vertical' : 'glow-line-horizontal'} ${className}`}
+      style={positionStyle}
+    >
+      <div
+        className={`glow-line-core ${isVertical ? 'glow-line-gradient-vertical' : 'glow-line-gradient-horizontal'} glow-line-${selectedScheme.core}`}
+      />
+      <div
+        className={`glow-line-white ${isVertical ? 'glow-line-white-vertical' : 'glow-line-white-horizontal'}`}
+      />
+      {glowLayers.map((layer, index) => (
+        <div
+          key={index}
+          className={`glow-line-layer glow-line-${layer.color} ${layer.size} ${layer.blur} ${layer.opacity} ${isVertical ? 'glow-line-laye
+```
+### STYLES (CSS Snippet):
+```css
+.glow-line-container {
+  position: absolute;
+}
+
+.glow-line-vertical {
+  width: 1px;
+  height: 100%;
+}
+
+.glow-line-horizontal {
+  width: 100%;
+  height: 1px;
+}
+
+.glow-line-core {
+  position: absolute;
+  inset: 0;
+}
+
+.glow-line-gradient-vertical {
+  background: linear-gradient(to bottom, transparent, var(--glow-color), transparent);
+}
+
+.glow-line-gradient-horizontal {
+  background: linear-gradient(to right, transparent, var(--glow-color), transparent);
+}
+
+/* Purple color scheme */
+.glow-line-purple-400 {
+  --glow-color: #a78bfa;
+}
+
+.glow-line-purple-500 {
+  --glow-color: #8b5cf6;
+}
+
+.glow-line-purple-300 {
+  --glow-color: #c4b5fd;
+}
+
+/* Blue color scheme */
+.glow-line-blue-400 {
+  --glow-color: #60a5fa;
+}
+
+.glow-line-blue-500 {
+  --glow-color: #3b82f6;
+}
+
+.glow-line-blue-300 {
+  --glow-color: #93c5fd;
+}
+
+/* Green color scheme */
+.glow-line-green-400 {
+  --glow-color: #4ade80;
+}
+
+.glow-line-green-500 {
+  --glow-color: #22c55e;
+}
+
+.glow-line-green-300 {
+  --glow-color: #86efac;
+}
+
+/* Red color scheme */
+.glow-line-red-400 {
+  --glow-color: #f87171;
+}
+
+.glow-line-red-500 {
+  --glow-color: #ef4444;
+}
+
+.glow-line-red-300 {
+  --glow-color: #fca5a5;
+}
+
+.glow-line-white {
+  position: absolute;
+  inset: 0;
+  opacity: 0.6;
+}
+
+.glow-line-white-vertical {
+  width: 0.125rem;
+  margin-left: -0.0625rem;
+  background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.6), transparent);
+}
+
+.glow-line-white-horizontal {
+  height: 0.125rem;
+  margin-top: -0.0625rem;
+  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.6), transparent);
+}
+
+.glow-line-layer {
+  position: absolute;
+  inset: 0;
+}
+
+.glow-line-layer-vertical {
+  background: linear-gradient(to bottom, transparent, var(--glow-color), transparent);
+}
+
+.glow-line-layer-horizontal {
+  background: linear-gradient(to right, transparent, var(--glow-color), transparent);
+}
+
+/* Layer sizes */
+.glow-line-layer.h-1 {
+  height: 0.25rem;
+  margin-top: -0.125rem;
+}
+
+.glow-line-layer.w-1 {
+  width: 0.25rem;
+ 
+```
+--------------------------------------------------
+
+## COMPONENT: Header
+### STRUCTURE (JSX Snippet):
+```jsx
+import { Link } from 'react-router-dom'
+import logo from '../../assets/logo.png'
+import './Header.css'
+
+const Header = ({ searchQuery, setSearchQuery }) => {
+  return (
+    <header className="wui-apex">
+      <div className="wui-apex-orbit">
+        <Link to="/" className="wui-crown-group">
+          <img src={logo} alt="Wersel Logo" className="wui-logo" />
+          <span className="wui-crown">Wersel Components</span>
+        </Link>
+        <div className="wui-showcase-search-global">
+          <svg className="wui-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input
+            type="text"
+            placeholder="Search all widgets..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="wui-showcase-portal-header"
+          />
+        </div>
+      </div>
+    </header>
+  )
+}
+
+export default Header
+
+
+```
+### STYLES (CSS Snippet):
+```css
+.wui-apex {
+  background-color: #000000;
+  border-bottom: 1px solid #262626;
+  padding: 1rem 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.wui-apex-orbit {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.wui-crown-group {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+}
+
+.wui-logo {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0, 149, 246, 0.3);
+}
+
+.wui-crown {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #FAFAFA;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  opacity: 0.9;
+  transition: opacity 0.3s ease;
+}
+
+.wui-crown:hover {
+  opacity: 1;
+}
+
+.nav {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.wui-showcase-search-global {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 300px;
+}
+
+.wui-search-icon {
+  position: absolute;
+  left: 0.75rem;
+  color: #8E8E8E;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.wui-showcase-portal-header {
+  width: 100%;
+  padding: 0.6rem 0.75rem 0.6rem 2.25rem;
+  border-radius: 9999px;
+  /* Pill shape for header */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+  color: #FAFAFA;
+  font-size: 0.85rem;
+  outline: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(5px);
+}
+
+.wui-showcase-portal-header:focus {
+  border-color: #0095F6;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 20px rgba(0, 149, 246, 0.15);
+  width: 350px;
+  /* Expand on focus */
+}
+
+@media (max-width: 640px) {
+  .wui-showcase-search-global {
+    width: 200px;
+  }
+
+  .wui-showcase-portal-header:focus {
+    width: 220px;
+  }
+}
+
+.nav-link {
+  color: #FAFAFA;
+  text-decoration: none;
+  font-weight: 500;
+  transition: opacity 0.2s;
+}
+
+.nav-link:hover {
+  opacity: 0.7;
+}
+```
+--------------------------------------------------
+
+## COMPONENT: Hero
+### STRUCTURE (JSX Snippet):
+```jsx
+import React from 'react';
+import './Hero3.css';
+
+const ArrowRightIcon = ({ className }) => (
+    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+    </svg>
+);
+
+const CheckIcon = ({ className }) => (
+    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+    </svg>
+);
+
+const Hero3 = () => {
+    const features = ["No credit card required", "Free 14-day trial", "Cancel anytime"];
+
+    return (
+        <div className="hero3-wrapper">
+            <div className="hero3-container">
+                <header className="hero3-header">
+                    <nav className="hero3-nav">
+                        <div className="hero3-logo">
+                            Brand
+                        </div>
+                        <div className="hero3-nav-links">
+                            <a href="#" className="hero3-link">Features</a>
+                            <a href="#" className="hero3-link">Pricing</a>
+                            <a href="#" className="hero3-link">About</a>
+                            <button className="hero3-signin-btn">
+                                Sign In
+                            </button>
+                        </div>
+                    </nav>
+                </header>
+
+                <main className="hero3-main">
+                    <div className="hero3-content">
+                        <h1 className="hero3-title">
+                            Simple. Clean.
+                            <br />
+                            <span className="hero3-title-accent">Effective.</span>
+                        </h1>
+
+                        <p className="hero3-description">
+                            The minimalist approach 
+```
+### STYLES (CSS Snippet):
+```css
+
+```
+--------------------------------------------------
+
+## COMPONENT: Input
+### STRUCTURE (JSX Snippet):
+```jsx
+import { useState } from 'react'
+import './Input.css'
+
+const Input = ({
+  label,
+  type = 'text',
+  placeholder = '',
+  value,
+  onChange,
+  error,
+  required = false,
+  disabled = false,
+  className = '',
+  ...props
+}) => {
+  const [isFocused, setIsFocused] = useState(false)
+
+  return (
+    <div className={`wui-portal-bay ${className}`}>
+      {label && (
+        <label className={`wui-portal-herald ${required ? 'required' : ''}`}>
+          {label}
+        </label>
+      )}
+      <div className={`wui-portal-field ${isFocused ? 'focused' : ''} ${error ? 'error' : ''}`}>
+        <input
+          type={type}
+          placeholder={placeholder}
+          value={value}
+          onChange={onChange}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
+          disabled={disabled}
+          className="wui-portal"
+          {...props}
+        />
+      </div>
+      {error && <span className="wui-portal-clash">{error}</span>}
+    </div>
+  )
+}
+
+export default Input
+
+
+```
+### STYLES (CSS Snippet):
+```css
+.wui-portal-bay {
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+.wui-portal-herald {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #2c3e50;
+  font-size: 0.875rem;
+}
+
+.wui-portal-herald.required::after {
+  content: ' *';
+  color: #e74c3c;
+}
+
+.wui-portal-field {
+  position: relative;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.wui-portal-field.focused {
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.wui-portal-field.error {
+  border-color: #e74c3c;
+}
+
+.wui-portal {
+  width: 100%;
+  padding: 0.75rem;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  background: transparent;
+}
+
+.wui-portal:disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+}
+
+.wui-portal-clash {
+  display: block;
+  margin-top: 0.25rem;
+  color: #e74c3c;
+  font-size: 0.875rem;
+}
+```
+--------------------------------------------------
+
+## COMPONENT: JobCard
+### STRUCTURE (JSX Snippet):
+```jsx
+import React from 'react';
+import './JobCard.css';
+
+const JobCard = ({
+    salary = '$150/hr',
+    title = 'Senior Backend Engineer',
+    companyName = 'Senior Backend Engineer',
+    className = ''
+}) => {
+    return (
+        <div className={`job-card-wrapper ${className}`}>
+            <article className="card">
+                <section className="card__hero">
+                    <header className="card__hero-header">
+                        <span>{salary}</span>
+                        <div className="card__icon">
+                            <svg height={20} width={20} stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z" strokeLinejoin="round" strokeLinecap="round" />
+                            </svg>
+                        </div>
+                    </header>
+                    <p className="card__job-title">{title}</p>
+                </section>
+                <footer className="card__footer">
+                    <div className="card__job-summary">
+                        <div className="card__job-icon">
+                            <svg height={35} width={28} viewBox="0 0 250 250" xmlns="http://www.w3.org/2000/svg">
+                                <path fill="#4285F4" d="M255.878 133.451c0-10.734-.871-18.567-2.756-26.69H130.55v48.448h71.947c-1.45 12.04-9.283 30.172-26.69 42.356l-.244 1.622 38.755 30.023 2.685.268c24.659-22.774 38.875-56.282 38.875-96.027" />
+                                <path fill="#34A853" d="M130.55 261.1c35.248 0 64.839-11.605 86.453-31.622l-41.196-31.913c-11.024 7.688-25.82 13.055-45.257 13.055-34.523 0-63.824-22.773-74.269-54.25l-1.531.13-40.298 31.187-.527 1.465C35.393 231.798 79.49 261.1 130.55 261.1" />
+                                <path fill="#FBBC05" d="M56.281 156.37c-2.756-8.123-4.351-16.827-4.351-25.
+```
+### STYLES (CSS Snippet):
+```css
+.job-card-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 1rem;
+}
+
+.card {
+    margin: auto;
+    width: min(300px, 100%);
+    background-color: #fefefe;
+    border-radius: 1rem;
+    padding: 0.5rem;
+    color: #141417;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+}
+
+.card__hero {
+    background-color: #fef4e2;
+    border-radius: 0.5rem 0.5rem 0 0;
+    padding: 1.5rem;
+    font-size: 0.875rem;
+}
+
+.card__hero .card__job-title {
+    margin: 2rem 0;
+    font-size: 2rem;
+    font-weight: 600;
+    padding-right: 2rem;
+    line-height: 1.2;
+}
+
+.card__hero-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 1rem;
+    font-weight: 700;
+}
+
+.card__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #141417;
+}
+
+.card__footer {
+    display: flex;
+    justify-content: flex-start;
+    align-items: start;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    padding: 0.75rem;
+    row-gap: 1rem;
+    font-weight: 700;
+    font-size: 0.875rem;
+}
+
+@media (min-width: 340px) {
+    .card__footer {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+    }
+}
+
+.card__job-summary {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 0.75rem;
+}
+
+.card__job-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card__job-company {
+    font-size: 0.75rem;
+    color: #4b5563;
+    margin: 0;
+    line-height: 1.4;
+}
+
+.card__btn {
+    width: 100%;
+    font-weight: 500;
+    border: none;
+    display: block;
+    cursor: pointer;
+    text-align: center;
+    padding: 0.6rem 1.25r
+```
+--------------------------------------------------
+
+## COMPONENT: Layout
+### STRUCTURE (JSX Snippet):
+```jsx
+import Header from '../Header/Header'
+import Footer from '../Footer/Footer'
+import './Layout.css'
+
+const Layout = ({ children, searchQuery, setSearchQuery }) => {
+  return (
+    <div className="wui-shell">
+      <div className="wui-spirit">Wersel Components</div>
+      <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+      <main className="wui-theater">
+        {children}
+      </main>
+      <Footer />
+    </div>
+  )
+}
+
+export default Layout
+
+
+```
+### STYLES (CSS Snippet):
+```css
+.wui-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.wui-theater {
+  flex: 1;
+  padding: 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.wui-spirit {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-30deg);
+  font-size: 15vw;
+  font-weight: 900;
+  color: #FAFAFA;
+  opacity: 0.03;
+  pointer-events: none;
+  white-space: nowrap;
+  user-select: none;
+  z-index: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5rem;
+}
+```
+--------------------------------------------------
+
+## COMPONENT: Loader
+### STRUCTURE (JSX Snippet):
+```jsx
+import './Loader.css'
+
+const Loader = ({ size = 'medium', fullScreen = false, className = '' }) => {
+  const sizeClass = `loader-${size}`
+  
+  if (fullScreen) {
+    return (
+      <div className={`loader-fullscreen ${className}`}>
+        <div className={`loader ${sizeClass}`}></div>
+      </div>
+    )
+  }
+
+  return <div className={`loader ${sizeClass} ${className}`}></div>
+}
+
+export default Loader
+
+
+```
+### STYLES (CSS Snippet):
+```css
+.loader {
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #3498db;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
+}
+
+.loader-small {
+  width: 20px;
+  height: 20px;
+  border-width: 2px;
+}
+
+.loader-medium {
+  width: 40px;
+  height: 40px;
+}
+
+.loader-large {
+  width: 60px;
+  height: 60px;
+  border-width: 4px;
+}
+
+.loader-fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
+```
+--------------------------------------------------
+
+## COMPONENT: LoginForm
+### STRUCTURE (JSX Snippet):
+```jsx
+import React, { useState } from 'react';
+import './LoginForm.css';
+
+const UserIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="user-icon">
+        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+        <circle cx="12" cy="7" r="4" />
+    </svg>
+);
+
+const EyeIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="eye-icon">
+        <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+        <circle cx="12" cy="12" r="3" />
+    </svg>
+);
+
+const EyeOffIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="eye-icon">
+        <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24" />
+        <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68" />
+        <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61" />
+        <line x1="2" x2="22" y1="2" y2="22" />
+    </svg>
+);
+
+const AppleIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="social-icon">
+        <path fill="currentColor" d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.09997 22C7.78997 22.05 6.79997 20.68 5.95997 19.47C4.24997 17 2.93997 12.45 4.69997 9.39C5.56997 7.87 7.12997 6.91 8.81997 6.88C10.1 6.86 11.32 7.75 12.11 7.75C12.89 7.75 14.37 6.68 15.92 6.84C16.57 6.87 18.39 7.1 19.56 8.82C19.47 8.88 17.39 10.1 17.41 12.63C17.44 15.65 20.06 16.66 20.09 16.67C20.06 16.74 19.67 18.11 18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12
+```
+### STYLES (CSS Snippet):
+```css
+.wui-chamber-bay {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: sans-serif;
+    overflow: hidden;
+}
+
+.wui-chamber-well {
+    position: relative;
+    width: 100%;
+    max-width: 24rem;
+    padding: 1.5rem;
+    background: white;
+    border-radius: 0.5rem;
+    border: 1px solid #e4e4e7;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+/* Header */
+.wui-chamber-crown {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.wui-chamber-atom {
+    display: inline-flex;
+    padding: 0.5rem;
+    background: #f4f4f5;
+    border-radius: 0.375rem;
+    border: 1px solid #e4e4e7;
+    margin-bottom: 0.75rem;
+}
+
+.user-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    color: #52525b;
+}
+
+.wui-chamber-apex {
+    margin-top: 0.75rem;
+}
+
+.wui-chamber-herald {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #18181b;
+    margin: 0 0 0.25rem 0;
+}
+
+.wui-chamber-voice {
+    font-size: 0.875rem;
+    color: #52525b;
+    margin: 0;
+}
+
+/* Social Buttons */
+.wui-chamber-stack {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.wui-chamber-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.25rem;
+    padding: 0 0.75rem;
+    border-radius: 0.375rem;
+    border: 1px solid #e4e4e7;
+    background: white;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.wui-chamber-trigger:hover {
+    background: #f4f4f5;
+    color: #18181b;
+}
+
+.wui-chamber-trigger:focus-visible {
+    outline: 1px solid #18181b;
+    outline-offset: 2px;
+}
+
+.social-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.google-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+.x-icon {
+    color: #18181b;
+}
+
+/* Divider */
+.wui-chamber-rift {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.wui-chamber-streak {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+}
+
+.wui-chamber-streak::before {
+    content: '';
+    width
+```
+--------------------------------------------------
+
+## COMPONENT: LogoMarquee
+### STRUCTURE (JSX Snippet):
+```jsx
+import React, { useEffect } from 'react'
+import './LogoMarquee.css'
+
+// SVG Logo Components
+const ReactLogo = () => (
+  <svg viewBox="175.7 78 490.6 436.9" xmlns="http://www.w3.org/2000/svg">
+    <g fill="currentColor">
+      <path d="m666.3 296.5c0-32.5-40.7-63.3-103.1-82.4 14.4-63.6 8-114.2-20.2-130.4-6.5-3.8-14.1-5.6-22.4-5.6v22.3c4.6 0 8.3.9 11.4 2.6 13.6 7.8 19.5 37.5 14.9 75.7-1.1 9.4-2.9 19.3-5.1 29.4-19.6-4.8-41-8.5-63.5-10.9-13.5-18.5-27.5-35.3-41.6-50 32.6-30.3 63.2-46.9 84-46.9v-22.3c-27.5 0-63.5 19.6-99.9 53.6-36.4-33.8-72.4-53.2-99.9-53.2v22.3c20.7 0 51.4 16.5 84 46.6-14 14.7-28 31.4-41.3 49.9-22.6 2.4-44 6.1-63.6 11-2.3-10-4-19.7-5.2-29-4.7-38.2 1.1-67.9 14.6-75.8 3-1.8 6.9-2.6 11.5-2.6v-22.3c-8.4 0-16 1.8-22.6 5.6-28.1 16.2-34.4 66.7-19.9 130.1-62.2 19.2-102.7 49.9-102.7 82.3 0 32.5 40.7 63.3 103.1 82.4-14.4 63.6-8 114.2 20.2 130.4 6.5 3.8 14.1 5.6 22.5 5.6 27.5 0 63.5-19.6 99.9-53.6 36.4 33.8 72.4 53.2 99.9 53.2 8.4 0 16-1.8 22.6-5.6 28.1-16.2 34.4-66.7 19.9-130.1 62-19.1 102.5-49.9 102.5-82.3zm-130.2-66.7c-3.7 12.9-8.3 26.2-13.5 39.5-4.1-8-8.4-16-13.1-24-4.6-8-9.5-15.8-14.4-23.4 14.2 2.1 27.9 4.7 41 7.9zm-45.8 106.5c-7.8 13.5-15.8 26.3-24.1 38.2-14.9 1.3-30 2-45.2 2-15.1 0-30.2-.7-45-1.9-8.3-11.9-16.4-24.6-24.2-38-7.6-13.1-14.5-26.4-20.8-39.8 6.2-13.4 13.2-26.8 20.7-39.9 7.8-13.5 15.8-26.3 24.1-38.2 14.9-1.3 30-2 45.2-2 15.1 0 30.2.7 45 1.9 8.3 11.9 16.4 24.6 24.2 38 7.6 13.1 14.5 26.4 20.8 39.8-6.3 13.4-13.2 26.8-20.7 39.9zm32.3-13c5.4 13.4 10 26.8 13.8 39.8-13.1 3.2-26.9 5.9-41.2 8 4.9-7.7 9.8-15.6 14.4-23.7 4.6-8 8.9-16.1 13-24.1zm-101.4 106.7c-9.3-9.6-18.6-20.3-27.8-32 9 .4 18.2.7 27.5.7 9.4 0 18.7-.2 27.8-.7-9 11.7-18.3 22.4-27.5 32zm-74.4-58.9c-14.2-2.1-27.9-4.7-41-7.9 3.7-12.9 8.3-26.2 13.5-39.5 4.1 8 8.4 16 13.1 24s9.5 15.8 14.4 23.4zm73.9-208.1c9.3 9.6 18.6 20.3 27.8 32-9-.4-18.2-.7-27.5-.7-9.4 0-18.7.2-27.8.7 9-11.7 18.3-22.4 27.5-32zm-74 58.9c-4.9 7.7-9.8 15.6-14.4 23.7-4.6 8-8.9 16-13 24-5.4-13.4-10-26.8-13.8-39.8 13.1-3.1 26.9-5.8 41.2-
+```
+### STYLES (CSS Snippet):
+```css
+.logo-marquee-wrapper {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  width: 100%;
+}
+
+.logo-marquee-content {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.logo-marquee-container {
+  max-width: 100%;
+  overflow: hidden;
+  position: relative;
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 2rem,
+    black calc(100% - 2rem),
+    transparent
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 2rem,
+    black calc(100% - 2rem),
+    transparent
+  );
+}
+
+.logo-marquee-track {
+  width: max-content;
+  display: flex;
+  align-items: center;
+}
+
+.logo-marquee-item {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 1rem;
+  color: white;
+  aspect-ratio: 1 / 1.2;
+}
+
+.logo-marquee-icon {
+  width: 60%;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-marquee-icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+@keyframes marquee-move {
+  to {
+    transform: translateX(calc(-100% - var(--item-gap)));
+  }
+}
+
+
+```
+--------------------------------------------------
+
+## COMPONENT: MasonryGrid
+### STRUCTURE (JSX Snippet):
+```jsx
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import './MasonryGrid.css';
+
+const HeartIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="masonry-heart-icon">
+        <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+    </svg>
+);
+
+const GridItem = ({ item }) => {
+    const [isHovered, setIsHovered] = useState(false);
+
+    return (
+        <motion.div
+            className="masonry-item"
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+            whileHover={{ y: -5 }}
+            transition={{ type: 'spring', stiffness: 300 }}
+        >
+            <div className="masonry-image-container">
+                <img
+                    src={item.imageUrl}
+                    alt={item.title}
+                    className="masonry-image"
+                    onError={(e) => {
+                        const target = e.target;
+                        target.onerror = null;
+                        target.src = `https://placehold.co/400x300/fecaca/333333?text=Image+Not+Found`;
+                    }}
+                />
+                <AnimatePresence>
+                    {isHovered && (
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            className="masonry-overlay"
+                        >
+                            <div className="masonry-overlay-content">
+                                <div className="masonry-actions">
+                                    <motion.button
+                                        whileHover={{ scale: 1.1 }}
+              
+```
+### STYLES (CSS Snippet):
+```css
+.masonry-grid-wrapper {
+    width: 100%;
+    padding: 1rem 0;
+}
+
+.masonry-columns {
+    columns: 1;
+    gap: 1.5rem;
+    column-width: 280px;
+}
+
+@media (min-width: 640px) {
+    .masonry-columns {
+        columns: 2;
+    }
+}
+
+@media (min-width: 1024px) {
+    .masonry-columns {
+        columns: 3;
+    }
+}
+
+@media (min-width: 1280px) {
+    .masonry-columns {
+        columns: 4;
+    }
+}
+
+.masonry-item {
+    break-inside: avoid;
+    margin-bottom: 1.5rem;
+    position: relative;
+    cursor: pointer;
+}
+
+.masonry-image-container {
+    position: relative;
+    overflow: hidden;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    background: #f3f4f6;
+}
+
+.masonry-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 0.75rem;
+    transition: transform 0.3s ease;
+}
+
+.masonry-item:hover .masonry-image {
+    transform: scale(1.02);
+}
+
+.masonry-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent 60%);
+    border-radius: 0.75rem;
+    pointer-events: none;
+}
+
+.masonry-overlay-content {
+    position: absolute;
+    inset: 0;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    pointer-events: auto;
+}
+
+.masonry-actions {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.masonry-action-btn {
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(4px);
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.masonry-heart-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    transition: color 0.2s;
+}
+
+.masonry-action-btn:hover .masonry-heart-icon {
+    color: #f472b6;
+}
+
+.masonry-item-title {
+    color: white;
+    font-weight: 700;
+    font-size: 1rem;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    
+```
+--------------------------------------------------
+
+## COMPONENT: Modal
+### STRUCTURE (JSX Snippet):
+```jsx
+import { useEffect } from 'react'
+import Button from '../Button/Button'
+import './Modal.css'
+
+const Modal = ({ isOpen, onClose, title, children, size = 'medium', showCloseButton = true }) => {
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'unset'
+    }
+    return () => {
+      document.body.style.overflow = 'unset'
+    }
+  }, [isOpen])
+
+  if (!isOpen) return null
+
+  return (
+    <div className="wui-chamber-veil" onClick={onClose}>
+      <div className={`wui-chamber wui-chamber-${size}`} onClick={(e) => e.stopPropagation()}>
+        <div className="wui-chamber-crown">
+          {title && <h2 className="wui-chamber-herald">{title}</h2>}
+          {showCloseButton && (
+            <button className="wui-chamber-exit" onClick={onClose}>
+              ×
+            </button>
+          )}
+        </div>
+        <div className="wui-chamber-core">
+          {children}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default Modal
+
+
+```
+### STYLES (CSS Snippet):
+```css
+.wui-chamber-veil {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: wui-chamber-fade-in 0.3s ease;
+}
+
+@keyframes wui-chamber-fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.wui-chamber {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: wui-chamber-slide-up 0.3s ease;
+}
+
+@keyframes wui-chamber-slide-up {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.wui-chamber-small {
+  width: 90%;
+  max-width: 400px;
+}
+
+.wui-chamber-medium {
+  width: 90%;
+  max-width: 600px;
+}
+
+.wui-chamber-large {
+  width: 90%;
+  max-width: 900px;
+}
+
+.wui-chamber-crown {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 1px solid #eee;
+}
+
+.wui-chamber-herald {
+  margin: 0;
+  color: #2c3e50;
+  font-size: 1.5rem;
+}
+
+.wui-chamber-exit {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #999;
+  cursor: pointer;
+  padding: 0;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.3s;
+}
+
+.wui-chamber-exit:hover {
+  color: #333;
+}
+
+.wui-chamber-core {
+  padding: 1.5rem;
+}
+```
+--------------------------------------------------
+
+## COMPONENT: MultiSelect
+### STRUCTURE (JSX Snippet):
+```jsx
+import React, { useState, useRef, useEffect } from 'react';
+import './MultiSelect.css';
+
+const ALL_OPTIONS = [
+    { id: 1, name: 'React', value: 'react' },
+    { id: 2, name: 'Vue', value: 'vue' },
+    { id: 3, name: 'Angular', value: 'angular' },
+    { id: 4, name: 'Svelte', value: 'svelte' },
+    { id: 5, name: 'Ember', value: 'ember' },
+    { id: 6, name: 'Backbone', value: 'backbone' },
+    { id: 7, name: 'Preact', value: 'preact' },
+    { id: 8, name: 'Alpine.js', value: 'alpine' },
+    { id: 9, name: 'Solid.js', value: 'solid' },
+    { id: 10, name: 'Qwik', value: 'qwik' },
+];
+
+const XIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="multiselect-x-icon">
+        <path d="M18 6 6 18" />
+        <path d="m6 6 12 12" />
+    </svg>
+);
+
+const CheckIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="multiselect-check-icon">
+        <path d="M20 6 9 17l-5-5" />
+    </svg>
+);
+
+const MultiSelect = () => {
+    const [isOpen, setIsOpen] = useState(false);
+    const [selectedOptions, setSelectedOptions] = useState([ALL_OPTIONS[0], ALL_OPTIONS[2]]);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [highlightedIndex, setHighlightedIndex] = useState(0);
+    const wrapperRef = useRef(null);
+    const inputRef = useRef(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+                setIsOpen(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
+
+    const filteredOptions = ALL_OPTIONS.filter(
+        
+```
+### STYLES (CSS Snippet):
+```css
+.multiselect-wrapper {
+    width: 100%;
+    max-width: 24rem;
+    margin: 0 auto;
+    font-family: sans-serif;
+}
+
+.multiselect-container {
+    position: relative;
+}
+
+/* Input Area */
+.multiselect-input-area {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    min-height: 2.5rem;
+    font-size: 0.875rem;
+    border: 1px solid #cbd5e1;
+    background: white;
+    border-radius: 0.375rem;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    cursor: text;
+    transition: all 0.2s;
+}
+
+.multiselect-input-area:focus-within {
+    outline: 2px solid #0f172a;
+    outline-offset: 2px;
+}
+
+/* Tags */
+.multiselect-tag {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    background: #f1f5f9;
+    color: #1e293b;
+    font-weight: 500;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.375rem;
+}
+
+.multiselect-tag-remove {
+    color: #64748b;
+    background: none;
+    border: none;
+    border-radius: 9999px;
+    padding: 0.125rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+}
+
+.multiselect-tag-remove:hover {
+    color: #1e293b;
+    background: #e2e8f0;
+}
+
+.multiselect-tag-remove:focus {
+    outline: 2px solid #94a3b8;
+    outline-offset: 1px;
+}
+
+.multiselect-x-icon {
+    width: 0.75rem;
+    height: 0.75rem;
+}
+
+/* Input */
+.multiselect-input {
+    flex-grow: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #0f172a;
+    font-size: 0.875rem;
+    padding: 0;
+    min-width: 120px;
+}
+
+.multiselect-input::placeholder {
+    color: #94a3b8;
+}
+
+/* Dropdown */
+.multiselect-dropdown {
+    position: absolute;
+    z-index: 10;
+    width: 100%;
+    margin-top: 0.5rem;
+    border: 1px solid #e2e8f0;
+    background: white;
+    border-radius: 0.375rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    max-height: 15rem;
+    overflow-y: auto;
+    animation: popoverIn 0.1s ease-out forwards;
+}
+
+/* List */
+.multiselect-list {
+    padding: 0.25rem;
+    m
+```
+--------------------------------------------------
+
+## COMPONENT: MultiStepForm
+### STRUCTURE (JSX Snippet):
+```jsx
+import React, { useState } from 'react';
+import './MultiStepForm.css';
+
+const UserIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+        <circle cx="12" cy="7" r="4"></circle>
+    </svg>
+);
+
+const MailIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+        <polyline points="22,6 12,13 2,6"></polyline>
+    </svg>
+);
+
+const LockIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+        <circle cx="12" cy="16" r="1"></circle>
+        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+    </svg>
+);
+
+const EyeIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+        <circle cx="12" cy="12" r="3"></circle>
+    </svg>
+);
+
+const EyeOffIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+        <line x1="1" y1="1" x2="23" y2="23"></line>
+    </s
+```
+### STYLES (CSS Snippet):
+```css
+.multistep-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    font-family: sans-serif;
+}
+
+.multistep-container {
+    width: 100%;
+    max-width: 28rem;
+}
+
+/* Progress Bar */
+.multistep-progress-section {
+    margin-bottom: 1.5rem;
+}
+
+.multistep-progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.multistep-progress-text {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #111827;
+}
+
+.multistep-progress-percent {
+    font-size: 0.875rem;
+    color: #6b7280;
+}
+
+.multistep-progress-bar {
+    width: 100%;
+    height: 0.5rem;
+    background: #e5e7eb;
+    border-radius: 9999px;
+    overflow: hidden;
+}
+
+.multistep-progress-fill {
+    height: 100%;
+    background: #111827;
+    border-radius: 9999px;
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Card */
+.multistep-card {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* Header */
+.multistep-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.multistep-icon-wrapper {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    background: #f3f4f6;
+    border-radius: 9999px;
+    margin-bottom: 1rem;
+}
+
+.multistep-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #111827;
+    margin: 0 0 0.5rem 0;
+}
+
+.multistep-subtitle {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin: 0;
+}
+
+/* Form */
+.multistep-form {
+    margin-bottom: 1rem;
+}
+
+.multistep-step {
+    animation: slideIn 0.3s ease-out;
+}
+
+.multistep-field {
+    margin-bottom: 1rem;
+}
+
+.multistep-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #111827;
+    margin-bottom: 0.5rem;
+}
+
+.multistep-input-wrapper {
+    position: relative;
+}
+
+.multistep-input-ico
+```
+--------------------------------------------------
+
+## COMPONENT: NftMarketplace
+### STRUCTURE (JSX Snippet):
+```jsx
+import React from 'react';
+import './NftMarketplace.css';
+
+const nftData = [
+    { id: 'ethereal-dreams-001', imageUrl: 'https://i.pinimg.com/1200x/93/b6/9f/93b69fd5d973b3f2fbc325982eb8e658.jpg', title: 'Ethereal Dreams', highestBid: '1/1', price: '0.047 ETH', timeLeft: '08:10:00' },
+    { id: 'crystal-harmony-002', imageUrl: 'https://i.pinimg.com/1200x/c5/3e/6e/c53e6e265a893d70b00070563d063606.jpg', title: 'Crystal Harmony', highestBid: '1/1', price: '0.023 ETH', timeLeft: '10:40:00' },
+    { id: 'celestial-arch-003', imageUrl: 'https://i.pinimg.com/736x/c6/1c/ae/c61cae893723278b817cd64ffc966bf8.jpg', title: 'Celestial Arch', highestBid: '1/1', price: '0.034 ETH', timeLeft: '03:45:00' },
+    { id: 'quantum-sphere-004', imageUrl: 'https://i.pinimg.com/1200x/e1/6c/58/e16c5867c9dcb1334d45cf51caee3563.jpg', title: 'Quantum Sphere', highestBid: '1/1', price: '0.041 ETH', timeLeft: '02:30:00' },
+    { id: 'digital-nexus-005', imageUrl: 'https://i.pinimg.com/736x/c0/09/b1/c009b1bd4d8bb5439c59221e2eca7516.jpg', title: 'Digital Nexus', highestBid: '1/1', price: '0.075 ETH', timeLeft: '' },
+    { id: 'cosmic-voyage-006', imageUrl: 'https://i.pinimg.com/736x/fb/27/0f/fb270f928d2af556c9d97f2af5fb908d.jpg', title: 'Cosmic Voyage', highestBid: '1/1', price: '0.15 ETH', timeLeft: '22:05:00' },
+    { id: 'future-vision-007', imageUrl: 'https://i.pinimg.com/1200x/af/5f/3d/af5f3d7fc5d2cd647fc5559c86b61096.jpg', title: 'Future Vision', highestBid: '1/1', price: '0.088 ETH', timeLeft: '15:30:00' },
+    { id: 'neo-genesis-008', imageUrl: 'https://i.pinimg.com/736x/a8/13/20/a81320aa1ad808fa2fe9d05d06f06a6c.jpg', title: 'Neo Genesis', highestBid: '1/1', price: '0.20 ETH', timeLeft: '01:15:00' },
+    { id: 'neon-warrior-009', imageUrl: 'https://i.pinimg.com/1200x/4a/2a/8b/4a2a8b8d5c9a4cccc8de1e015119dfb3.jpg', title: 'Neon Warrior', highestBid: '1/1', price: '0.11 ETH', timeLeft: '07:55:00' },
+    { id: 'stellar-guardian-010', imageUrl: 'https://i.pinimg.com/1200x/97/67/23/976723dda78a202
+```
+### STYLES (CSS Snippet):
+```css
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap');
+
+.nft-marketplace {
+    font-family: 'Space Grotesk', sans-serif;
+    padding: 2rem 1rem;
+}
+
+@media (min-width: 640px) {
+    .nft-marketplace {
+        padding: 3rem 1.5rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .nft-marketplace {
+        padding: 4rem 2rem;
+    }
+}
+
+.nft-marketplace-container {
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+.nft-marketplace-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+@media (min-width: 1024px) {
+    .nft-marketplace-header {
+        margin-bottom: 3rem;
+    }
+}
+
+.nft-marketplace-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 0.5rem;
+}
+
+@media (min-width: 640px) {
+    .nft-marketplace-title {
+        font-size: 1.875rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .nft-marketplace-title {
+        font-size: 2.25rem;
+    }
+}
+
+.nft-marketplace-subtitle {
+    font-size: 0.875rem;
+    color: #4b5563;
+    max-width: 42rem;
+    margin: 0 auto;
+}
+
+@media (min-width: 640px) {
+    .nft-marketplace-subtitle {
+        font-size: 1rem;
+    }
+}
+
+/* Grid */
+.nft-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+@media (min-width: 640px) {
+    .nft-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.25rem;
+    }
+}
+
+@media (min-width: 768px) {
+    .nft-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .nft-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 2rem;
+    }
+}
+
+/* Card */
+.nft-card {
+    width: 100%;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nft-card:hover {
+    transform: translateY(-0.25rem);
+}
+
+.nft-card-inner {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 1.5rem;
+    padding: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s;
+}
+
+@media (min-width: 640px) {
+    .nft-card-in
+```
+--------------------------------------------------
+
+## COMPONENT: OrbitingCarousel
+### STRUCTURE (JSX Snippet):
+```jsx
+import React, { useState, useEffect, useCallback } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Mail, Briefcase, ChevronLeft, ChevronRight } from 'lucide-react'
+import './OrbitingCarousel.css'
+
+const people = [
+  {
+    id: 1,
+    name: 'Albert Einstein',
+    role: 'Theoretical Physicist',
+    email: 'einstein@example.com',
+    profile: 'https://upload.wikimedia.org/wikipedia/commons/d/d3/Albert_Einstein_Head.jpg'
+  },
+  {
+    id: 2,
+    name: 'Isaac Newton',
+    role: 'Physicist & Mathematician',
+    email: 'newton@example.com',
+    profile: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Portrait_of_Sir_Isaac_Newton%2C_1689_%28brightened%29.jpg/1200px-Portrait_of_Sir_Isaac_Newton%2C_1689_%28brightened%29.jpg'
+  },
+  {
+    id: 3,
+    name: 'Marie Curie',
+    role: 'Physicist & Chemist',
+    email: 'curie@example.com',
+    profile: 'https://upload.wikimedia.org/wikipedia/commons/7/7e/Marie_Curie_c1920.jpg'
+  },
+  {
+    id: 4,
+    name: 'Nikola Tesla',
+    role: 'Inventor & Engineer',
+    email: 'tesla@example.com',
+    profile: 'https://upload.wikimedia.org/wikipedia/commons/d/d4/N.Tesla.JPG'
+  },
+  {
+    id: 5,
+    name: 'Charles Darwin',
+    role: 'Naturalist & Biologist',
+    email: 'darwin@example.com',
+    profile: 'https://hips.hearstapps.com/hmg-prod/images/gettyimages-79035252.jpg?crop=1xw:1.0xh;center,top&resize=640:*'
+  },
+  {
+    id: 6,
+    name: 'Galileo Galilei',
+    role: 'Astronomer & Physicist',
+    email: 'galileo@example.com',
+    profile: 'https://res.cloudinary.com/aenetworks/image/upload/c_fill,ar_2,w_3840,h_1920,g_auto/dpr_auto/f_auto/q_auto:eco/v1/galileo-galilei-gettyimages-51246872?_a=BAVAZGDX0'
+  },
+  {
+    id: 7,
+    name: 'Stephen Hawking',
+    role: 'Theoretical Physicist',
+    email: 'hawking@example.com',
+    profile: 'https://upload.wikimedia.org/wikipedia/commons/e/eb/Stephen_Hawking.StarChild.jpg'
+  },
+  {
+    id: 8,
+    name: 'Richard Feynman',
+    role: 'Theoretical Physicist',
+    email:
+```
+### STYLES (CSS Snippet):
+```css
+.orbiting-carousel-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  position: relative;
+  min-height: 400px;
+  background: white;
+  transition: background-color 0.3s ease;
+}
+
+@media (prefers-color-scheme: dark) {
+  .orbiting-carousel-container {
+    background: black;
+  }
+}
+
+.orbiting-carousel-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.orbiting-carousel-circle {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(209, 213, 219, 0.3);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@media (prefers-color-scheme: dark) {
+  .orbiting-carousel-circle {
+    border-color: rgba(55, 65, 81, 0.7);
+  }
+}
+
+.orbiting-carousel-card {
+  z-index: 10;
+  background: white;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  border-radius: 0.75rem;
+  padding: 0.75rem;
+  width: 12rem;
+  text-align: center;
+  border: 1px solid rgba(243, 244, 246, 0.1);
+}
+
+@media (min-width: 768px) {
+  .orbiting-carousel-card {
+    padding: 1rem;
+    width: 13rem;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .orbiting-carousel-card {
+    background: rgb(3, 7, 18);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    border-color: rgba(31, 41, 55, 0.8);
+  }
+}
+
+.orbiting-carousel-profile-img {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  margin: 0 auto;
+  margin-top: -2.5rem;
+  border: 4px solid white;
+  object-fit: cover;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+@media (min-width: 768px) {
+  .orbiting-carousel-profile-img {
+    width: 5rem;
+    height: 5rem;
+    margin-top: -3rem;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .orbiting-carousel-profile-img {
+    border-color: black;
+  }
+}
+
+.orbiting-carousel-name {
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: rgb(31, 41, 55
+```
+--------------------------------------------------
+
+## COMPONENT: OrbitingSkills
+### STRUCTURE (JSX Snippet):
+```jsx
+import React, { useEffect, useState, memo } from 'react'
+import './OrbitingSkills.css'
+
+const iconComponents = {
+  html: {
+    component: () => (
+      <svg viewBox="0 0 24 24" fill="currentColor" className="orbiting-skills-icon">
+        <path
+          d="M1.5 0h21l-1.91 21.563L11.977 24l-8.564-2.438L1.5 0zm7.031 9.75l-.232-2.718 10.059.003.23-2.622L5.412 4.41l.698 8.01h9.126l-.326 3.426-2.91.804-2.955-.81-.188-2.11H6.248l.33 4.171L12 19.351l5.379-1.443.744-8.157H8.531z"
+          fill="#E34F26"
+        />
+      </svg>
+    ),
+    color: '#E34F26'
+  },
+  css: {
+    component: () => (
+      <svg viewBox="0 0 24 24" fill="currentColor" className="orbiting-skills-icon">
+        <path
+          d="M1.5 0h21l-1.91 21.563L11.977 24l-8.565-2.438L1.5 0zm17.09 4.413L5.41 4.41l.213 2.622 10.125.002-.255 2.716h-6.64l.24 2.573h6.182l-.366 3.523-2.91.804-2.956-.81-.188-2.11h-2.61l.29 3.751L12 19.351l5.379-1.443.744-8.157z"
+          fill="#1572B6"
+        />
+      </svg>
+    ),
+    color: '#1572B6'
+  },
+  javascript: {
+    component: () => (
+      <svg viewBox="0 0 24 24" fill="currentColor" className="orbiting-skills-icon">
+        <rect width="24" height="24" fill="#F7DF1E" />
+        <path
+          d="M22.034 18.276c-.175-1.095-.888-2.015-3.003-2.873-.736-.345-1.554-.585-1.797-1.14-.091-.33-.105-.51-.046-.705.15-.646.915-.84 1.515-.66.39.12.75.42.976.9 1.034-.676 1.034-.676 1.755-1.125-.27-.42-.404-.601-.586-.78-.63-.705-1.469-1.065-2.834-1.034l-.705.089c-.676.165-1.32.525-1.71 1.005-1.14 1.291-.811 3.541.569 4.471 1.365 1.02 3.361 1.244 3.616 2.205.24 1.17-.87 1.545-1.966 1.41-.811-.18-1.26-.586-1.755-1.336l-1.83 1.051c.21.48.45.689.81 1.109 1.74 1.756 6.09 1.666 6.871-1.004.029-.09.24-.705.074-1.65l.046.067zm-8.983-7.245h-2.248c0 1.938-.009 3.864-.009 5.805 0 1.232.063 2.363-.138 2.711-.33.689-1.18.601-1.566.48-.396-.196-.597-.466-.83-.855-.063-.105-.11-.196-.127-.196l-1.825 1.125c.305.63.75 1.172 1.324 1.517.855.51 2.004.675 3.207.405.783-.226 1.458-.691 1.811-1.411.51-.
+```
+### STYLES (CSS Snippet):
+```css
+.orbiting-skills-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.orbiting-skills-background {
+  position: absolute;
+  inset: 0;
+  opacity: 0.1;
+  background-image: radial-gradient(circle at 25% 25%, #374151 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, #4b5563 0%, transparent 50%);
+}
+
+.orbiting-skills-orbit-container {
+  position: relative;
+  width: calc(100vw - 40px);
+  height: calc(100vw - 40px);
+  max-width: 450px;
+  max-height: 450px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (min-width: 768px) {
+  .orbiting-skills-orbit-container {
+    width: 450px;
+    height: 450px;
+  }
+}
+
+.orbiting-skills-center {
+  width: 5rem;
+  height: 5rem;
+  background: linear-gradient(to bottom right, #374151, #111827);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  position: relative;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+.orbiting-skills-center-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+}
+
+.orbiting-skills-center-glow-cyan {
+  background: rgba(6, 182, 212, 0.3);
+  filter: blur(1.5rem);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.orbiting-skills-center-glow-purple {
+  background: rgba(147, 51, 234, 0.2);
+  filter: blur(2rem);
+  animation: pulse 2s ease-in-out infinite;
+  animation-delay: 1s;
+}
+
+.orbiting-skills-center-icon {
+  position: relative;
+  z-index: 10;
+}
+
+.orbiting-skills-icon {
+  width: 100%;
+  height: 100%;
+}
+
+.orbiting-skill {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transition: all 0.3s ease-out;
+}
+
+.orbiting-skill-icon {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 0.5rem;
+  background: rgba(31, 41, 55, 0.9);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  cursor: point
+```
+--------------------------------------------------
+
+## COMPONENT: PasswordInput
+### STRUCTURE (JSX Snippet):
+```jsx
+import React, { useState, useEffect } from 'react';
+import './PasswordInput.css';
+
+const EyeIcon = ({ className }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+        <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+        <circle cx="12" cy="12" r="3" />
+    </svg>
+);
+
+const EyeOffIcon = ({ className }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+        <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24" />
+        <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68" />
+        <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61" />
+        <line x1="2" x2="22" y1="2" y2="22" />
+    </svg>
+);
+
+const CheckIcon = ({ className }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className={className}>
+        <polyline points="20 6 9 17 4 12"></polyline>
+    </svg>
+);
+
+const XIcon = ({ className }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className={className}>
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+    </svg>
+);
+
+const validationRules = [
+    {
+        id: 'length',
+        text: 'At least 8 characters',
+        regex: /.{8,}/
+    },
+    {
+        id: 'number',
+        text: 'At least 1 number',
+        regex: /\d/
+    },
+    {
+        id: 'lowercase',
+        text: 'At least 1 lowercase letter',
+        regex: /[a-z]/
+    },
+    {
+       
+```
+### STYLES (CSS Snippet):
+```css
+.password-input-wrapper {
+    width: 100%;
+    max-width: 28rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* Input Field */
+.password-input-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.password-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #374151;
+}
+
+.password-input-container {
+    position: relative;
+}
+
+.password-input {
+    width: 100%;
+    height: 2.5rem;
+    padding: 0.75rem;
+    padding-right: 2.5rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.375rem;
+    background-color: white;
+    font-size: 0.875rem;
+    color: #111827;
+    transition: all 0.2s;
+}
+
+.password-input::placeholder {
+    color: #9ca3af;
+}
+
+.password-input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.password-toggle-btn {
+    position: absolute;
+    top: 50%;
+    right: 0.75rem;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #6b7280;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s;
+}
+
+.password-toggle-btn:hover {
+    color: #111827;
+}
+
+.toggle-icon {
+    width: 1rem;
+    height: 1rem;
+}
+
+/* Requirements Section */
+.password-requirements {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.requirements-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.requirements-title {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #374151;
+    margin: 0;
+}
+
+.requirements-hint {
+    font-size: 0.75rem;
+    color: #9ca3af;
+    margin: 0;
+}
+
+.requirements-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+/* Validation Item */
+.password-validation-item {
+    display: flex;
+    align-items: center;
+    font-size: 0.875rem;
+    transition: color 0.3s;
+}
+
+.password-validation-item.valid {
+    color: #
+```
+--------------------------------------------------
+
+## COMPONENT: ProfileCard
+### STRUCTURE (JSX Snippet):
+```jsx
+import React from 'react'
+import GlitchVault from '../GlitchVault/GlitchVault'
+import './ProfileCard.css'
+
+const ProfileCard = ({
+  name = 'Aura',
+  title = 'UI/UX Designer & Developer',
+  avatarText = 'Hover me',
+  buttonText = 'View Profile',
+  glitchColor = '#0AF0F0',
+  className = '',
+  onButtonClick,
+  ...props
+}) => {
+  return (
+    <main className={`profile-card-wrapper ${className}`} {...props}>
+      <div className="profile-card-background"></div>
+      <GlitchVault
+        className="profile-card-container"
+        glitchColor={glitchColor}
+        glitchRadius={120}
+      >
+        <div className="profile-card-content">
+          <div className="profile-card-gradient-overlay"></div>
+
+          {/* Avatar */}
+          <div className="profile-card-avatar-wrapper">
+            <div className="profile-card-avatar-outer">
+              <div className="profile-card-avatar-inner">
+                <span className="profile-card-avatar-text">{avatarText}</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Name */}
+          <h2 className="profile-card-name">{name}</h2>
+
+          {/* Title */}
+          <p className="profile-card-title">{title}</p>
+
+          {/* Button */}
+          <button
+            className="profile-card-button"
+            onClick={onButtonClick}
+          >
+            {buttonText}
+          </button>
+        </div>
+      </GlitchVault>
+    </main>
+  )
+}
+
+export default ProfileCard
+
+
+```
+### STYLES (CSS Snippet):
+```css
+.profile-card-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.profile-card-background {
+  position: absolute;
+  inset: 0;
+}
+
+.profile-card-container {
+  width: 100%;
+  max-width: 24rem;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 1rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(6, 182, 212, 0.1);
+  position: relative;
+  z-index: 10;
+}
+
+.profile-card-content {
+  padding: 2rem;
+  text-align: center;
+  position: relative;
+}
+
+.profile-card-gradient-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(255, 255, 255, 0.05),
+    transparent
+  );
+  border-radius: 1rem;
+  pointer-events: none;
+}
+
+.profile-card-avatar-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 10;
+}
+
+.profile-card-avatar-outer {
+  width: 7rem;
+  height: 7rem;
+  background: linear-gradient(to bottom right, rgba(6, 182, 212, 0.2), rgba(59, 130, 246, 0.2));
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(6, 182, 212, 0.2);
+  cursor: pointer;
+  transition: all 0.5s ease;
+}
+
+.profile-card-avatar-outer:hover {
+  transform: scale(1.05);
+}
+
+.profile-card-avatar-inner {
+  width: 6rem;
+  height: 6rem;
+  background: linear-gradient(to bottom right, rgba(6, 182, 212, 0.1), rgba(37, 99, 235, 0.1));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.profile-card-avatar-text {
+  color: #08
+```
+--------------------------------------------------
+
+## COMPONENT: ProjectCard
+### STRUCTURE (JSX Snippet):
+```jsx
+import React from 'react'
+import GlitchVault from '../GlitchVault/GlitchVault'
+import './ProjectCard.css'
+
+const ProjectCard = ({
+  title = 'Project Launch',
+  status = 'Ready to deploy',
+  description = 'Your application is ready for production deployment with all tests passing.',
+  icon = '🚀',
+  iconGradient = 'from-red-400 to-pink-500',
+  glitchColor = '#FF6B6B',
+  primaryButtonText = 'Deploy Now',
+  secondaryButtonText = 'View Details',
+  onPrimaryClick,
+  onSecondaryClick,
+  className = ''
+}) => {
+  return (
+    <GlitchVault
+      className={`project-card-wrapper ${className}`}
+      glitchColor={glitchColor}
+      glitchRadius={80}
+    >
+      <div className="project-card-content">
+        <div className="project-card-header">
+          <div className={`project-card-icon ${iconGradient}`}>
+            <span className="project-card-icon-text">{icon}</span>
+          </div>
+          <div className="project-card-title-section">
+            <h3 className="project-card-title">{title}</h3>
+            <p className="project-card-status">{status}</p>
+          </div>
+        </div>
+        <p className="project-card-description">{description}</p>
+        <div className="project-card-actions">
+          <button
+            className="project-card-button-primary"
+            onClick={onPrimaryClick}
+          >
+            {primaryButtonText}
+          </button>
+          <button
+            className="project-card-button-secondary"
+            onClick={onSecondaryClick}
+          >
+            {secondaryButtonText}
+          </button>
+        </div>
+      </div>
+    </GlitchVault>
+  )
+}
+
+export default ProjectCard
+
+
+```
+### STYLES (CSS Snippet):
+```css
+.project-card-wrapper {
+  width: 100%;
+  max-width: 28rem;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 0.75rem;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+@media (prefers-color-scheme: dark) {
+  .project-card-wrapper {
+    border-color: rgba(30, 41, 59, 0.8);
+    background: rgba(15, 23, 42, 0.5);
+  }
+}
+
+.project-card-content {
+  padding: 1.5rem;
+}
+
+.project-card-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.project-card-icon {
+  width: 3rem;
+  height: 3rem;
+  background: linear-gradient(to bottom right, #f87171, #ec4899);
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.project-card-icon.from-red-400.to-pink-500 {
+  background: linear-gradient(to bottom right, #f87171, #ec4899);
+}
+
+.project-card-icon-text {
+  color: white;
+  font-weight: bold;
+  font-size: 1.125rem;
+}
+
+.project-card-title-section {
+  flex: 1;
+}
+
+.project-card-title {
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0 0 0.25rem 0;
+  font-size: 1rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  .project-card-title {
+    color: #f1f5f9;
+  }
+}
+
+.project-card-status {
+  font-size: 0.875rem;
+  color: #475569;
+  margin: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  .project-card-status {
+    color: #94a3b8;
+  }
+}
+
+.project-card-description {
+  color: #334155;
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+@media (prefers-color-scheme: dark) {
+  .project-card-description {
+    color: #cbd5e1;
+  }
+}
+
+.project-card-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.project-card-button-primary {
+  background: #ef4444;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.project-card-button-primary:hover {
+  background: #dc2626;
+}
+
+.project-card-button-secondary {
+  border: 1px solid rgba(
+```
+--------------------------------------------------
+
+## COMPONENT: Radio
+### STRUCTURE (JSX Snippet):
+```jsx
+import './Radio.css'
+
+const Radio = ({
+  label,
+  name,
+  value,
+  checked = false,
+  onChange,
+  disabled = false,
+  className = '',
+  ...props
+}) => {
+  return (
+    <label className={`wui-choice-field ${className} ${disabled ? 'disabled' : ''}`}>
+      <input
+        type="radio"
+        name={name}
+        value={value}
+        checked={checked}
+        onChange={onChange}
+        disabled={disabled}
+        className="wui-choice"
+        {...props}
+      />
+      <span className="wui-choice-gem"></span>
+      {label && <span className="wui-choice-voice">{label}</span>}
+    </label>
+  )
+}
+
+export default Radio
+
+
+```
+### STYLES (CSS Snippet):
+```css
+.wui-choice-field {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  margin-bottom: 0.5rem;
+}
+
+.wui-choice-field.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.wui-choice {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.wui-choice-gem {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ddd;
+  border-radius: 50%;
+  margin-right: 0.75rem;
+  position: relative;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.wui-choice-field:hover:not(.disabled) .wui-choice-gem {
+  border-color: #3498db;
+}
+
+.wui-choice:checked~.wui-choice-gem {
+  border-color: #3498db;
+}
+
+.wui-choice:checked~.wui-choice-gem::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #3498db;
+}
+
+.wui-choice:focus~.wui-choice-gem {
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.wui-choice-voice {
+  color: #2c3e50;
+  font-size: 1rem;
+}
+```
+--------------------------------------------------
+
+## COMPONENT: ReactImageSwiper
+### STRUCTURE (JSX Snippet):
+```jsx
+import React, { useEffect, useRef, useState, useCallback } from 'react'
+import './ReactImageSwiper.css'
+
+export const ImageSwiper = ({
+  cards,
+  cardWidth = 256,
+  cardHeight = 352,
+  className = ''
+}) => {
+  const cardStackRef = useRef(null)
+  const isSwiping = useRef(false)
+  const startX = useRef(0)
+  const currentX = useRef(0)
+  const animationFrameId = useRef(null)
+
+  const [cardOrder, setCardOrder] = useState(() =>
+    Array.from({ length: cards.length }, (_, i) => i)
+  )
+
+  const getCards = useCallback(() => {
+    if (!cardStackRef.current) return []
+    return Array.from(cardStackRef.current.querySelectorAll('.image-card'))
+  }, [])
+
+  const getActiveCard = useCallback(() => {
+    return getCards()[0] || null
+  }, [getCards])
+
+  const updateCardPositions = useCallback(() => {
+    getCards().forEach((card, i) => {
+      card.style.setProperty('--i', i.toString())
+      card.style.setProperty('--swipe-x', '0px')
+      card.style.setProperty('--swipe-rotate', '0deg')
+      card.style.opacity = '1'
+      card.style.transition = 'transform 0.5s ease, opacity 0.5s ease'
+    })
+  }, [getCards])
+
+  const applySwipeStyles = useCallback(
+    (deltaX) => {
+      const card = getActiveCard()
+      if (!card) return
+
+      const rotation = deltaX * 0.1
+      const opacity = 1 - Math.abs(deltaX) / (cardWidth * 1.5)
+
+      card.style.setProperty('--swipe-x', `${deltaX}px`)
+      card.style.setProperty('--swipe-rotate', `${rotation}deg`)
+      card.style.opacity = opacity.toString()
+    },
+    [getActiveCard, cardWidth]
+  )
+
+  const handleStart = useCallback(
+    (clientX) => {
+      if (isSwiping.current) return
+
+      isSwiping.current = true
+      startX.current = clientX
+      currentX.current = clientX
+
+      const card = getActiveCard()
+      if (card) {
+        card.style.transition = 'none'
+      }
+
+      if (animationFrameId.current) {
+        cancelAnimationFrame(animationFrameId.current)
+      }
+    },
+    [getActiveCard]
+  )
+
+  const handleMove = useCallback(
+ 
+```
+### STYLES (CSS Snippet):
+```css
+.image-swiper-wrapper {
+  color: white;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  overflow: hidden;
+}
+
+.image-swiper-container {
+  position: relative;
+  display: grid;
+  place-content: center;
+  user-select: none;
+}
+
+.image-card {
+  position: absolute;
+  cursor: grab;
+  place-self: center;
+  border: 2px solid #334155;
+  border-radius: 1rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  background: #1e293b;
+  will-change: transform;
+  transform-style: preserve-3d;
+}
+
+.image-card:active {
+  cursor: grabbing;
+}
+
+.image-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.image-card-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+}
+
+.image-card-title {
+  font-weight: bold;
+  font-size: 1.25rem;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  margin: 0;
+}
+
+
+```
+--------------------------------------------------
+
+## COMPONENT: ReactNetworkVisualization
+### STRUCTURE (JSX Snippet):
+```jsx
+import React, { useState, useEffect, useMemo } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import './ReactNetworkVisualization.css'
+
+const ReactNetworkVisualization = () => {
+  const [containerSize, setContainerSize] = useState({
+    width: 700,
+    height: 700
+  })
+
+  const dimensions = useMemo(() => {
+    const baseSize = Math.min(containerSize.width, containerSize.height)
+    const scale = baseSize / 700
+    return {
+      containerSize: baseSize,
+      outerRadius: Math.floor(290 * scale),
+      innerRadius: Math.floor(180 * scale),
+      centerImageSize: Math.floor(160 * scale),
+      outerAvatarSize: Math.floor(80 * scale),
+      innerAvatarSize: Math.floor(72 * scale),
+      outerImageSize: Math.floor(64 * scale),
+      innerImageSize: Math.floor(56 * scale),
+      strokeWidth: Math.max(1, Math.floor(3 * scale)),
+      tooltipTextSize: scale < 0.6 ? 'text-xs' : 'text-sm',
+      centerX: baseSize / 2,
+      centerY: baseSize / 2
+    }
+  }, [containerSize])
+
+  useEffect(() => {
+    const updateSize = () => {
+      const width = window.innerWidth
+      const height = window.innerHeight
+      const maxWidth = Math.min(width - 32, 700)
+      const maxHeight = Math.min(height - 32, 700)
+      const size = Math.min(maxWidth, maxHeight)
+      setContainerSize({
+        width: size,
+        height: size
+      })
+    }
+
+    updateSize()
+    window.addEventListener('resize', updateSize)
+    return () => window.removeEventListener('resize', updateSize)
+  }, [])
+
+  const avatars = useMemo(() => {
+    const newImageLinks = [
+      'https://i.postimg.cc/W1rCvYnT/nazmul-hossain.jpg',
+      'https://i.pinimg.com/736x/8c/6d/db/8c6ddb5fe6600fcc4b183cb2ee228eb7.jpg',
+      'https://i.pinimg.com/736x/6f/a3/6a/6fa36aa2c367da06b2a4c8ae1cf9ee02.jpg',
+      'https://i.pinimg.com/1200x/c2/4e/27/c24e271f2f992fd7e62e8c1e8d9b3e2f.jpg',
+      'https://i.pinimg.com/736x/81/d6/b1/81d6b158728f5fc97ca6e0a025fefee0.jpg',
+      'https://i.pinimg.com/736x/9f/46/74/9f4674
+```
+### STYLES (CSS Snippet):
+```css
+.network-visualization-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  width: 100%;
+  height: 100%;
+  min-height: 400px;
+}
+
+@media (min-width: 640px) {
+  .network-visualization-wrapper {
+    padding: 1rem;
+  }
+}
+
+.network-container {
+  position: relative;
+}
+
+.network-ring {
+  position: absolute;
+  border: 2px dashed rgba(139, 92, 246, 0.5);
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.network-ring-outer {
+  z-index: 1;
+}
+
+.network-ring-inner {
+  z-index: 1;
+}
+
+.network-center {
+  position: absolute;
+  z-index: 10;
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+}
+
+.network-center-image {
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid white;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.network-fallback-icon {
+  font-size: 1.5rem;
+  color: white;
+}
+
+.network-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.network-avatar-wrapper {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+}
+
+.network-avatar {
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+  cursor: pointer;
+  position: relative;
+}
+
+.network-avatar:hover {
+  transform: scale(1.05);
+}
+
+.network-avatar-image {
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.network-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.network-tooltip {
+  position: absolute;
+  top: -2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  padding: 0.
+```
+--------------------------------------------------
+
+## COMPONENT: ReactNexusOrbSup
+### STRUCTURE (JSX Snippet):
+```jsx
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import {
+  FormBoldLogo,
+  GrayGridsLogo,
+  LineIconsLogo,
+  NextJsTemplatesLogo,
+  PimjoLogo,
+  SaasBoldLogo,
+  StaticRunLogo,
+  TailAdminLogo,
+  TailgridsLogo,
+  UideckLogo
+} from '../ReactOrbit/icons.jsx'
+import './ReactNexusOrbSup.css'
+
+const IconWrapper = ({
+  children,
+  className = '',
+  isHighlighted = false,
+  isActive = false
+}) => {
+  return (
+    <div
+      className={`nexus-icon-wrapper ${isHighlighted ? 'highlighted' : ''} ${isActive ? 'active' : ''} ${className}`}
+      style={{
+        transform: isActive ? 'scale(1.1)' : 'scale(1)',
+        backgroundColor: isActive ? 'rgba(129, 140, 248, 0.2)' : 'rgba(255, 255, 255, 0.05)',
+        transition: 'transform 0.8s ease-in-out, background-color 0.8s ease-in-out, border-color 0.8s ease-in-out'
+      }}
+    >
+      {children}
+    </div>
+  )
+}
+
+const IconGrid = () => {
+  const [activeId, setActiveId] = useState(1)
+  const canvasRef = useRef(null)
+  const particlesRef = useRef([])
+
+  const outerIcons = useMemo(() => [
+    { id: 1, component: <TailAdminLogo /> },
+    { id: 2, component: <GrayGridsLogo /> },
+    { id: 3, component: <TailgridsLogo /> },
+    { id: 4, component: <UideckLogo /> },
+    { id: 5, component: <NextJsTemplatesLogo /> },
+    { id: 6, component: <StaticRunLogo /> },
+    { id: 7, component: <LineIconsLogo /> },
+    { id: 8, component: <SaasBoldLogo /> },
+    { id: 9, component: <FormBoldLogo /> }
+  ], [])
+
+  const radius = 160
+  const svgSize = 400
+  const svgCenter = svgSize / 2
+  const numIcons = outerIcons.length
+
+  const getIconPosition = useCallback((index) => {
+    const angle = (-90 + index * (360 / numIcons)) * (Math.PI / 180)
+    return {
+      transformX: radius * Math.cos(angle),
+      transformY: radius * Math.sin(angle),
+      svgX: svgCenter + radius * Math.cos(angle),
+      svgY: svgCenter + radius * Math.sin(angle)
+    }
+  }, [numIcons, radius, svgCenter])
+
+  // Canvas particle animation
+  useE
+```
+### STYLES (CSS Snippet):
+```css
+.react-nexus-wrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  padding: 1rem;
+  overflow: hidden;
+  position: relative;
+  min-height: 500px;
+}
+
+@media (min-width: 640px) {
+  .react-nexus-wrapper {
+    padding: 2rem;
+  }
+}
+
+.nexus-background {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: radial-gradient(
+    ellipse 80% 80% at 50% -20%,
+    rgba(120, 119, 198, 0.1),
+    rgba(255, 255, 255, 0)
+  );
+}
+
+.nexus-content {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nexus-container {
+  position: relative;
+  width: 400px;
+  height: 400px;
+  transform: scale(0.75);
+}
+
+@media (min-width: 768px) {
+  .nexus-container {
+    transform: scale(0.9);
+  }
+}
+
+@media (min-width: 1024px) {
+  .nexus-container {
+    transform: scale(1);
+  }
+}
+
+.nexus-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.nexus-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.nexus-line {
+  transition: all 1.2s ease-in-out;
+}
+
+.nexus-icons-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.nexus-central-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 20;
+}
+
+.nexus-outer-icon {
+  position: absolute;
+  z-index: 20;
+}
+
+.nexus-icon-inner {
+  transform: translate(-50%, -50%);
+  position: relative;
+}
+
+.nexus-icon-glow {
+  position: absolute;
+  inset: -20px;
+  background: rgba(59, 130, 246, 0.2);
+  border-radius: 50%;
+  filter: blur(16px);
+  pointer-events: none;
+}
+
+.nexus-icon-wrapper {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.8s ease-in-out;
+  background: rgba(255, 255
+```
+--------------------------------------------------
+
+## COMPONENT: ReactOrbit
+### STRUCTURE (JSX Snippet):
+```jsx
+import React, { useState } from 'react'
+import {
+  GrayGridsLogo,
+  NextJsTemplatesLogo,
+  PimjoLogo,
+  SaasBoldLogo,
+  StaticRunLogo,
+  TailAdminLogo,
+  TailgridsLogo,
+  UideckLogo
+} from './icons.jsx'
+import './ReactOrbit.css'
+
+const IconWrapper = ({
+  children,
+  className = '',
+  isHighlighted = false,
+  isHovered = false,
+  animationDelay = 0
+}) => {
+  return (
+    <div
+      className={`icon-wrapper ${isHighlighted ? 'highlighted' : ''} ${isHovered ? 'hovered' : ''} ${className}`}
+      style={{ animationDelay: `${animationDelay}s` }}
+    >
+      {children}
+    </div>
+  )
+}
+
+const IconGrid = () => {
+  const [hoveredId, setHoveredId] = useState(null)
+
+  const outerIcons = [
+    { id: 1, component: <GrayGridsLogo /> },
+    { id: 2, component: <TailAdminLogo /> },
+    { id: 3, component: <NextJsTemplatesLogo /> },
+    { id: 4, component: <StaticRunLogo /> },
+    { id: 5, component: <TailgridsLogo /> },
+    { id: 6, component: <UideckLogo /> },
+    { id: 7, component: <SaasBoldLogo /> }
+  ]
+
+  const radius = 160
+  const centralIconRadius = 48
+  const outerIconRadius = 40
+  const svgSize = 380
+  const svgCenter = svgSize / 2
+
+  return (
+    <div className="orbit-container">
+      {/* SVG Lines */}
+      <svg width={svgSize} height={svgSize} className="orbit-svg">
+        <g>
+          {outerIcons.map((icon, i) => {
+            const angleInDegrees = -150 + i * 60
+            const angleInRadians = angleInDegrees * (Math.PI / 180)
+            const startX = svgCenter + centralIconRadius * Math.cos(angleInRadians)
+            const startY = svgCenter + centralIconRadius * Math.sin(angleInRadians)
+            const endX = svgCenter + (radius - outerIconRadius) * Math.cos(angleInRadians)
+            const endY = svgCenter + (radius - outerIconRadius) * Math.sin(angleInRadians)
+            const isHovered = hoveredId === icon.id
+
+            return (
+              <line
+                key={`line-${icon.id}`}
+                x1={startX}
+                y1={startY}
+     
+```
+### STYLES (CSS Snippet):
+```css
+.react-orbit-wrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  padding: 2rem;
+  overflow: hidden;
+  position: relative;
+  min-height: 500px;
+}
+
+.orbit-background {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: radial-gradient(
+    ellipse 80% 80% at 50% -20%,
+    rgba(120, 119, 198, 0.1),
+    rgba(255, 255, 255, 0)
+  );
+}
+
+.orbit-content {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.orbit-container {
+  position: relative;
+  width: 380px;
+  height: 380px;
+  transform: scale(0.75);
+}
+
+@media (min-width: 768px) {
+  .orbit-container {
+    transform: scale(1);
+  }
+}
+
+.orbit-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.orbit-line {
+  transition: all 0.3s ease;
+}
+
+.orbit-icons-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.orbit-central-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+}
+
+.orbit-outer-icon {
+  position: absolute;
+  z-index: 10;
+}
+
+.orbit-icon-inner {
+  transform: translate(-50%, -50%);
+}
+
+.icon-wrapper {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  color: #2c3e50;
+}
+
+.icon-wrapper:not(.highlighted):not(.hovered) {
+  animation: float 4s ease-in-out infinite;
+}
+
+.icon-wrapper.highlighted {
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px solid rgba(59, 130, 246, 0.5);
+  box-shadow: 0 0 20px 0px rgba(59, 130, 246, 0.3);
+  animation: breathing-glow 3s ease-in-out infinite;
+}
+
+.icon-wrapper.hovered {
+  background: rgba(200, 200, 200, 0.8);
+  border: 1px solid 
+```
+--------------------------------------------------
+
+## COMPONENT: ReactSpider
+### STRUCTURE (JSX Snippet):
+```jsx
+import React, { useState } from 'react'
+import {
+  GrayGridsLogo,
+  LineIconsLogo,
+  NextJsTemplatesLogo,
+  PimjoLogo,
+  StaticRunLogo,
+  TailAdminLogo,
+  TailgridsLogo,
+  UideckLogo
+} from '../ReactOrbit/icons.jsx'
+import './ReactSpider.css'
+
+const IconWrapper = ({
+  children,
+  className = '',
+  isHighlighted = false,
+  isHovered = false,
+  animationDelay = 0
+}) => {
+  return (
+    <div
+      className={`spider-icon-wrapper ${isHighlighted ? 'highlighted' : ''} ${isHovered ? 'hovered' : ''} ${className}`}
+      style={{ animationDelay: `${animationDelay}s` }}
+    >
+      {children}
+    </div>
+  )
+}
+
+const IconGrid = () => {
+  const [hoveredId, setHoveredId] = useState(null)
+
+  const outerIcons = [
+    { id: 1, component: <TailAdminLogo /> },
+    { id: 2, component: <TailgridsLogo /> },
+    { id: 3, component: <UideckLogo /> },
+    { id: 4, component: <GrayGridsLogo /> },
+    { id: 5, component: <StaticRunLogo /> },
+    { id: 6, component: <NextJsTemplatesLogo /> },
+    { id: 7, component: <LineIconsLogo /> }
+  ]
+
+  const radius = 160
+  const centralIconRadius = 48
+  const outerIconRadius = 32
+  const svgSize = 400
+  const svgCenter = svgSize / 2
+
+  return (
+    <div className="spider-container">
+      {/* SVG Lines */}
+      <svg width={svgSize} height={svgSize} className="spider-svg">
+        <defs>
+          <filter id="spider-glow">
+            <feGaussianBlur stdDeviation="2" result="coloredBlur" />
+            <feMerge>
+              <feMergeNode in="coloredBlur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+        <g>
+          {/* Web lines - connecting outer icons */}
+          {outerIcons.map((icon, i) => {
+            const nextIndex = (i + 1) % outerIcons.length
+            const nextIcon = outerIcons[nextIndex]
+            const angle1 = (-90 + i * (360 / outerIcons.length)) * (Math.PI / 180)
+            const x1 = svgCenter + (radius - outerIconRadius) * Math.cos(angle1)
+            con
+```
+### STYLES (CSS Snippet):
+```css
+.react-spider-wrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  padding: 1rem;
+  overflow: hidden;
+  position: relative;
+  min-height: 500px;
+}
+
+@media (min-width: 640px) {
+  .react-spider-wrapper {
+    padding: 2rem;
+  }
+}
+
+.spider-background {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: radial-gradient(
+    ellipse 80% 80% at 50% -20%,
+    rgba(120, 119, 198, 0.1),
+    rgba(255, 255, 255, 0)
+  );
+}
+
+.spider-content {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.spider-container {
+  position: relative;
+  width: 400px;
+  height: 400px;
+  transform: scale(0.75);
+}
+
+@media (min-width: 768px) {
+  .spider-container {
+    transform: scale(0.9);
+  }
+}
+
+@media (min-width: 1024px) {
+  .spider-container {
+    transform: scale(1);
+  }
+}
+
+.spider-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.spider-web-line,
+.spider-spoke-line {
+  transition: all 0.3s ease;
+}
+
+.spider-icons-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.spider-central-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+}
+
+.spider-outer-icon {
+  position: absolute;
+  z-index: 10;
+}
+
+.spider-icon-inner {
+  transform: translate(-50%, -50%);
+  position: relative;
+}
+
+.spider-icon-glow {
+  position: absolute;
+  inset: -20px;
+  background: rgba(59, 130, 246, 0.2);
+  border-radius: 50%;
+  filter: blur(16px);
+  transition: opacity 0.3s ease;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.spider-icon-glow.active {
+  opacity: 1;
+}
+
+.spider-icon-wrapper {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  background
+```
+--------------------------------------------------
+
+## COMPONENT: SignUpForm
+### STRUCTURE (JSX Snippet):
+```jsx
+import React, { useState } from 'react';
+import './SignUpForm.css';
+
+const UserIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+        <circle cx="12" cy="7" r="4"></circle>
+    </svg>
+);
+
+const MailIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+        <polyline points="22,6 12,13 2,6"></polyline>
+    </svg>
+);
+
+const LockIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+        <circle cx="12" cy="16" r="1"></circle>
+        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+    </svg>
+);
+
+const EyeIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+        <circle cx="12" cy="12" r="3"></circle>
+    </svg>
+);
+
+const EyeOffIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+        <line x1="1" y1="1" x2="23" y2="23"></line>
+    </svg>
+```
+### STYLES (CSS Snippet):
+```css
+.wui-chamber-bay {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    font-family: sans-serif;
+}
+
+.wui-chamber-well {
+    width: 100%;
+    max-width: 28rem;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    padding: 2rem;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+/* Form */
+.wui-chamber-core {
+    margin-bottom: 1.5rem;
+}
+
+.wui-chamber-field {
+    margin-bottom: 1.5rem;
+}
+
+.wui-chamber-intent {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #111827;
+    margin-bottom: 0.5rem;
+}
+
+.wui-chamber-portal-wrapper {
+    position: relative;
+}
+
+.wui-portal-atom {
+    position: absolute;
+    top: 50%;
+    left: 0.75rem;
+    transform: translateY(-50%);
+    color: #9ca3af;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+}
+
+.wui-portal-field {
+    display: flex;
+    width: 100%;
+    height: 2.5rem;
+    padding: 0.5rem 0.75rem 0.5rem 2.5rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.375rem;
+    background: white;
+    color: #111827;
+    font-size: 0.875rem;
+    transition: all 0.2s;
+}
+
+.wui-portal-field::placeholder {
+    color: #6b7280;
+}
+
+.wui-portal-field:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px white, 0 0 0 4px #111827;
+}
+
+.wui-portal-password {
+    padding-right: 2.5rem;
+}
+
+.wui-portal-eye {
+    position: absolute;
+    top: 50%;
+    right: 0.75rem;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #9ca3af;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    transition: color 0.2s;
+}
+
+.wui-portal-eye:hover {
+    color: #6b7280;
+}
+
+/* Terms */
+.wui-chamber-rift {
+    display: flex;
+    align-items: start;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.wui-gem-check {
+    width: 1rem;
+    height: 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.25rem;
+    margin-top: 0.125rem;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.wui-chamber-note {
+```
+--------------------------------------------------
+
+## COMPONENT: SimpleTimeline
+### STRUCTURE (JSX Snippet):
+```jsx
+import React, { memo, useCallback, useMemo, useState } from 'react'
+import './SimpleTimeline.css'
+
+const ChevronDown = (props) => (
+  <svg
+    {...props}
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="m6 9 6 6 6-6" />
+  </svg>
+)
+
+const ChevronUp = (props) => (
+  <svg
+    {...props}
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="m18 15-6-6-6 6" />
+  </svg>
+)
+
+const Code = (props) => (
+  <svg
+    {...props}
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="m16 18 6-6-6-6" />
+    <path d="m8 6-6 6 6 6" />
+  </svg>
+)
+
+const Palette = (props) => (
+  <svg
+    {...props}
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <circle cx="13.5" cy="6.5" r=".5" fill="currentColor" />
+    <circle cx="17.5" cy="10.5" r=".5" fill="currentColor" />
+    <circle cx="8.5" cy="7.5" r=".5" fill="currentColor" />
+    <circle cx="6.5" cy="12.5" r=".5" fill="currentColor" />
+    <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z" />
+  </svg>
+)
+
+const Badge = ({ children, className = '', ...props }) => (
+  <span className={`st-badge ${className}`} {...props}>
+    {children}
+  </span>
+)
+
+export const defaultTimelineData = [
+  {
+    id:
+```
+### STYLES (CSS Snippet):
+```css
+.st-shell {
+  width: 100%;
+  max-width: 48rem;
+  margin: 0 auto;
+  padding: 1rem;
+  color: #0f172a;
+}
+
+@media (prefers-color-scheme: dark) {
+  .st-shell {
+    color: #e2e8f0;
+  }
+}
+
+.st-page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.st-page-title {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+@media (prefers-color-scheme: dark) {
+  .st-page-title {
+    color: #f1f5f9;
+  }
+}
+
+.st-timeline {
+  position: relative;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.st-line {
+  position: absolute;
+  left: 1rem;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: rgba(148, 163, 184, 0.7);
+}
+
+@media (prefers-color-scheme: dark) {
+  .st-line {
+    background: rgba(31, 41, 55, 1);
+  }
+}
+
+.st-item {
+  position: relative;
+}
+
+.st-dot {
+  position: absolute;
+  left: 0.25rem;
+  top: 1.25rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 999px;
+  background: rgba(148, 163, 184, 1);
+  border: 2px solid #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (prefers-color-scheme: dark) {
+  .st-dot {
+    background: rgba(100, 116, 139, 1);
+    border-color: #000000;
+  }
+}
+
+.st-dot-icon {
+  width: 0.875rem;
+  height: 0.875rem;
+  color: #ffffff;
+}
+
+@media (prefers-color-scheme: dark) {
+  .st-dot-icon {
+    color: #000000;
+  }
+}
+
+.st-item-body {
+  margin-left: 3.5rem;
+  padding-bottom: 2rem;
+}
+
+.st-card {
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+@media (prefers-color-scheme: dark) {
+  .st-card {
+    background: rgba(3, 7, 18, 0.7);
+    border-color: rgba(31, 41, 55, 0.7);
+  }
+}
+
+.st-header-btn {
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+.st-header-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+```
+--------------------------------------------------
+
+## COMPONENT: Textarea
+### STRUCTURE (JSX Snippet):
+```jsx
+import { useState } from 'react'
+import './Textarea.css'
+
+const Textarea = ({
+  label,
+  placeholder = '',
+  value,
+  onChange,
+  error,
+  required = false,
+  disabled = false,
+  rows = 4,
+  maxLength,
+  className = '',
+  ...props
+}) => {
+  const [isFocused, setIsFocused] = useState(false)
+
+  return (
+    <div className={`wui-portal-bay ${className}`}>
+      {label && (
+        <label className={`wui-portal-herald ${required ? 'required' : ''}`}>
+          {label}
+        </label>
+      )}
+      <div className={`wui-portal-well ${isFocused ? 'focused' : ''} ${error ? 'error' : ''}`}>
+        <textarea
+          placeholder={placeholder}
+          value={value}
+          onChange={onChange}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
+          disabled={disabled}
+          rows={rows}
+          maxLength={maxLength}
+          className="wui-portal-field"
+          {...props}
+        />
+        {maxLength && (
+          <span className="wui-portal-orbit">
+            {value?.length || 0} / {maxLength}
+          </span>
+        )}
+      </div>
+      {error && <span className="wui-portal-clash">{error}</span>}
+    </div>
+  )
+}
+
+export default Textarea
+
+
+```
+### STYLES (CSS Snippet):
+```css
+.wui-portal-bay {
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+.wui-portal-herald {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #2c3e50;
+  font-size: 0.875rem;
+}
+
+.wui-portal-herald.required::after {
+  content: ' *';
+  color: #e74c3c;
+}
+
+.wui-portal-well {
+  position: relative;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.wui-portal-well.focused {
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.wui-portal-well.error {
+  border-color: #e74c3c;
+}
+
+.wui-portal-field {
+  width: 100%;
+  padding: 0.75rem;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  font-family: inherit;
+  resize: vertical;
+  background: transparent;
+}
+
+.wui-portal-field:disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+}
+
+.wui-portal-orbit {
+  position: absolute;
+  bottom: 0.5rem;
+  right: 0.75rem;
+  font-size: 0.75rem;
+  color: #999;
+}
+
+.wui-portal-clash {
+  display: block;
+  margin-top: 0.25rem;
+  color: #e74c3c;
+  font-size: 0.875rem;
+}
+```
+--------------------------------------------------
+
+## COMPONENT: ThemeSwitch
+### STRUCTURE (JSX Snippet):
+```jsx
+import React from 'react';
+import './ThemeSwitch.css';
+
+const ThemeSwitch = ({ checked, onChange, className = '' }) => {
+    return (
+        <label className={`wui-glimmer ${className}`}>
+            <input
+                type="checkbox"
+                className="wui-glimmer-input"
+                checked={checked}
+                onChange={onChange}
+            />
+            <div className="wui-glimmer-deck">
+                <div className="wui-glimmer-fog"></div>
+                <div className="wui-glimmer-void">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 144 55" fill="none">
+                        <path fillRule="evenodd" clipRule="evenodd" d="M135.831 3.00688C135.055 3.85027 134.111 4.29946 133 4.35447C134.111 4.40947 135.055 4.85867 135.831 5.71123C136.607 6.55462 136.996 7.56303 136.996 8.72727C136.996 7.95722 137.172 7.25134 137.525 6.59129C137.886 5.93124 138.372 5.39954 138.98 5.00535C139.598 4.60199 140.268 4.39114 141 4.35447C139.88 4.2903 138.936 3.85027 138.16 3.00688C137.384 2.16348 136.996 1.16425 136.996 0C136.996 1.16425 136.607 2.16348 135.831 3.00688ZM31 23.3545C32.1114 23.2995 33.0551 22.8503 33.8313 22.0069C34.6075 21.1635 34.9956 20.1642 34.9956 19C34.9956 20.1642 35.3837 21.1635 36.1599 22.0069C36.9361 22.8503 37.8798 23.2903 39 23.3545C38.2679 23.3911 37.5976 23.602 36.9802 24.0053C36.3716 24.3995 35.8864 24.9312 35.5248 25.5913C35.172 26.2513 34.9956 26.9572 34.9956 27.7273C34.9956 26.563 34.6075 25.5546 33.8313 24.7112C33.0551 23.8587 32.1114 23.4095 31 23.3545ZM0 36.3545C1.11136 36.2995 2.05513 35.8503 2.83131 35.0069C3.6075 34.1635 3.99559 33.1642 3.99559 32C3.99559 33.1642 4.38368 34.1635 5.15987 35.0069C5.93605 35.8503 6.87982 36.2903 8 36.3545C7.26792 36.3911 6.59757 36.602 5.98015 37.0053C5.37155 37.3995 4.88644 37.9312 4.52481 38.5913C4.172 39.2513 3.99559 39.9572 3.99559 40.7273C3.99559 39.563 3.6075 38.5546 2.83131 37.7112C2.05513 36.8587 1.11136 36.4095 0 36.3545ZM56.8313 24.0069C56.0551 24.8503 
+```
+### STYLES (CSS Snippet):
+```css
+.wui-glimmer {
+    --toggle-size: 30px;
+    /* the size is adjusted using font-size,
+     this is not transform scale,
+     so you can choose any size */
+    --container-width: 5.625em;
+    --container-height: 2.5em;
+    --container-radius: 6.25em;
+    /* radius 0 - minecraft mode :) */
+    --container-light-bg: #3D7EAE;
+    --container-night-bg: #1D1F2C;
+    --circle-container-diameter: 3.375em;
+    --sun-moon-diameter: 2.125em;
+    --sun-bg: #ECCA2F;
+    --moon-bg: #C4C9D1;
+    --spot-color: #959DB1;
+    --circle-container-offset: calc((var(--circle-container-diameter) - var(--container-height)) / 2 * -1);
+    --stars-color: #fff;
+    --clouds-color: #F3FDFF;
+    --back-clouds-color: #AACADF;
+    --transition: .5s cubic-bezier(0, -0.02, 0.4, 1.25);
+    --circle-transition: .3s cubic-bezier(0, -0.02, 0.35, 1.17);
+}
+
+.wui-glimmer,
+.wui-glimmer *,
+.wui-glimmer *::before,
+.wui-glimmer *::after {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-size: var(--toggle-size);
+}
+
+.wui-glimmer-deck {
+    width: var(--container-width);
+    height: var(--container-height);
+    background-color: var(--container-light-bg);
+    border-radius: var(--container-radius);
+    overflow: hidden;
+    cursor: pointer;
+    -webkit-box-shadow: 0em -0.062em 0.062em rgba(0, 0, 0, 0.25), 0em 0.062em 0.125em rgba(255, 255, 255, 0.94);
+    box-shadow: 0em -0.062em 0.062em rgba(0, 0, 0, 0.25), 0em 0.062em 0.125em rgba(255, 255, 255, 0.94);
+    -webkit-transition: var(--transition);
+    -o-transition: var(--transition);
+    transition: var(--transition);
+    position: relative;
+}
+
+.wui-glimmer-deck::before {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    -webkit-box-shadow: 0em 0.05em 0.187em rgba(0, 0, 0, 0.25) inset, 0em 0.05em 0.187em rgba(0, 0, 0, 0.25) inset;
+    box-shadow: 0em 0.05em 0.187em rgba(0, 0, 0, 0.25) inset, 0em 0.05em 0.187em rgba(0, 0, 0, 0.25) inset;
+    border-radius: var(--container-radius)
+}
+
+.w
+```
+--------------------------------------------------
+
+## COMPONENT: ThreeDCard
+### STRUCTURE (JSX Snippet):
+```jsx
+import React, { useState, useRef, useCallback } from 'react';
+import './ThreeDCard.css';
+
+const ThreeDCard = ({
+    children,
+    className = '',
+    maxRotation = 10,
+    glowOpacity = 0.2,
+    shadowBlur = 30,
+    parallaxOffset = 40,
+    transitionDuration = '0.6s',
+    backgroundImage = null,
+    enableGlow = true,
+    enableShadow = true,
+    enableParallax = true
+}) => {
+    const cardRef = useRef(null);
+    const [transform, setTransform] = useState({
+        rotateX: 0,
+        rotateY: 0,
+        glowX: 50,
+        glowY: 50,
+        shadowX: 0,
+        shadowY: 20,
+        isHovered: false
+    });
+
+    const handleMouseMove = useCallback(
+        (e) => {
+            if (!cardRef.current) return;
+
+            const rect = cardRef.current.getBoundingClientRect();
+            const { width, height, left, top } = rect;
+
+            const mouseX = e.clientX - left;
+            const mouseY = e.clientY - top;
+
+            const xPct = mouseX / width - 0.5;
+            const yPct = mouseY / height - 0.5;
+
+            const newRotateX = yPct * -1 * maxRotation;
+            const newRotateY = xPct * maxRotation;
+
+            setTransform((prev) => ({
+                ...prev,
+                rotateX: newRotateX,
+                rotateY: newRotateY,
+                glowX: (mouseX / width) * 100,
+                glowY: (mouseY / height) * 100,
+                shadowX: enableShadow ? newRotateY * 0.8 : 0,
+                shadowY: enableShadow ? 20 - newRotateX * 0.6 : 20
+            }));
+        },
+        [maxRotation, enableShadow]
+    );
+
+    const handleMouseEnter = useCallback(() => {
+        setTransform((prev) => ({ ...prev, isHovered: true }));
+    }, []);
+
+    const handleMouseLeave = useCallback(() => {
+        setTransform({
+            rotateX: 0,
+            rotateY: 0,
+            glowX: 50,
+            glowY: 50,
+            shadowX: 0,
+            shadowY: 20,
+            isHovered: false
+        });
+    }, []);
+
+    const cardStyle = {
+        transfo
+```
+### STYLES (CSS Snippet):
+```css
+.three-d-card {
+    position: relative;
+    background-color: #1f2937;
+    border-radius: 1rem;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.card-background {
+    position: absolute;
+    inset: 0;
+    border-radius: 1rem;
+}
+
+.card-border {
+    position: absolute;
+    inset: 0;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 1rem;
+    pointer-events: none;
+}
+
+.card-glow {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    border-radius: 1rem;
+    pointer-events: none;
+}
+
+.card-content {
+    position: relative;
+    z-index: 10;
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+    .three-d-card {
+        background-color: #111827;
+    }
+
+    .card-border {
+        border-color: rgba(255, 255, 255, 0.05);
+    }
+}
+```
+--------------------------------------------------
+
+## COMPONENT: ThreeDCarousel
+### STRUCTURE (JSX Snippet):
+```jsx
+import React, { useMemo, useRef, useEffect, useCallback } from 'react';
+import './ThreeDCarousel.css';
+
+const FALLBACK = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="220"><rect width="100%" height="100%" fill="%23e2e8f0"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="%234a5568" font-size="18">Image</text></svg>';
+
+const DEFAULT_IMAGES = [
+    'https://i.pinimg.com/736x/9f/09/45/9f0945103fc6158cb16e1828a2665b5c.jpg',
+    'https://i.pinimg.com/1200x/6e/4c/39/6e4c394783c731f261f295e7ffd1deed.jpg',
+    'https://i.pinimg.com/1200x/1e/0c/1c/1e0c1c9c868bf07b4c27a275fb3087af.jpg',
+    'https://i.pinimg.com/736x/30/91/09/3091098a15810ddbbd58d5e007bc7207.jpg',
+    'https://i.pinimg.com/736x/07/cf/4a/07cf4a3a6f4144b4c7ac8e2ec5978dc1.jpg',
+    'https://i.pinimg.com/736x/5d/bf/f2/5dbff2b4c0fdcb9815e989f0db386f95.jpg'
+];
+
+const CARD_W = 180;
+const CARD_H = 240;
+const RADIUS = 240;
+const TILT_SENSITIVITY = 10;
+const DRAG_SENSITIVITY = 0.5;
+const INERTIA_FRICTION = 0.95;
+const AUTOSPIN_SPEED = 0.08;
+const IDLE_TIMEOUT = 2000;
+
+const Card = React.memo(({ src, transform, cardW, cardH }) => (
+    <div
+        className="carousel-card"
+        style={{
+            width: cardW,
+            height: cardH,
+            transform,
+            transformStyle: 'preserve-3d',
+            willChange: 'transform'
+        }}
+    >
+        <div className="carousel-card-inner">
+            <img
+                src={src}
+                alt="Carousel item"
+                width={cardW}
+                height={cardH}
+                className="carousel-card-image"
+                loading="lazy"
+                draggable="false"
+                onError={(e) => {
+                    e.currentTarget.src = FALLBACK;
+                }}
+            />
+        </div>
+    </div>
+));
+
+Card.displayName = 'Card';
+
+const ThreeDCarousel = React.memo(({
+    images = DEFAULT_IMAGES,
+    radius = RADIUS,
+    cardW = CARD_W,
+    cardH = CARD_H
+}) => {
+
+```
+### STYLES (CSS Snippet):
+```css
+.carousel-3d-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    font-family: sans-serif;
+    cursor: grab;
+    user-select: none;
+}
+
+.carousel-3d-container:active {
+    cursor: grabbing;
+}
+
+.carousel-3d-perspective {
+    position: relative;
+}
+
+.carousel-3d-wheel {
+    position: relative;
+}
+
+.carousel-card {
+    position: absolute;
+}
+
+.carousel-card-inner {
+    width: 100%;
+    height: 100%;
+    border-radius: 1rem;
+    overflow: hidden;
+    background: white;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    backface-visibility: hidden;
+}
+
+.carousel-card-inner:hover {
+    transform: scale(1.05);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+}
+
+.carousel-card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    user-select: none;
+    pointer-events: none;
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+    .carousel-card-inner {
+        background: #1f2937;
+        border-color: #374151;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+    }
+
+    .carousel-card-inner:hover {
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.7);
+    }
+}
+```
+--------------------------------------------------
+
+## COMPONENT: Toast
+### STRUCTURE (JSX Snippet):
+```jsx
+import React, { useEffect } from 'react';
+import { motion } from 'framer-motion';
+import './Toast.css';
+
+const Notification = ({
+    id,
+    type,
+    title,
+    message,
+    showIcon = true,
+    duration,
+    onClose
+}) => {
+    useEffect(() => {
+        if (duration && onClose) {
+            const timer = setTimeout(() => {
+                onClose();
+            }, duration);
+            return () => clearTimeout(timer);
+        }
+    }, [duration, onClose]);
+
+    const getIcon = () => {
+        switch (type) {
+            case 'success':
+                return (
+                    <svg className="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                        <polyline points="22 4 12 14.01 9 11.01" />
+                    </svg>
+                );
+            case 'error':
+                return (
+                    <svg className="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="15" y1="9" x2="9" y2="15" />
+                        <line x1="9" y1="9" x2="15" y2="15" />
+                    </svg>
+                );
+            case 'warning':
+                return (
+                    <svg className="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+                        <line x1="12" y1="9" x2="12" y2="13" />
+                        <line x1="12" y1="17" x2="12.01" y2="17" />
+                    </svg>
+                );
+            case 'info':
+                return (
+                    <svg className="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <circle cx="12" cy="12" r="10" />
+                    
+```
+### STYLES (CSS Snippet):
+```css
+/* Toast Notification Styles */
+.toast {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 1rem;
+    border-radius: 0.75rem;
+    backdrop-filter: blur(12px);
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    min-width: 320px;
+    max-width: 420px;
+    position: relative;
+}
+
+.toast-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    flex: 1;
+}
+
+.toast-icon-wrapper {
+    flex-shrink: 0;
+    width: 1.5rem;
+    height: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.toast-icon {
+    width: 100%;
+    height: 100%;
+}
+
+.toast-loading {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.toast-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.toast-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #111827;
+    margin: 0;
+    line-height: 1.4;
+}
+
+.toast-message {
+    font-size: 0.8125rem;
+    color: #6b7280;
+    margin-top: 0.25rem;
+    line-height: 1.4;
+}
+
+.toast-close {
+    flex-shrink: 0;
+    width: 1.25rem;
+    height: 1.25rem;
+    padding: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #9ca3af;
+    transition: color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.toast-close:hover {
+    color: #4b5563;
+}
+
+.toast-close svg {
+    width: 100%;
+    height: 100%;
+}
+
+/* Toast Type Variants */
+.toast-success {
+    border-left: 4px solid #10b981;
+}
+
+.toast-success .toast-icon {
+    color: #10b981;
+}
+
+.toast-error {
+    border-left: 4px solid #ef4444;
+}
+
+.toast-error .toast-icon {
+    color: #ef4444;
+}
+
+.toast-warning {
+    border-left: 4px solid #f59e0b;
+}
+
+.toast-warning .toast-icon {
+    color: #f59e0b;
+}
+
+.toast-info {
+    border-left: 4px solid #3b82f6;
+}
+
+.toast-info .
+```
+--------------------------------------------------
+
+## COMPONENT: TwoStepVerification
+### STRUCTURE (JSX Snippet):
+```jsx
+import React, { useState, useRef, useEffect } from 'react';
+import './TwoStepVerification.css';
+
+const TwoStepVerification = () => {
+    const [code, setCode] = useState(new Array(5).fill(''));
+    const [focusedIndex, setFocusedIndex] = useState(0);
+    const inputRefs = useRef([]);
+
+    const handleChange = (element, index) => {
+        if (isNaN(Number(element.value)) || element.value === ' ') {
+            element.value = '';
+            return;
+        }
+
+        const newCode = [...code];
+        newCode[index] = element.value;
+        setCode(newCode);
+
+        if (element.value && index < 4) {
+            const nextInput = inputRefs.current[index + 1];
+            if (nextInput) {
+                nextInput.focus();
+            }
+        }
+    };
+
+    const handleKeyDown = (e, index) => {
+        if (e.key === 'Backspace' && !code[index] && index > 0) {
+            const prevInput = inputRefs.current[index - 1];
+            if (prevInput) {
+                prevInput.focus();
+            }
+        }
+    };
+
+    const handlePaste = (e) => {
+        e.preventDefault();
+        const pasteData = e.clipboardData.getData('text').slice(0, 5);
+        if (!/^\d+$/.test(pasteData)) return;
+
+        const newCode = new Array(5).fill('');
+        for (let i = 0; i < pasteData.length; i++) {
+            newCode[i] = pasteData[i];
+        }
+        setCode(newCode);
+
+        const lastFullInput = Math.min(pasteData.length - 1, 4);
+        if (lastFullInput >= 0) {
+            const targetInput = inputRefs.current[lastFullInput];
+            if (targetInput) {
+                targetInput.focus();
+            }
+        }
+    };
+
+    const handleResend = () => {
+        console.log('Resending code...');
+        setCode(new Array(5).fill(''));
+        const firstInput = inputRefs.current[0];
+        if (firstInput) {
+            firstInput.focus();
+        }
+    };
+
+    useEffect(() => {
+        const firstInput = inputRefs.current[0];
+        if (firstInput) {
+            fi
+```
+### STYLES (CSS Snippet):
+```css
+.twostep-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: sans-serif;
+    padding: 1rem;
+}
+
+.twostep-container {
+    background: white;
+    border: 1px solid #e5e7eb;
+    padding: 1.5rem 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+    max-width: 28rem;
+    width: 100%;
+    text-align: center;
+    color: #111827;
+    position: relative;
+    overflow: hidden;
+}
+
+/* macOS Window Controls */
+.twostep-window-controls {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    display: flex;
+    gap: 0.5rem;
+    z-index: 10;
+}
+
+.twostep-control {
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 9999px;
+}
+
+.twostep-control-red {
+    background: #ff5f56;
+}
+
+.twostep-control-yellow {
+    background: #ffbd2e;
+}
+
+.twostep-control-green {
+    background: #27c93f;
+}
+
+/* Content */
+.twostep-content {
+    position: relative;
+    z-index: 1;
+}
+
+/* Logo */
+.twostep-logo-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+    margin-top: 2rem;
+}
+
+.twostep-logo {
+    width: 10rem;
+    height: 10rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.twostep-logo-img {
+    width: 8rem;
+    height: 8rem;
+    object-fit: cover;
+    border-radius: 0.5rem;
+    filter: drop-shadow(0 0 15px rgba(59, 130, 246, 0.5));
+}
+
+/* Title */
+.twostep-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem 0;
+    color: #111827;
+}
+
+.twostep-subtitle {
+    color: #6b7280;
+    margin: 0 0 1.5rem 0;
+    font-size: 0.875rem;
+}
+
+/* Label */
+.twostep-label {
+    color: #6b7280;
+    margin: 0 0 1rem 0;
+    font-size: 0.875rem;
+    text-align: left;
+    font-weight: 500;
+}
+
+/* OTP Inputs */
+.twostep-inputs {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+}
+
+@media (min-width: 640px) {
+    .twostep-inputs {
+        gap: 0.75rem;
+    }
+}
+
+.twostep-input {
+    width: 3rem;
+    height: 3.5rem;
+ 
+```
+--------------------------------------------------
+
+## COMPONENT: UserProfileDropdown
+### STRUCTURE (JSX Snippet):
+```jsx
+import React, { useState, useEffect, useRef } from "react";
+import './UserProfileDropdown.css';
+
+// Icon Components
+const User = (props) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+        <circle cx="12" cy="7" r="4" />
+    </svg>
+);
+
+const Settings = (props) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+        <circle cx="12" cy="12" r="3" />
+        <path d="M12 1v6m0 6v6" />
+        <path d="M1 12h6m6 0h6" />
+    </svg>
+);
+
+const CreditCard = (props) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+        <rect width="20" height="14" x="2" y="5" rx="2" />
+        <line x1="2" x2="22" y1="10" y2="10" />
+    </svg>
+);
+
+const HelpCircle = (props) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+        <circle cx="12" cy="12" r="10" />
+        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+        <line x1="12" x2="12.01" y1="17" y2="17" />
+    </svg>
+);
+
+const LogOut = (props) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+        <polyline points="16 17 21 12 16 7" />
+        <line x1="21" x2="9" y1="12" y2="12" />
+    </svg>
+);
+
+// Dropdown Menu Component
+const DropdownMenu = ({ children, t
+```
+### STYLES (CSS Snippet):
+```css
+/* Dropdown Container */
+.dropdown-container {
+    position: relative;
+    display: inline-block;
+    text-align: left;
+}
+
+.dropdown-trigger {
+    cursor: pointer;
+}
+
+/* Profile Trigger Button */
+.profile-trigger-button {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    transition: background-color 0.15s;
+}
+
+.profile-trigger-button:hover {
+    background-color: #f1f5f9;
+}
+
+.profile-avatar {
+    width: 2rem;
+    height: 2rem;
+    background: linear-gradient(135deg, #3b82f6 0%, #9333ea 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+.profile-info {
+    text-align: left;
+}
+
+.profile-name {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #18181b;
+}
+
+.profile-email {
+    font-size: 0.75rem;
+    color: #71717a;
+}
+
+/* Dropdown Menu */
+.dropdown-menu {
+    position: absolute;
+    right: 0;
+    margin-top: 0.5rem;
+    width: 18rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    background-color: white;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    z-index: 50;
+    padding: 0.5rem;
+    animation: dropdown-appear 0.15s ease-out;
+}
+
+@keyframes dropdown-appear {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* Dropdown Header */
+.dropdown-header {
+    padding: 0.75rem;
+    border-bottom: 1px solid #e4e4e7;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.header-avatar {
+    width: 2.5rem;
+    height: 2.5rem;
+    background: linear-gradient(135deg, #3b82f6 0%, #9333ea 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white
+```
+--------------------------------------------------
+
+## COMPONENT: VerticalTabs
+### STRUCTURE (JSX Snippet):
+```jsx
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import './VerticalTabs.css';
+
+const DashboardIcon = ({ className = 'icon' }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+        <rect width="7" height="9" x="3" y="3" rx="1" />
+        <rect width="7" height="5" x="14" y="3" rx="1" />
+        <rect width="7" height="9" x="14" y="12" rx="1" />
+        <rect width="7" height="5" x="3" y="16" rx="1" />
+    </svg>
+);
+
+const AnalyticsIcon = ({ className = 'icon' }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+        <path d="M3 3v18h18" />
+        <path d="m19 9-5 5-4-4-3 3" />
+    </svg>
+); 
+
+const UsersIcon = ({ className = 'icon' }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+        <circle cx="9" cy="7" r="4" />
+        <path d="m22 21-2-2" />
+        <path d="M16 16.28A13.84 13.84 0 0 1 22 21" />
+    </svg>
+);
+
+const FileIcon = ({ className = 'icon' }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+        <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
+        <polyline points="14,2 14,8 20,8" />
+    </svg>
+);
+
+const VerticalTabs = ({ tabs, className }) => {
+    const [activeTab, setActiveTab] = useState(tabs[0].id);
+
+    return (
+        <div className={`vertical-tabs-con
+```
+### STYLES (CSS Snippet):
+```css
+.vertical-tabs-container {
+    display: flex;
+    width: 100%;
+    max-width: 56rem;
+    height: 20rem;
+    border-radius: 0.5rem;
+    border: 1px solid rgba(226, 232, 240, 0.2);
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+/* Sidebar */
+.vertical-tabs-sidebar {
+    width: 16rem;
+    padding: 1rem;
+    border-right: 1px solid rgba(226, 232, 240, 0.2);
+    background: rgba(248, 250, 252, 0.5);
+    backdrop-filter: blur(8px);
+}
+
+.tabs-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.tab-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 0.625rem 0.75rem;
+    border-radius: 0.5rem;
+    border: none;
+    background: transparent;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: #64748b;
+}
+
+.tab-item:hover {
+    background: rgba(255, 255, 255, 0.6);
+    color: #0f172a;
+}
+
+.tab-item.active {
+    background: rgba(255, 255, 255, 0.8);
+    color: #2563eb;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.tab-active-bg {
+    position: absolute;
+    inset: 0;
+    border-radius: 0.5rem;
+    background: rgba(239, 246, 255, 0.8);
+    backdrop-filter: blur(8px);
+}
+
+.tab-item-content {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+}
+
+.tab-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    flex-shrink: 0;
+    transition: color 0.2s;
+}
+
+.tab-item.active .tab-icon {
+    color: #2563eb;
+}
+
+.tab-title {
+    font-weight: 500;
+    flex: 1;
+}
+
+.tab-badge {
+    margin-left: auto;
+    padding: 0.125rem 0.5rem;
+    border-radius: 9999px;
+    background: rgba(219, 234, 254, 0.8);
+    backdrop-filter: blur(8px);
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #2563eb;
+}
+
+/* Content */
+.vertical-tabs-content {
+    flex: 1;
+    padding: 1.5rem;
+}
+
+.content-panel {
+    height: 100%;
+}
+
+.content-title {
+    margin: 0 0 1
+```
+--------------------------------------------------
+

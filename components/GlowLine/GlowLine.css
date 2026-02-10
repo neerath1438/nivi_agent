@@ -1,0 +1,167 @@
+.glow-line-container {
+  position: absolute;
+}
+
+.glow-line-vertical {
+  width: 1px;
+  height: 100%;
+}
+
+.glow-line-horizontal {
+  width: 100%;
+  height: 1px;
+}
+
+.glow-line-core {
+  position: absolute;
+  inset: 0;
+}
+
+.glow-line-gradient-vertical {
+  background: linear-gradient(to bottom, transparent, var(--glow-color), transparent);
+}
+
+.glow-line-gradient-horizontal {
+  background: linear-gradient(to right, transparent, var(--glow-color), transparent);
+}
+
+/* Purple color scheme */
+.glow-line-purple-400 {
+  --glow-color: #a78bfa;
+}
+
+.glow-line-purple-500 {
+  --glow-color: #8b5cf6;
+}
+
+.glow-line-purple-300 {
+  --glow-color: #c4b5fd;
+}
+
+/* Blue color scheme */
+.glow-line-blue-400 {
+  --glow-color: #60a5fa;
+}
+
+.glow-line-blue-500 {
+  --glow-color: #3b82f6;
+}
+
+.glow-line-blue-300 {
+  --glow-color: #93c5fd;
+}
+
+/* Green color scheme */
+.glow-line-green-400 {
+  --glow-color: #4ade80;
+}
+
+.glow-line-green-500 {
+  --glow-color: #22c55e;
+}
+
+.glow-line-green-300 {
+  --glow-color: #86efac;
+}
+
+/* Red color scheme */
+.glow-line-red-400 {
+  --glow-color: #f87171;
+}
+
+.glow-line-red-500 {
+  --glow-color: #ef4444;
+}
+
+.glow-line-red-300 {
+  --glow-color: #fca5a5;
+}
+
+.glow-line-white {
+  position: absolute;
+  inset: 0;
+  opacity: 0.6;
+}
+
+.glow-line-white-vertical {
+  width: 0.125rem;
+  margin-left: -0.0625rem;
+  background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.6), transparent);
+}
+
+.glow-line-white-horizontal {
+  height: 0.125rem;
+  margin-top: -0.0625rem;
+  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.6), transparent);
+}
+
+.glow-line-layer {
+  position: absolute;
+  inset: 0;
+}
+
+.glow-line-layer-vertical {
+  background: linear-gradient(to bottom, transparent, var(--glow-color), transparent);
+}
+
+.glow-line-layer-horizontal {
+  background: linear-gradient(to right, transparent, var(--glow-color), transparent);
+}
+
+/* Layer sizes */
+.glow-line-layer.h-1 {
+  height: 0.25rem;
+  margin-top: -0.125rem;
+}
+
+.glow-line-layer.w-1 {
+  width: 0.25rem;
+  margin-left: -0.125rem;
+}
+
+.glow-line-layer.h-2 {
+  height: 0.5rem;
+  margin-top: -0.25rem;
+}
+
+.glow-line-layer.w-2 {
+  width: 0.5rem;
+  margin-left: -0.25rem;
+}
+
+.glow-line-layer.h-4 {
+  height: 1rem;
+  margin-top: -0.5rem;
+}
+
+.glow-line-layer.w-4 {
+  width: 1rem;
+  margin-left: -0.5rem;
+}
+
+/* Blur effects */
+.glow-line-layer.blur-sm {
+  filter: blur(4px);
+}
+
+.glow-line-layer.blur-md {
+  filter: blur(8px);
+}
+
+.glow-line-layer.blur-lg {
+  filter: blur(16px);
+}
+
+/* Opacity */
+.glow-line-layer.opacity-100 {
+  opacity: 1;
+}
+
+.glow-line-layer.opacity-80 {
+  opacity: 0.8;
+}
+
+.glow-line-layer.opacity-60 {
+  opacity: 0.6;
+}
+

@@ -1,0 +1,45 @@
+.three-d-card {
+    position: relative;
+    background-color: #1f2937;
+    border-radius: 1rem;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.card-background {
+    position: absolute;
+    inset: 0;
+    border-radius: 1rem;
+}
+
+.card-border {
+    position: absolute;
+    inset: 0;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 1rem;
+    pointer-events: none;
+}
+
+.card-glow {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    border-radius: 1rem;
+    pointer-events: none;
+}
+
+.card-content {
+    position: relative;
+    z-index: 10;
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+    .three-d-card {
+        background-color: #111827;
+    }
+
+    .card-border {
+        border-color: rgba(255, 255, 255, 0.05);
+    }
+}

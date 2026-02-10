@@ -1,0 +1,54 @@
+.wui-portal-bay {
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+.wui-portal-herald {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #2c3e50;
+  font-size: 0.875rem;
+}
+
+.wui-portal-herald.required::after {
+  content: ' *';
+  color: #e74c3c;
+}
+
+.wui-portal-field {
+  position: relative;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.wui-portal-field.focused {
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.wui-portal-field.error {
+  border-color: #e74c3c;
+}
+
+.wui-portal {
+  width: 100%;
+  padding: 0.75rem;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  background: transparent;
+}
+
+.wui-portal:disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+}
+
+.wui-portal-clash {
+  display: block;
+  margin-top: 0.25rem;
+  color: #e74c3c;
+  font-size: 0.875rem;
+}

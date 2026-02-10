@@ -1,0 +1,15 @@
+Front End React Flow:
+       AI Generative Prompt: Architect a high-fidelity Modern SaaS Enterprise Dashboard with a modular structure. Ensure every major feature (Sidebar, Stats Grid, Product Table, Activity Timeline) is in a separate file in src/components/. The system MUST generate all config files including vite.config.js, tailwind.config.js, and postcss.config.js. Use Framer Motion for animations and Lucide-React for icons. The final output must be verified on Port 5174 with a visible browser inspection
+       Sample Flow Chat message: I want to build the Enterprise SaaS Dashboard now. Please use the UI Components Runner to create the project. I want to see the Kutty Terminal in our chat window while it builds, and I want to manually inspect the site in the Visible Browser window as it runs on Port 5174. Don't provide the ZIP until the browser confirms 100% stability
+
+Python Data Automation Flow:
+       AI Generative Prompt: Create a Python script that uses Pandas and Openpyxl to extract specific columns from a raw Excel file and generate a professional PDF report using FPDF. The script should include error handling and a simple logging mechanism. Output the result to static/downloads/report.pdf.
+       Sample Flow Chat message: I have an Excel file. Use the Python Runner to process it. Extract the 'Sales' and 'Date' columns and create a PDF summary report. Make sure the PDF is available for download as a link.
+
+WhatsApp Chatbot Flow:
+       AI Generative Prompt: Design a WhatsApp Chatbot flow that handles initial greetings, provides a menu of services (Web Dev, App Dev, SEO), and collects the user's name and contact number if they select a service. Integrate with MongoDB to store potential lead data.
+       Sample Flow Chat message: Setup a Lead Generation WhatsApp bot. When a user says 'Hi', show our service menu. Store their selection and contact info in our database.
+
+Python FastAPI Zip Framework:
+       AI Generative Prompt: Architect a production-ready Python FastAPI backend. The structure must include main.py, a routers/ directory for API endpoints, and a models/ directory for database schemas. Include a requirements.txt with fastapi, uvicorn, and sqlalchemy. The output must be a complete directory structure ready for zip packaging.
+       Sample Flow Chat message: I want to build a Python FastAPI backend for a Bookstore API. Use the Backend Stack node with FastAPI selected. Generate the full project structure including CRUD routers and database models. Use the Zip Utility to package everything into a single downloadable ZIP.

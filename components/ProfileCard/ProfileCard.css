@@ -1,0 +1,172 @@
+.profile-card-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.profile-card-background {
+  position: absolute;
+  inset: 0;
+}
+
+.profile-card-container {
+  width: 100%;
+  max-width: 24rem;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 1rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(6, 182, 212, 0.1);
+  position: relative;
+  z-index: 10;
+}
+
+.profile-card-content {
+  padding: 2rem;
+  text-align: center;
+  position: relative;
+}
+
+.profile-card-gradient-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(255, 255, 255, 0.05),
+    transparent
+  );
+  border-radius: 1rem;
+  pointer-events: none;
+}
+
+.profile-card-avatar-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 10;
+}
+
+.profile-card-avatar-outer {
+  width: 7rem;
+  height: 7rem;
+  background: linear-gradient(to bottom right, rgba(6, 182, 212, 0.2), rgba(59, 130, 246, 0.2));
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(6, 182, 212, 0.2);
+  cursor: pointer;
+  transition: all 0.5s ease;
+}
+
+.profile-card-avatar-outer:hover {
+  transform: scale(1.05);
+}
+
+.profile-card-avatar-inner {
+  width: 6rem;
+  height: 6rem;
+  background: linear-gradient(to bottom right, rgba(6, 182, 212, 0.1), rgba(37, 99, 235, 0.1));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.profile-card-avatar-text {
+  color: #0891b2;
+  font-size: 0.875rem;
+  font-weight: 500;
+  opacity: 0.7;
+  transition: all 0.3s ease;
+}
+
+.profile-card-avatar-outer:hover .profile-card-avatar-text {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.profile-card-name {
+  font-size: 1.875rem;
+  font-weight: bold;
+  background: linear-gradient(to right, #1e293b, #475569, #0e7490);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.025em;
+  position: relative;
+  z-index: 10;
+}
+
+.profile-card-title {
+  color: rgba(71, 85, 105, 0.8);
+  margin-bottom: 2rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  position: relative;
+  z-index: 10;
+}
+
+.profile-card-button {
+  background: linear-gradient(to right, rgba(6, 182, 212, 0.1), rgba(59, 130, 246, 0.1), rgba(6, 182, 212, 0.1));
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: 1px solid rgba(6, 182, 212, 0.3);
+  color: #0e7490;
+  padding: 0.75rem 2rem;
+  border-radius: 9999px;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  position: relative;
+  z-index: 10;
+  cursor: pointer;
+}
+
+.profile-card-button:hover {
+  background: linear-gradient(to right, rgba(6, 182, 212, 0.2), rgba(59, 130, 246, 0.2), rgba(6, 182, 212, 0.2));
+  border-color: rgba(6, 182, 212, 0.5);
+  box-shadow: 0 10px 15px -3px rgba(6, 182, 212, 0.25);
+  transform: scale(1.05);
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .profile-card-container {
+    background: rgba(0, 0, 0, 0.2);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .profile-card-name {
+    background: linear-gradient(to right, white, #f1f5f9, #67e8f9);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .profile-card-title {
+    color: rgba(203, 213, 225, 0.8);
+  }
+
+  .profile-card-avatar-text {
+    color: #67e8f9;
+  }
+
+  .profile-card-button {
+    color: #67e8f9;
+  }
+}
+

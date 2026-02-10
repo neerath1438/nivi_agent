@@ -1,0 +1,5 @@
+AI Generated Document
+=====================
+
+
+This document outlines the requirements for developing a FastAPI-based AI summarization backend, emphasizing high reliability through an "Intelligent Multi-Key Rotation & Provider Fallback" architecture. The system will use FastAPI with Uvicorn, `google-generativeai` (Gemini), and `openai` (GPT) SDKs, loading API keys and settings from a `.env` file. A `/summarize` POST endpoint will process text, first attempting summarization using a rotating list of Gemini API keys and preferred models (flash then pro), trying each key individually. If all Gemini keys fail or are unavailable, it falls back to OpenAI's `gpt-4o-mini` model. If both providers fail, a specific error message is returned. Key constraints include per-request API key configuration for Gemini, CORS enablement, Pydantic validation, error logging, and prioritizing Gemini to minimize costs.

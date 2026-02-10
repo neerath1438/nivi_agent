@@ -1,0 +1,227 @@
+.twostep-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: sans-serif;
+    padding: 1rem;
+}
+
+.twostep-container {
+    background: white;
+    border: 1px solid #e5e7eb;
+    padding: 1.5rem 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+    max-width: 28rem;
+    width: 100%;
+    text-align: center;
+    color: #111827;
+    position: relative;
+    overflow: hidden;
+}
+
+/* macOS Window Controls */
+.twostep-window-controls {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    display: flex;
+    gap: 0.5rem;
+    z-index: 10;
+}
+
+.twostep-control {
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 9999px;
+}
+
+.twostep-control-red {
+    background: #ff5f56;
+}
+
+.twostep-control-yellow {
+    background: #ffbd2e;
+}
+
+.twostep-control-green {
+    background: #27c93f;
+}
+
+/* Content */
+.twostep-content {
+    position: relative;
+    z-index: 1;
+}
+
+/* Logo */
+.twostep-logo-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+    margin-top: 2rem;
+}
+
+.twostep-logo {
+    width: 10rem;
+    height: 10rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.twostep-logo-img {
+    width: 8rem;
+    height: 8rem;
+    object-fit: cover;
+    border-radius: 0.5rem;
+    filter: drop-shadow(0 0 15px rgba(59, 130, 246, 0.5));
+}
+
+/* Title */
+.twostep-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem 0;
+    color: #111827;
+}
+
+.twostep-subtitle {
+    color: #6b7280;
+    margin: 0 0 1.5rem 0;
+    font-size: 0.875rem;
+}
+
+/* Label */
+.twostep-label {
+    color: #6b7280;
+    margin: 0 0 1rem 0;
+    font-size: 0.875rem;
+    text-align: left;
+    font-weight: 500;
+}
+
+/* OTP Inputs */
+.twostep-inputs {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+}
+
+@media (min-width: 640px) {
+    .twostep-inputs {
+        gap: 0.75rem;
+    }
+}
+
+.twostep-input {
+    width: 3rem;
+    height: 3.5rem;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 600;
+    background: #f9fafb;
+    color: #111827;
+    border: 1px dashed #d1d5db;
+    border-radius: 0.5rem;
+    outline: none;
+    transition: all 0.2s;
+}
+
+@media (min-width: 640px) {
+    .twostep-input {
+        width: 3.5rem;
+        height: 4rem;
+    }
+}
+
+.twostep-input::placeholder {
+    color: #9ca3af;
+}
+
+.twostep-input:hover {
+    border-color: #9ca3af;
+}
+
+.twostep-input-focused {
+    border: 2px solid #3b82f6;
+    border-style: solid;
+}
+
+/* Resend */
+.twostep-resend {
+    color: #6b7280;
+    font-size: 0.875rem;
+    margin: 0;
+}
+
+.twostep-resend-btn {
+    color: #2563eb;
+    font-weight: 600;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.twostep-resend-btn:hover {
+    color: #3b82f6;
+}
+
+.twostep-resend-btn:focus {
+    outline: none;
+    text-decoration: underline;
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+    .twostep-container {
+        background: #161b22;
+        border-color: #1f2937;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.2);
+        color: white;
+    }
+
+    .twostep-title {
+        color: #e5e7eb;
+    }
+
+    .twostep-subtitle {
+        color: #9ca3af;
+    }
+
+    .twostep-label {
+        color: #9ca3af;
+    }
+
+    .twostep-input {
+        background: #0d1117;
+        color: white;
+        border-color: #374151;
+    }
+
+    .twostep-input::placeholder {
+        color: #6b7280;
+    }
+
+    .twostep-input:hover {
+        border-color: #6b7280;
+    }
+
+    .twostep-input-focused {
+        border-color: #3b82f6;
+    }
+
+    .twostep-resend {
+        color: #6b7280;
+    }
+
+    .twostep-resend-btn {
+        color: #3b82f6;
+    }
+
+    .twostep-resend-btn:hover {
+        color: #60a5fa;
+    }
+}

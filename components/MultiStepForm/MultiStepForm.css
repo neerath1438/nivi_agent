@@ -1,0 +1,473 @@
+.multistep-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    font-family: sans-serif;
+}
+
+.multistep-container {
+    width: 100%;
+    max-width: 28rem;
+}
+
+/* Progress Bar */
+.multistep-progress-section {
+    margin-bottom: 1.5rem;
+}
+
+.multistep-progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.multistep-progress-text {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #111827;
+}
+
+.multistep-progress-percent {
+    font-size: 0.875rem;
+    color: #6b7280;
+}
+
+.multistep-progress-bar {
+    width: 100%;
+    height: 0.5rem;
+    background: #e5e7eb;
+    border-radius: 9999px;
+    overflow: hidden;
+}
+
+.multistep-progress-fill {
+    height: 100%;
+    background: #111827;
+    border-radius: 9999px;
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Card */
+.multistep-card {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* Header */
+.multistep-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.multistep-icon-wrapper {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    background: #f3f4f6;
+    border-radius: 9999px;
+    margin-bottom: 1rem;
+}
+
+.multistep-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #111827;
+    margin: 0 0 0.5rem 0;
+}
+
+.multistep-subtitle {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin: 0;
+}
+
+/* Form */
+.multistep-form {
+    margin-bottom: 1rem;
+}
+
+.multistep-step {
+    animation: slideIn 0.3s ease-out;
+}
+
+.multistep-field {
+    margin-bottom: 1rem;
+}
+
+.multistep-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #111827;
+    margin-bottom: 0.5rem;
+}
+
+.multistep-input-wrapper {
+    position: relative;
+}
+
+.multistep-input-icon {
+    position: absolute;
+    top: 50%;
+    left: 0.75rem;
+    transform: translateY(-50%);
+    color: #9ca3af;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+}
+
+.multistep-input {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.375rem;
+    background: white;
+    color: #111827;
+    font-size: 0.875rem;
+    transition: all 0.2s;
+}
+
+.multistep-input-with-icon {
+    padding-left: 2.25rem;
+}
+
+.multistep-password {
+    padding-right: 2.5rem;
+}
+
+.multistep-input::placeholder {
+    color: #6b7280;
+}
+
+.multistep-input:focus {
+    outline: none;
+    border-color: #111827;
+    box-shadow: 0 0 0 2px rgba(17, 24, 39, 0.1);
+}
+
+.multistep-check-icon {
+    position: absolute;
+    top: 50%;
+    right: 0.75rem;
+    transform: translateY(-50%);
+    color: #9ca3af;
+}
+
+.multistep-password-toggle {
+    position: absolute;
+    top: 50%;
+    right: 0.75rem;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #9ca3af;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    transition: color 0.2s;
+}
+
+.multistep-password-toggle:hover {
+    color: #6b7280;
+}
+
+/* Button */
+.multistep-button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: #111827;
+    color: white;
+    border: none;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.multistep-button:hover {
+    background: #1f2937;
+    transform: translateY(-1px);
+}
+
+.multistep-button:focus {
+    outline: 2px solid #111827;
+    outline-offset: 2px;
+}
+
+.multistep-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Review */
+.multistep-review {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    padding: 1rem;
+    border-radius: 0.375rem;
+    margin-bottom: 1rem;
+}
+
+.multistep-review-title {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #111827;
+    margin: 0 0 0.75rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.multistep-review-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.multistep-review-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.25rem 0;
+    font-size: 0.875rem;
+}
+
+.multistep-review-label {
+    color: #6b7280;
+}
+
+.multistep-review-value {
+    color: #111827;
+    font-weight: 500;
+}
+
+/* Loading */
+.multistep-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.multistep-spinner {
+    width: 1rem;
+    height: 1rem;
+    border: 2px solid white;
+    border-top-color: transparent;
+    border-radius: 9999px;
+    animation: spin 0.6s linear infinite;
+}
+
+/* Back Button */
+.multistep-back-button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    padding: 0.5rem;
+    background: none;
+    border: none;
+    color: #6b7280;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.multistep-back-button:hover {
+    color: #111827;
+}
+
+/* Footer */
+.multistep-footer {
+    margin-top: 1.5rem;
+    text-align: center;
+}
+
+.multistep-footer-text {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin: 0;
+}
+
+.multistep-footer-link {
+    color: #111827;
+    font-weight: 500;
+    text-decoration: none;
+    transition: text-decoration 0.2s;
+}
+
+.multistep-footer-link:hover {
+    text-decoration: underline;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+    .multistep-progress-text {
+        color: #f9fafb;
+    }
+
+    .multistep-progress-percent {
+        color: #9ca3af;
+    }
+
+    .multistep-progress-bar {
+        background: #1f2937;
+    }
+
+    .multistep-progress-fill {
+        background: #f9fafb;
+    }
+
+    .multistep-card {
+        background: #000000;
+        border-color: #1f2937;
+    }
+
+    .multistep-icon-wrapper {
+        background: #111827;
+    }
+
+    .multistep-title {
+        color: #f9fafb;
+    }
+
+    .multistep-subtitle {
+        color: #9ca3af;
+    }
+
+    .multistep-label {
+        color: #f9fafb;
+    }
+
+    .multistep-input-icon {
+        color: #6b7280;
+    }
+
+    .multistep-input {
+        background: #000000;
+        border-color: #1f2937;
+        color: #f9fafb;
+    }
+
+    .multistep-input::placeholder {
+        color: #9ca3af;
+    }
+
+    .multistep-input:focus {
+        border-color: #f9fafb;
+        box-shadow: 0 0 0 2px rgba(249, 250, 251, 0.1);
+    }
+
+    .multistep-check-icon {
+        color: #6b7280;
+    }
+
+    .multistep-password-toggle {
+        color: #6b7280;
+    }
+
+    .multistep-password-toggle:hover {
+        color: #d1d5db;
+    }
+
+    .multistep-button {
+        background: #f9fafb;
+        color: #111827;
+    }
+
+    .multistep-button:hover {
+        background: #e5e7eb;
+    }
+
+    .multistep-button:focus {
+        outline-color: #f9fafb;
+    }
+
+    .multistep-review {
+        background: #111827;
+        border-color: #1f2937;
+    }
+
+    .multistep-review-title {
+        color: #f9fafb;
+    }
+
+    .multistep-review-label {
+        color: #9ca3af;
+    }
+
+    .multistep-review-value {
+        color: #f9fafb;
+    }
+
+    .multistep-spinner {
+        border-color: #111827;
+        border-top-color: transparent;
+    }
+
+    .multistep-back-button {
+        color: #9ca3af;
+    }
+
+    .multistep-back-button:hover {
+        color: #f9fafb;
+    }
+
+    .multistep-footer-text {
+        color: #9ca3af;
+    }
+
+    .multistep-footer-link {
+        color: #f9fafb;
+    }
+}

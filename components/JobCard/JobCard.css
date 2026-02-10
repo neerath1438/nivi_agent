@@ -1,0 +1,127 @@
+.job-card-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 1rem;
+}
+
+.card {
+    margin: auto;
+    width: min(300px, 100%);
+    background-color: #fefefe;
+    border-radius: 1rem;
+    padding: 0.5rem;
+    color: #141417;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+}
+
+.card__hero {
+    background-color: #fef4e2;
+    border-radius: 0.5rem 0.5rem 0 0;
+    padding: 1.5rem;
+    font-size: 0.875rem;
+}
+
+.card__hero .card__job-title {
+    margin: 2rem 0;
+    font-size: 2rem;
+    font-weight: 600;
+    padding-right: 2rem;
+    line-height: 1.2;
+}
+
+.card__hero-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 1rem;
+    font-weight: 700;
+}
+
+.card__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #141417;
+}
+
+.card__footer {
+    display: flex;
+    justify-content: flex-start;
+    align-items: start;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    padding: 0.75rem;
+    row-gap: 1rem;
+    font-weight: 700;
+    font-size: 0.875rem;
+}
+
+@media (min-width: 340px) {
+    .card__footer {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+    }
+}
+
+.card__job-summary {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 0.75rem;
+}
+
+.card__job-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card__job-company {
+    font-size: 0.75rem;
+    color: #4b5563;
+    margin: 0;
+    line-height: 1.4;
+}
+
+.card__btn {
+    width: 100%;
+    font-weight: 500;
+    border: none;
+    display: block;
+    cursor: pointer;
+    text-align: center;
+    padding: 0.6rem 1.25rem;
+    border-radius: 1rem;
+    background-color: #141417;
+    color: #fff;
+    font-size: 0.9rem;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.card__btn:hover {
+    background-color: #2d2d33;
+}
+
+.card__btn:active {
+    transform: scale(0.98);
+}
+
+@media (min-width: 340px) {
+    .card__btn {
+        width: max-content;
+    }
+}

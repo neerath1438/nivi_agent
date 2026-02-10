@@ -1,0 +1,220 @@
+/* Dropdown Container */
+.dropdown-container {
+    position: relative;
+    display: inline-block;
+    text-align: left;
+}
+
+.dropdown-trigger {
+    cursor: pointer;
+}
+
+/* Profile Trigger Button */
+.profile-trigger-button {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    transition: background-color 0.15s;
+}
+
+.profile-trigger-button:hover {
+    background-color: #f1f5f9;
+}
+
+.profile-avatar {
+    width: 2rem;
+    height: 2rem;
+    background: linear-gradient(135deg, #3b82f6 0%, #9333ea 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+.profile-info {
+    text-align: left;
+}
+
+.profile-name {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #18181b;
+}
+
+.profile-email {
+    font-size: 0.75rem;
+    color: #71717a;
+}
+
+/* Dropdown Menu */
+.dropdown-menu {
+    position: absolute;
+    right: 0;
+    margin-top: 0.5rem;
+    width: 18rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    background-color: white;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    z-index: 50;
+    padding: 0.5rem;
+    animation: dropdown-appear 0.15s ease-out;
+}
+
+@keyframes dropdown-appear {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* Dropdown Header */
+.dropdown-header {
+    padding: 0.75rem;
+    border-bottom: 1px solid #e4e4e7;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.header-avatar {
+    width: 2.5rem;
+    height: 2.5rem;
+    background: linear-gradient(135deg, #3b82f6 0%, #9333ea 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+}
+
+.header-name {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #18181b;
+}
+
+.header-email {
+    font-size: 0.75rem;
+    color: #71717a;
+}
+
+.header-plan {
+    font-size: 0.75rem;
+    color: #3b82f6;
+    font-weight: 500;
+}
+
+/* Dropdown Section */
+.dropdown-section {
+    padding: 0.25rem 0;
+}
+
+/* Dropdown Menu Item */
+.dropdown-menu-item {
+    display: flex;
+    align-items: center;
+    padding: 0.625rem 0.75rem;
+    font-size: 0.875rem;
+    color: #3f3f46;
+    border-radius: 0.5rem;
+    transition: background-color 0.15s;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.dropdown-menu-item:hover {
+    background-color: #f4f4f5;
+}
+
+.menu-icon {
+    margin-right: 0.75rem;
+    height: 1rem;
+    width: 1rem;
+    color: #71717a;
+}
+
+/* Dropdown Separator */
+.dropdown-separator {
+    margin: 0.5rem 0;
+    height: 1px;
+    background-color: #e4e4e7;
+}
+
+/* User Profile Dropdown Wrapper */
+.user-profile-dropdown-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: system-ui, -apple-system, sans-serif;
+    padding: 2rem;
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    .profile-trigger-button:hover {
+        background-color: #27272a;
+    }
+
+    .profile-name {
+        color: #fafafa;
+    }
+
+    .profile-email {
+        color: #a1a1aa;
+    }
+
+    .dropdown-menu {
+        background-color: #18181b;
+        border-color: #27272a;
+    }
+
+    .dropdown-header {
+        border-bottom-color: #3f3f46;
+    }
+
+    .header-name {
+        color: #fafafa;
+    }
+
+    .header-email {
+        color: #a1a1aa;
+    }
+
+    .header-plan {
+        color: #60a5fa;
+    }
+
+    .dropdown-menu-item {
+        color: #d4d4d8;
+    }
+
+    .dropdown-menu-item:hover {
+        background-color: #27272a;
+    }
+
+    .menu-icon {
+        color: #a1a1aa;
+    }
+
+    .dropdown-separator {
+        background-color: #3f3f46;
+    }
+}

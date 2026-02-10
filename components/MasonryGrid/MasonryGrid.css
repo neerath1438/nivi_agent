@@ -1,0 +1,121 @@
+.masonry-grid-wrapper {
+    width: 100%;
+    padding: 1rem 0;
+}
+
+.masonry-columns {
+    columns: 1;
+    gap: 1.5rem;
+    column-width: 280px;
+}
+
+@media (min-width: 640px) {
+    .masonry-columns {
+        columns: 2;
+    }
+}
+
+@media (min-width: 1024px) {
+    .masonry-columns {
+        columns: 3;
+    }
+}
+
+@media (min-width: 1280px) {
+    .masonry-columns {
+        columns: 4;
+    }
+}
+
+.masonry-item {
+    break-inside: avoid;
+    margin-bottom: 1.5rem;
+    position: relative;
+    cursor: pointer;
+}
+
+.masonry-image-container {
+    position: relative;
+    overflow: hidden;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    background: #f3f4f6;
+}
+
+.masonry-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 0.75rem;
+    transition: transform 0.3s ease;
+}
+
+.masonry-item:hover .masonry-image {
+    transform: scale(1.02);
+}
+
+.masonry-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent 60%);
+    border-radius: 0.75rem;
+    pointer-events: none;
+}
+
+.masonry-overlay-content {
+    position: absolute;
+    inset: 0;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    pointer-events: auto;
+}
+
+.masonry-actions {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.masonry-action-btn {
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(4px);
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.masonry-heart-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    transition: color 0.2s;
+}
+
+.masonry-action-btn:hover .masonry-heart-icon {
+    color: #f472b6;
+}
+
+.masonry-item-title {
+    color: white;
+    font-weight: 700;
+    font-size: 1rem;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+    .masonry-image-container {
+        background: #1f2937;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+    }
+}

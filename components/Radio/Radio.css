@@ -1,0 +1,58 @@
+.wui-choice-field {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  margin-bottom: 0.5rem;
+}
+
+.wui-choice-field.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.wui-choice {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.wui-choice-gem {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ddd;
+  border-radius: 50%;
+  margin-right: 0.75rem;
+  position: relative;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.wui-choice-field:hover:not(.disabled) .wui-choice-gem {
+  border-color: #3498db;
+}
+
+.wui-choice:checked~.wui-choice-gem {
+  border-color: #3498db;
+}
+
+.wui-choice:checked~.wui-choice-gem::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #3498db;
+}
+
+.wui-choice:focus~.wui-choice-gem {
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.wui-choice-voice {
+  color: #2c3e50;
+  font-size: 1rem;
+}

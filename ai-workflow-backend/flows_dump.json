@@ -1,0 +1,636 @@
+[
+  {
+    "id": 68,
+    "name": "Main Canvas 1",
+    "nodes": [
+      {
+        "type": "chatInput",
+        "data": {
+          "label": "User Input",
+          "id": "1"
+        }
+      },
+      {
+        "type": "promptGenerator",
+        "data": {
+          "label": "Expand User Request",
+          "id": "3"
+        }
+      },
+      {
+        "type": "masterPrompt",
+        "data": {
+          "label": "Master JSON Generation",
+          "id": "4"
+        }
+      }
+    ]
+  },
+  {
+    "id": 67,
+    "name": "Main ",
+    "nodes": [
+      {
+        "type": "chatInput",
+        "data": {
+          "label": "User Input",
+          "id": "1"
+        }
+      },
+      {
+        "type": "promptGenerator",
+        "data": {
+          "label": "Prompt Expansion",
+          "id": "3"
+        }
+      },
+      {
+        "type": "masterPrompt",
+        "data": {
+          "label": "Master JSON",
+          "id": "4"
+        }
+      }
+    ]
+  },
+  {
+    "id": 66,
+    "name": "Main final",
+    "nodes": [
+      {
+        "type": "chatInput",
+        "data": {
+          "label": "User Input",
+          "id": "1"
+        }
+      },
+      {
+        "type": "promptGenerator",
+        "data": {
+          "label": "Prompt Expansion",
+          "id": "3"
+        }
+      },
+      {
+        "type": "masterPrompt",
+        "data": {
+          "label": "Master JSON",
+          "id": "4"
+        }
+      }
+    ]
+  },
+  {
+    "id": 64,
+    "name": "Main Canva",
+    "nodes": [
+      {
+        "type": "chatInput",
+        "data": {
+          "label": "Chat Input",
+          "id": "1"
+        }
+      },
+      {
+        "type": "promptGenerator",
+        "data": {
+          "label": "Prompt Expansion",
+          "id": "4"
+        }
+      },
+      {
+        "type": "masterPrompt",
+        "data": {
+          "label": "Master JSON",
+          "id": "5"
+        }
+      }
+    ]
+  },
+  {
+    "id": 63,
+    "name": "Main react them",
+    "nodes": [
+      {
+        "type": "chatInput",
+        "data": {
+          "label": "Chat Input",
+          "id": "1"
+        }
+      },
+      {
+        "type": "promptGenerator",
+        "data": {
+          "label": "Prompt Expansion",
+          "id": "4"
+        }
+      },
+      {
+        "type": "masterPrompt",
+        "data": {
+          "label": "Master JSON",
+          "id": "5"
+        }
+      }
+    ]
+  },
+  {
+    "id": 62,
+    "name": "Main react Zip",
+    "nodes": [
+      {
+        "type": "chatInput",
+        "data": {
+          "label": "Chat Input",
+          "id": "1"
+        }
+      },
+      {
+        "type": "promptGenerator",
+        "data": {
+          "label": "Prompt Expansion",
+          "id": "4"
+        }
+      },
+      {
+        "type": "masterPrompt",
+        "data": {
+          "label": "Master JSON",
+          "id": "5"
+        }
+      }
+    ]
+  },
+  {
+    "id": 58,
+    "name": "Main neerath zip",
+    "nodes": [
+      {
+        "type": "chatInput",
+        "data": {
+          "label": "Chat Input",
+          "id": "1"
+        }
+      },
+      {
+        "type": "promptGenerator",
+        "data": {
+          "label": "Prompt Generator",
+          "id": "2"
+        }
+      },
+      {
+        "type": "masterPrompt",
+        "data": {
+          "label": "Master Prompt",
+          "id": "3"
+        }
+      }
+    ]
+  },
+  {
+    "id": 57,
+    "name": "Main Zip Extractor",
+    "nodes": [
+      {
+        "type": "chatInput",
+        "data": {
+          "label": "Chat Input",
+          "id": "1"
+        }
+      },
+      {
+        "type": "promptGenerator",
+        "data": {
+          "label": "Prompt Expansion",
+          "id": "3"
+        }
+      },
+      {
+        "type": "masterPrompt",
+        "data": {
+          "label": "Master JSON Node",
+          "id": "4"
+        }
+      }
+    ]
+  },
+  {
+    "id": 56,
+    "name": "Main excecute",
+    "nodes": [
+      {
+        "type": "chatInput",
+        "data": {
+          "label": "Chat Input",
+          "id": "1"
+        }
+      },
+      {
+        "type": "promptGenerator",
+        "data": {
+          "label": "Prompt Generator",
+          "id": "3"
+        }
+      },
+      {
+        "type": "masterPrompt",
+        "data": {
+          "label": "Master Prompt",
+          "id": "4"
+        }
+      }
+    ]
+  },
+  {
+    "id": 55,
+    "name": "Main Node.js",
+    "nodes": [
+      {
+        "type": "chatInput",
+        "data": {
+          "label": "User Management System Request",
+          "id": "1"
+        }
+      },
+      {
+        "type": "promptGenerator",
+        "data": {
+          "label": "Expand Technical Details",
+          "id": "3"
+        }
+      },
+      {
+        "type": "masterPrompt",
+        "data": {
+          "label": "Master JSON Structure",
+          "id": "4"
+        }
+      }
+    ]
+  },
+  {
+    "id": 53,
+    "name": "Main themes",
+    "nodes": [
+      {
+        "type": "chatInput",
+        "data": {
+          "label": "Chat Input",
+          "id": "1"
+        }
+      },
+      {
+        "type": "promptGenerator",
+        "data": {
+          "label": "Prompt Expansion",
+          "id": "3"
+        }
+      },
+      {
+        "type": "masterPrompt",
+        "data": {
+          "label": "Master JSON Structuring",
+          "id": "4"
+        }
+      }
+    ]
+  },
+  {
+    "id": 52,
+    "name": "Main front end ",
+    "nodes": [
+      {
+        "type": "chatInput",
+        "data": {
+          "label": "Chat Input",
+          "id": "1"
+        }
+      },
+      {
+        "type": "promptGenerator",
+        "data": {
+          "label": "Prompt Expansion",
+          "id": "3"
+        }
+      },
+      {
+        "type": "masterPrompt",
+        "data": {
+          "label": "Master JSON Structuring",
+          "id": "4"
+        }
+      }
+    ]
+  },
+  {
+    "id": 50,
+    "name": "Main react UI",
+    "nodes": [
+      {
+        "type": "chatInput",
+        "data": {
+          "label": "Chat Input",
+          "id": "1"
+        }
+      }
+    ]
+  },
+  {
+    "id": 49,
+    "name": "Main react code",
+    "nodes": [
+      {
+        "type": "chatInput",
+        "data": {
+          "label": "Chat Input",
+          "id": "1"
+        }
+      }
+    ]
+  },
+  {
+    "id": 48,
+    "name": "Main ui components",
+    "nodes": [
+      {
+        "type": "chatInput",
+        "data": {
+          "label": "Chat Input",
+          "id": "1"
+        }
+      }
+    ]
+  },
+  {
+    "id": 47,
+    "name": "Main python code excecuter",
+    "nodes": [
+      {
+        "type": "chatInput",
+        "data": {
+          "label": "Chat Input",
+          "id": "1"
+        }
+      },
+      {
+        "type": "promptTemplate",
+        "data": {
+          "template": "{generated_code}",
+          "id": "3"
+        }
+      }
+    ]
+  },
+  {
+    "id": 45,
+    "name": "Main Canvas Workflow",
+    "nodes": []
+  },
+  {
+    "id": 26,
+    "name": "watshap chat bot only",
+    "nodes": [
+      {
+        "type": "promptTemplate",
+        "data": {
+          "label": "Prompt Template",
+          "template": "User: {input}. Answer only in English regardless of the question language.",
+          "id": "2"
+        }
+      },
+      {
+        "type": "llm",
+        "data": {
+          "label": "LLM Execute",
+          "id": "4"
+        }
+      }
+    ]
+  },
+  {
+    "id": 25,
+    "name": "Main Canvas",
+    "nodes": [
+      {
+        "type": "promptTemplate",
+        "data": {
+          "label": "Prompt Template",
+          "template": "You are a friendly WhatsApp Assistant. \nUser Message: {input}",
+          "id": "3"
+        }
+      },
+      {
+        "type": "llm",
+        "data": {
+          "label": "LLM Execute",
+          "id": "5"
+        }
+      }
+    ]
+  },
+  {
+    "id": 17,
+    "name": "sumarize flow generator",
+    "nodes": [
+      {
+        "type": "chatInput",
+        "data": {
+          "label": "User Input",
+          "id": "1"
+        }
+      }
+    ]
+  },
+  {
+    "id": 14,
+    "name": "excel_extractor",
+    "nodes": [
+      {
+        "type": "chatInput",
+        "data": {
+          "label": "User Input",
+          "id": "1"
+        }
+      },
+      {
+        "type": "llm",
+        "data": {
+          "label": "Analyze Expenses",
+          "id": "4"
+        }
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "name": "Search-Agent Workflow_4",
+    "nodes": [
+      {
+        "type": "chatInput",
+        "data": {
+          "label": "User Input",
+          "id": "1"
+        }
+      },
+      {
+        "type": "llm",
+        "data": {
+          "label": "Process Bus Details",
+          "id": "4"
+        }
+      }
+    ]
+  },
+  {
+    "id": 12,
+    "name": "Search-Agent Workflow_3",
+    "nodes": [
+      {
+        "type": "chatInput",
+        "data": {
+          "label": "User Input",
+          "id": "1"
+        }
+      },
+      {
+        "type": "llm",
+        "data": {
+          "label": "Process Bus Details",
+          "id": "4"
+        }
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "name": "Search-Agent Workflow_2",
+    "nodes": [
+      {
+        "type": "chatInput",
+        "data": {
+          "label": "User Input",
+          "id": "1"
+        }
+      },
+      {
+        "type": "llm",
+        "data": {
+          "label": "Process Search Results",
+          "id": "4"
+        }
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "name": "Search-Agent Workflow",
+    "nodes": [
+      {
+        "type": "chatInput",
+        "data": {
+          "label": "User Input",
+          "id": "1"
+        }
+      },
+      {
+        "type": "llm",
+        "data": {
+          "label": "LLM Execute",
+          "id": "4"
+        }
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "name": "neerath",
+    "nodes": [
+      {
+        "type": "chatInput",
+        "data": {
+          "label": "User Input",
+          "id": "1"
+        }
+      },
+      {
+        "type": "promptTemplate",
+        "data": {
+          "label": "Email Prompt Template",
+          "template": "Draft a professional email based on this: {input}",
+          "id": "2"
+        }
+      },
+      {
+        "type": "llm",
+        "data": {
+          "label": "Execute LLM",
+          "id": "4"
+        }
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "name": "niresh_send_to",
+    "nodes": [
+      {
+        "type": "chatInput",
+        "data": {
+          "label": "User Input",
+          "id": "node-1"
+        }
+      },
+      {
+        "type": "promptTemplate",
+        "data": {
+          "label": "Draft Email Prompt",
+          "template": "Based on the following input: '{{input}}', please draft a professional email. Include a suitable subject line and body. Output only the email content and subject.",
+          "id": "node-2"
+        }
+      },
+      {
+        "type": "llm",
+        "data": {
+          "label": "Execute Gemini (Draft Email)",
+          "id": "node-4"
+        }
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "name": "Email-Agent Workflow",
+    "nodes": [
+      {
+        "type": "chatInput",
+        "data": {
+          "id": "chatInput_1769590750452",
+          "label": "chatInput node"
+        }
+      },
+      {
+        "type": "llm",
+        "data": {
+          "id": "llm_1769590814657",
+          "label": "llm node"
+        }
+      },
+      {
+        "type": "llm",
+        "data": {
+          "id": "llm_1769590886031",
+          "label": "llm node"
+        }
+      },
+      {
+        "type": "promptTemplate",
+        "data": {
+          "id": "promptTemplate_1769591764102",
+          "label": "promptTemplate node",
+          "template": "Draft a single, professional English email based on the following request. \nProvide ONLY the Subject and the Body. \nDo not provide options, translations, or any introductory text.\nRequest: {input}\nFormat:\nSubject: [Subject Line]\n---\n[Email Body]\n"
+        }
+      }
+    ]
+  }
+]

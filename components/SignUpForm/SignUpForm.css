@@ -1,0 +1,328 @@
+.wui-chamber-bay {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    font-family: sans-serif;
+}
+
+.wui-chamber-well {
+    width: 100%;
+    max-width: 28rem;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    padding: 2rem;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+/* Form */
+.wui-chamber-core {
+    margin-bottom: 1.5rem;
+}
+
+.wui-chamber-field {
+    margin-bottom: 1.5rem;
+}
+
+.wui-chamber-intent {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #111827;
+    margin-bottom: 0.5rem;
+}
+
+.wui-chamber-portal-wrapper {
+    position: relative;
+}
+
+.wui-portal-atom {
+    position: absolute;
+    top: 50%;
+    left: 0.75rem;
+    transform: translateY(-50%);
+    color: #9ca3af;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+}
+
+.wui-portal-field {
+    display: flex;
+    width: 100%;
+    height: 2.5rem;
+    padding: 0.5rem 0.75rem 0.5rem 2.5rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.375rem;
+    background: white;
+    color: #111827;
+    font-size: 0.875rem;
+    transition: all 0.2s;
+}
+
+.wui-portal-field::placeholder {
+    color: #6b7280;
+}
+
+.wui-portal-field:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px white, 0 0 0 4px #111827;
+}
+
+.wui-portal-password {
+    padding-right: 2.5rem;
+}
+
+.wui-portal-eye {
+    position: absolute;
+    top: 50%;
+    right: 0.75rem;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #9ca3af;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    transition: color 0.2s;
+}
+
+.wui-portal-eye:hover {
+    color: #6b7280;
+}
+
+/* Terms */
+.wui-chamber-rift {
+    display: flex;
+    align-items: start;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.wui-gem-check {
+    width: 1rem;
+    height: 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.25rem;
+    margin-top: 0.125rem;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.wui-chamber-note {
+    font-size: 0.875rem;
+    color: #6b7280;
+    line-height: 1.25rem;
+}
+
+.wui-chamber-path {
+    font-weight: 500;
+    color: #111827;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    transition: text-decoration 0.2s;
+}
+
+.wui-chamber-path:hover {
+    text-decoration: none;
+}
+
+/* Submit Button */
+.wui-trigger-prime {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 2.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    border: none;
+    background: #111827;
+    color: #fafafa;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.wui-trigger-prime:hover {
+    background: rgba(17, 24, 39, 0.9);
+}
+
+.wui-trigger-prime:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px white, 0 0 0 4px #111827;
+}
+
+/* Divider */
+.wui-chamber-break {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin: 1.5rem 0;
+}
+
+.wui-chamber-streak {
+    flex: 1;
+    border-top: 1px solid #e5e7eb;
+}
+
+.wui-chamber-dial {
+    padding: 0 0.5rem;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: #6b7280;
+    background: white;
+}
+
+/* Social Buttons */
+.wui-chamber-stack {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.wui-chamber-trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.5rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.375rem;
+    background: white;
+    color: #111827;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.wui-chamber-trigger:hover {
+    background: #f9fafb;
+}
+
+.wui-chamber-trigger:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px white, 0 0 0 4px #111827;
+}
+
+.wui-chamber-trigger span {
+    margin-left: 0.5rem;
+}
+
+/* Footer */
+.wui-chamber-base {
+    text-align: center;
+}
+
+.wui-chamber-note {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin: 0;
+}
+
+.wui-chamber-path {
+    font-weight: 500;
+    color: #111827;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    transition: text-decoration 0.2s;
+}
+
+.wui-chamber-path:hover {
+    text-decoration: none;
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+    .wui-chamber-well {
+        background: #000000;
+        border-color: #1f2937;
+    }
+
+    .wui-chamber-intent {
+        color: #f9fafb;
+    }
+
+    .wui-portal-atom {
+        color: #6b7280;
+    }
+
+    .wui-portal-field {
+        background: #000000;
+        border-color: #1f2937;
+        color: #f9fafb;
+    }
+
+    .wui-portal-field::placeholder {
+        color: #9ca3af;
+    }
+
+    .wui-portal-field:focus {
+        box-shadow: 0 0 0 2px #000000, 0 0 0 4px #d1d5db;
+    }
+
+    .wui-portal-eye {
+        color: #6b7280;
+    }
+
+    .wui-portal-eye:hover {
+        color: #d1d5db;
+    }
+
+    .wui-gem-check {
+        border-color: #374151;
+    }
+
+    .wui-chamber-note {
+        color: #9ca3af;
+    }
+
+    .wui-chamber-path {
+        color: #f9fafb;
+    }
+
+    .wui-trigger-prime {
+        background: #fafafa;
+        color: #111827;
+    }
+
+    .wui-trigger-prime:hover {
+        background: rgba(250, 250, 250, 0.9);
+    }
+
+    .wui-trigger-prime:focus-visible {
+        box-shadow: 0 0 0 2px #000000, 0 0 0 4px #d1d5db;
+    }
+
+    .wui-chamber-streak {
+        border-color: #1f2937;
+    }
+
+    .wui-chamber-dial {
+        background: #000000;
+        color: #9ca3af;
+    }
+
+    .wui-chamber-trigger {
+        background: #000000;
+        border-color: #1f2937;
+        color: #f9fafb;
+    }
+
+    .wui-chamber-trigger:hover {
+        background: #0f172a;
+    }
+
+    .wui-chamber-trigger:focus-visible {
+        box-shadow: 0 0 0 2px #000000, 0 0 0 4px #d1d5db;
+    }
+
+    .wui-chamber-path {
+        color: #f9fafb;
+    }
+}

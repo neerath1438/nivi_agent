@@ -1,0 +1,1622 @@
+[
+  {
+    "id": 9,
+    "name": "neerath",
+    "flow_data": {
+      "nodes": [
+        {
+          "id": "1",
+          "type": "chatInput",
+          "position": {
+            "x": -42.47652582159628,
+            "y": -40.399061032863855
+          },
+          "data": {
+            "label": "User Input",
+            "id": "1"
+          },
+          "width": 200,
+          "height": 110,
+          "selected": false,
+          "positionAbsolute": {
+            "x": -42.47652582159628,
+            "y": -40.399061032863855
+          },
+          "dragging": false
+        },
+        {
+          "id": "2",
+          "type": "promptTemplate",
+          "position": {
+            "x": 208.72065727699533,
+            "y": 218.07511737089203
+          },
+          "data": {
+            "label": "Email Prompt Template",
+            "template": "Draft a professional email based on this: {input}",
+            "id": "2"
+          },
+          "width": 219,
+          "height": 229,
+          "selected": false,
+          "positionAbsolute": {
+            "x": 208.72065727699533,
+            "y": 218.07511737089203
+          },
+          "dragging": false
+        },
+        {
+          "id": "3",
+          "type": "gemini",
+          "position": {
+            "x": 553.0046948356808,
+            "y": -78.62676056338029
+          },
+          "data": {
+            "label": "Gemini Config",
+            "model": "gemini-2.5-flash",
+            "id": "3",
+            "provider": "gemini",
+            "apiKey": "",
+            "temperature": 0.7,
+            "maxTokens": 10000
+          },
+          "width": 331,
+          "height": 424,
+          "selected": false,
+          "positionAbsolute": {
+            "x": 553.0046948356808,
+            "y": -78.62676056338029
+          },
+          "dragging": false
+        },
+        {
+          "id": "4",
+          "type": "llm",
+          "position": {
+            "x": 771.7136150234741,
+            "y": 426.84272300469496
+          },
+          "data": {
+            "label": "Execute LLM",
+            "id": "4"
+          },
+          "width": 281,
+          "height": 389,
+          "selected": false,
+          "positionAbsolute": {
+            "x": 771.7136150234741,
+            "y": 426.84272300469496
+          },
+          "dragging": false
+        },
+        {
+          "id": "5",
+          "type": "email",
+          "position": {
+            "x": 948.3951884679302,
+            "y": -41.97594233965005
+          },
+          "data": {
+            "label": "Send Email",
+            "subject": "leave request for CEO",
+            "to_email": "neerath333@gmail.com",
+            "id": "5",
+            "cc_email": "neerath333@gmail.com"
+          },
+          "width": 220,
+          "height": 241,
+          "selected": false,
+          "positionAbsolute": {
+            "x": 948.3951884679302,
+            "y": -41.97594233965005
+          },
+          "dragging": false
+        },
+        {
+          "id": "6",
+          "type": "chatOutput",
+          "position": {
+            "x": 1282.4026182021512,
+            "y": 120.21333793125046
+          },
+          "data": {
+            "label": "Chat Output",
+            "id": "6"
+          },
+          "width": 200,
+          "height": 110,
+          "selected": false,
+          "positionAbsolute": {
+            "x": 1282.4026182021512,
+            "y": 120.21333793125046
+          },
+          "dragging": false
+        }
+      ],
+      "edges": [
+        {
+          "id": "e1-2",
+          "source": "1",
+          "target": "2"
+        },
+        {
+          "id": "e2-4",
+          "source": "2",
+          "target": "4"
+        },
+        {
+          "id": "e3-4",
+          "source": "3",
+          "target": "4"
+        },
+        {
+          "id": "e4-5",
+          "source": "4",
+          "target": "5"
+        },
+        {
+          "id": "e5-6",
+          "source": "5",
+          "target": "6"
+        }
+      ],
+      "agentId": "email-agent"
+    }
+  },
+  {
+    "id": 6,
+    "name": "Email-Agent Workflow",
+    "flow_data": {
+      "nodes": [
+        {
+          "id": "chatInput_1769590750452",
+          "type": "chatInput",
+          "position": {
+            "x": -1524.5098032510064,
+            "y": 103.21191413138013
+          },
+          "data": {
+            "id": "chatInput_1769590750452",
+            "label": "chatInput node"
+          },
+          "width": 200,
+          "height": 110,
+          "selected": false,
+          "positionAbsolute": {
+            "x": -1524.5098032510064,
+            "y": 103.21191413138013
+          },
+          "dragging": false,
+          "className": "",
+          "style": {
+            "border": "none",
+            "boxShadow": "none"
+          }
+        },
+        {
+          "id": "gemini_1769590777158",
+          "type": "gemini",
+          "position": {
+            "x": -583.0072588953458,
+            "y": -433.4860708608695
+          },
+          "data": {
+            "id": "gemini_1769590777158",
+            "label": "gemini node",
+            "provider": "gemini",
+            "model": "gemini-2.5-flash",
+            "apiKey": "AIzaSyCxUbkwnNvQv1fi6lZqx8lHErMzmAHllkI",
+            "temperature": 0.7,
+            "maxTokens": 10000
+          },
+          "width": 331,
+          "height": 424,
+          "selected": false,
+          "positionAbsolute": {
+            "x": -583.0072588953458,
+            "y": -433.4860708608695
+          },
+          "dragging": false,
+          "className": "",
+          "style": {
+            "border": "none",
+            "boxShadow": "none"
+          }
+        },
+        {
+          "id": "llm_1769590814657",
+          "type": "llm",
+          "position": {
+            "x": -3.367769530248438,
+            "y": -372.4834285732399
+          },
+          "data": {
+            "id": "llm_1769590814657",
+            "label": "llm node"
+          },
+          "width": 281,
+          "height": 389,
+          "selected": false,
+          "positionAbsolute": {
+            "x": -3.367769530248438,
+            "y": -372.4834285732399
+          },
+          "dragging": false,
+          "className": "",
+          "style": {
+            "border": "none",
+            "boxShadow": "none"
+          }
+        },
+        {
+          "id": "email_1769590835655",
+          "type": "email",
+          "position": {
+            "x": 703.9760437869145,
+            "y": -206.7631248734015
+          },
+          "data": {
+            "id": "email_1769590835655",
+            "label": "email node",
+            "to_email": "nireshtoranto@gmail.com",
+            "cc_email": "nireshtoranto@gmail.com",
+            "subject": "friend hope"
+          },
+          "width": 220,
+          "height": 241,
+          "selected": false,
+          "positionAbsolute": {
+            "x": 703.9760437869145,
+            "y": -206.7631248734015
+          },
+          "dragging": false,
+          "className": "",
+          "style": {
+            "border": "none",
+            "boxShadow": "none"
+          }
+        },
+        {
+          "id": "llm_1769590886031",
+          "type": "llm",
+          "position": {
+            "x": 970.6279231474928,
+            "y": -237.2103543285111
+          },
+          "data": {
+            "id": "llm_1769590886031",
+            "label": "llm node"
+          },
+          "width": 281,
+          "height": 389,
+          "selected": false,
+          "positionAbsolute": {
+            "x": 970.6279231474928,
+            "y": -237.2103543285111
+          },
+          "dragging": false,
+          "className": "",
+          "style": {
+            "border": "none",
+            "boxShadow": "none"
+          }
+        },
+        {
+          "id": "chatOutput_1769590902647",
+          "type": "chatOutput",
+          "position": {
+            "x": 1404.2337679310167,
+            "y": -131.19155550652135
+          },
+          "data": {
+            "id": "chatOutput_1769590902647",
+            "label": "chatOutput node"
+          },
+          "width": 200,
+          "height": 110,
+          "selected": false,
+          "positionAbsolute": {
+            "x": 1404.2337679310167,
+            "y": -131.19155550652135
+          },
+          "dragging": false,
+          "className": "",
+          "style": {
+            "border": "none",
+            "boxShadow": "none"
+          }
+        },
+        {
+          "id": "promptTemplate_1769591764102",
+          "type": "promptTemplate",
+          "position": {
+            "x": -1178.1409159234938,
+            "y": -77.63088339334577
+          },
+          "data": {
+            "id": "promptTemplate_1769591764102",
+            "label": "promptTemplate node",
+            "template": "Draft a single, professional English email based on the following request. \nProvide ONLY the Subject and the Body. \nDo not provide options, translations, or any introductory text.\nRequest: {input}\nFormat:\nSubject: [Subject Line]\n---\n[Email Body]\n"
+          },
+          "width": 219,
+          "height": 229,
+          "selected": false,
+          "positionAbsolute": {
+            "x": -1178.1409159234938,
+            "y": -77.63088339334577
+          },
+          "dragging": false,
+          "className": "",
+          "style": {
+            "border": "none",
+            "boxShadow": "none"
+          }
+        }
+      ],
+      "edges": [
+        {
+          "source": "chatInput_1769590750452",
+          "sourceHandle": null,
+          "target": "promptTemplate_1769590762223",
+          "targetHandle": null,
+          "id": "reactflow__edge-chatInput_1769590750452-promptTemplate_1769590762223"
+        },
+        {
+          "source": "promptTemplate_1769590762223",
+          "sourceHandle": null,
+          "target": "gemini_1769590777158",
+          "targetHandle": null,
+          "id": "reactflow__edge-promptTemplate_1769590762223-gemini_1769590777158"
+        },
+        {
+          "source": "gemini_1769590777158",
+          "sourceHandle": null,
+          "target": "llm_1769590814657",
+          "targetHandle": null,
+          "id": "reactflow__edge-gemini_1769590777158-llm_1769590814657"
+        },
+        {
+          "source": "llm_1769590814657",
+          "sourceHandle": null,
+          "target": "email_1769590835655",
+          "targetHandle": null,
+          "id": "reactflow__edge-llm_1769590814657-email_1769590835655"
+        },
+        {
+          "source": "email_1769590835655",
+          "sourceHandle": null,
+          "target": "llm_1769590886031",
+          "targetHandle": null,
+          "id": "reactflow__edge-email_1769590835655-llm_1769590886031"
+        },
+        {
+          "source": "llm_1769590886031",
+          "sourceHandle": null,
+          "target": "chatOutput_1769590902647",
+          "targetHandle": null,
+          "id": "reactflow__edge-llm_1769590886031-chatOutput_1769590902647"
+        },
+        {
+          "source": "promptTemplate_1769591764102",
+          "sourceHandle": null,
+          "target": "gemini_1769590777158",
+          "targetHandle": null,
+          "id": "reactflow__edge-promptTemplate_1769591764102-gemini_1769590777158"
+        },
+        {
+          "source": "chatInput_1769590750452",
+          "sourceHandle": null,
+          "target": "promptTemplate_1769591764102",
+          "targetHandle": null,
+          "id": "reactflow__edge-chatInput_1769590750452-promptTemplate_1769591764102"
+        }
+      ],
+      "agentId": "email-agent"
+    }
+  },
+  {
+    "id": 10,
+    "name": "Search-Agent Workflow",
+    "flow_data": {
+      "nodes": [
+        {
+          "id": "1",
+          "type": "chatInput",
+          "position": {
+            "x": 0,
+            "y": 200
+          },
+          "data": {
+            "label": "User Input",
+            "id": "1"
+          },
+          "width": 200,
+          "height": 113
+        },
+        {
+          "id": "2",
+          "type": "search",
+          "position": {
+            "x": 300,
+            "y": 200
+          },
+          "data": {
+            "label": "Google Search",
+            "query": "Bus timings from Erode to {input}",
+            "id": "2"
+          },
+          "width": 229,
+          "height": 169
+        },
+        {
+          "id": "3",
+          "type": "gemini",
+          "position": {
+            "x": 1052.2143543248758,
+            "y": -85.7019139244724
+          },
+          "data": {
+            "label": "Gemini Config",
+            "model": "gemini-2.5-flash",
+            "id": "3",
+            "provider": "gemini",
+            "apiKey": "",
+            "temperature": 0.7,
+            "maxTokens": 10000
+          },
+          "width": 331,
+          "height": 426,
+          "selected": true,
+          "dragging": false,
+          "positionAbsolute": {
+            "x": 1052.2143543248758,
+            "y": -85.7019139244724
+          }
+        },
+        {
+          "id": "4",
+          "type": "llm",
+          "position": {
+            "x": 674.7612440617738,
+            "y": 468.0464116361158
+          },
+          "data": {
+            "label": "LLM Execute",
+            "id": "4"
+          },
+          "width": 281,
+          "height": 392,
+          "selected": false,
+          "positionAbsolute": {
+            "x": 674.7612440617738,
+            "y": 468.0464116361158
+          },
+          "dragging": false
+        },
+        {
+          "id": "5",
+          "type": "chatOutput",
+          "position": {
+            "x": 1645.7889956406214,
+            "y": 291.1722488558217
+          },
+          "data": {
+            "label": "Chat Output",
+            "id": "5"
+          },
+          "width": 200,
+          "height": 113,
+          "selected": false,
+          "positionAbsolute": {
+            "x": 1645.7889956406214,
+            "y": 291.1722488558217
+          },
+          "dragging": false
+        }
+      ],
+      "edges": [
+        {
+          "id": "e1-2",
+          "source": "1",
+          "target": "2"
+        },
+        {
+          "id": "e2-4",
+          "source": "2",
+          "target": "4"
+        },
+        {
+          "id": "e3-4",
+          "source": "3",
+          "target": "4"
+        },
+        {
+          "id": "e4-5",
+          "source": "4",
+          "target": "5"
+        }
+      ],
+      "agentId": "search-agent"
+    }
+  },
+  {
+    "id": 8,
+    "name": "niresh_send_to",
+    "flow_data": {
+      "nodes": [
+        {
+          "id": "node-1",
+          "type": "chatInput",
+          "position": {
+            "x": 0,
+            "y": 100
+          },
+          "data": {
+            "label": "User Input",
+            "id": "node-1"
+          },
+          "width": 200,
+          "height": 110
+        },
+        {
+          "id": "node-2",
+          "type": "promptTemplate",
+          "position": {
+            "x": 250,
+            "y": 0
+          },
+          "data": {
+            "label": "Draft Email Prompt",
+            "template": "Based on the following input: '{{input}}', please draft a professional email. Include a suitable subject line and body. Output only the email content and subject.",
+            "id": "node-2"
+          },
+          "width": 219,
+          "height": 229
+        },
+        {
+          "id": "node-3",
+          "type": "gemini",
+          "position": {
+            "x": 250,
+            "y": 200
+          },
+          "data": {
+            "label": "Gemini Config",
+            "apiKey": "YOUR_GEMINI_API_KEY",
+            "model": "gemini-pro",
+            "id": "node-3"
+          },
+          "width": 331,
+          "height": 424
+        },
+        {
+          "id": "node-4",
+          "type": "llm",
+          "position": {
+            "x": 500,
+            "y": 100
+          },
+          "data": {
+            "label": "Execute Gemini (Draft Email)",
+            "id": "node-4"
+          },
+          "width": 281,
+          "height": 389
+        },
+        {
+          "id": "node-5",
+          "type": "email",
+          "position": {
+            "x": 750,
+            "y": 100
+          },
+          "data": {
+            "label": "Send Email",
+            "to_email": "nireshtoranto@gmail.com",
+            "subject": "Automated Email Draft",
+            "id": "node-5",
+            "cc_email": "nireshtoranto@gmail.com"
+          },
+          "width": 220,
+          "height": 241
+        },
+        {
+          "id": "node-6",
+          "type": "chatOutput",
+          "position": {
+            "x": 1000,
+            "y": 100
+          },
+          "data": {
+            "label": "Email Sent Confirmation",
+            "id": "node-6"
+          },
+          "width": 200,
+          "height": 110
+        }
+      ],
+      "edges": [
+        {
+          "id": "edge-1-2",
+          "source": "node-1",
+          "target": "node-2"
+        },
+        {
+          "id": "edge-2-4",
+          "source": "node-2",
+          "target": "node-4"
+        },
+        {
+          "id": "edge-3-4",
+          "source": "node-3",
+          "target": "node-4"
+        },
+        {
+          "id": "edge-4-5",
+          "source": "node-4",
+          "target": "node-5"
+        },
+        {
+          "id": "edge-5-6",
+          "source": "node-5",
+          "target": "node-6"
+        }
+      ],
+      "agentId": "email-agent"
+    }
+  },
+  {
+    "id": 11,
+    "name": "Search-Agent Workflow_2",
+    "flow_data": {
+      "nodes": [
+        {
+          "id": "1",
+          "type": "chatInput",
+          "position": {
+            "x": -54.225352112676035,
+            "y": -81.06807511737088
+          },
+          "data": {
+            "label": "User Input",
+            "id": "1"
+          },
+          "width": 200,
+          "height": 113,
+          "selected": false,
+          "positionAbsolute": {
+            "x": -54.225352112676035,
+            "y": -81.06807511737088
+          },
+          "dragging": false
+        },
+        {
+          "id": "2",
+          "type": "search",
+          "position": {
+            "x": -12.699530516431935,
+            "y": 300.31690140845075
+          },
+          "data": {
+            "label": "Search Bus Details",
+            "query": "Bus from {input} to Rajapalayam",
+            "id": "2"
+          },
+          "width": 229,
+          "height": 169,
+          "selected": false,
+          "positionAbsolute": {
+            "x": -12.699530516431935,
+            "y": 300.31690140845075
+          },
+          "dragging": false
+        },
+        {
+          "id": "3",
+          "type": "gemini",
+          "position": {
+            "x": 281.87793427230054,
+            "y": -163.00142830862126
+          },
+          "data": {
+            "label": "Gemini Config",
+            "model": "gemini-2.5-flash",
+            "id": "3"
+          },
+          "width": 331,
+          "height": 422,
+          "selected": false,
+          "positionAbsolute": {
+            "x": 281.87793427230054,
+            "y": -163.00142830862126
+          },
+          "dragging": false
+        },
+        {
+          "id": "4",
+          "type": "llm",
+          "position": {
+            "x": 840.399061032864,
+            "y": 406.96009389671366
+          },
+          "data": {
+            "label": "Process Search Results",
+            "id": "4"
+          },
+          "width": 281,
+          "height": 387,
+          "selected": false,
+          "positionAbsolute": {
+            "x": 840.399061032864,
+            "y": 406.96009389671366
+          },
+          "dragging": false
+        },
+        {
+          "id": "5",
+          "type": "pdf",
+          "position": {
+            "x": 738.2276995305162,
+            "y": -303.0787270416116
+          },
+          "data": {
+            "label": "Generate Bus Report PDF",
+            "title": "Bus Details Report",
+            "id": "5"
+          },
+          "width": 305,
+          "height": 140,
+          "selected": true,
+          "positionAbsolute": {
+            "x": 738.2276995305162,
+            "y": -303.0787270416116
+          },
+          "dragging": false
+        },
+        {
+          "id": "6",
+          "type": "chatOutput",
+          "position": {
+            "x": 1200,
+            "y": 200
+          },
+          "data": {
+            "label": "Display PDF Report",
+            "id": "6"
+          },
+          "width": 200,
+          "height": 113
+        }
+      ],
+      "edges": [
+        {
+          "id": "e1-2",
+          "source": "1",
+          "target": "2"
+        },
+        {
+          "id": "e2-4",
+          "source": "2",
+          "target": "4"
+        },
+        {
+          "id": "e3-4",
+          "source": "3",
+          "target": "4"
+        },
+        {
+          "id": "e4-5",
+          "source": "4",
+          "target": "5"
+        },
+        {
+          "id": "e5-6",
+          "source": "5",
+          "target": "6"
+        }
+      ],
+      "agentId": "search-agent"
+    }
+  },
+  {
+    "id": 13,
+    "name": "Search-Agent Workflow_4",
+    "flow_data": {
+      "nodes": [
+        {
+          "id": "1",
+          "type": "chatInput",
+          "position": {
+            "x": 0,
+            "y": 200
+          },
+          "data": {
+            "label": "User Input",
+            "id": "1"
+          },
+          "width": 200,
+          "height": 113
+        },
+        {
+          "id": "2",
+          "type": "search",
+          "position": {
+            "x": 300,
+            "y": 200
+          },
+          "data": {
+            "label": "Search Bus Details",
+            "query": "Bus from {input} to Rajapalayam",
+            "id": "2"
+          },
+          "width": 229,
+          "height": 169
+        },
+        {
+          "id": "3",
+          "type": "gemini",
+          "position": {
+            "x": 686.6541019486392,
+            "y": -139.40007704781087
+          },
+          "data": {
+            "label": "Gemini Config",
+            "model": "gemini-2.5-flash",
+            "id": "3",
+            "provider": "gemini",
+            "apiKey": "",
+            "temperature": 0.7,
+            "maxTokens": 10000
+          },
+          "width": 331,
+          "height": 426,
+          "selected": false,
+          "positionAbsolute": {
+            "x": 686.6541019486392,
+            "y": -139.40007704781087
+          },
+          "dragging": false
+        },
+        {
+          "id": "4",
+          "type": "llm",
+          "position": {
+            "x": 600,
+            "y": 200
+          },
+          "data": {
+            "label": "Process Bus Details",
+            "id": "4"
+          },
+          "width": 281,
+          "height": 392
+        },
+        {
+          "id": "6",
+          "type": "chatOutput",
+          "position": {
+            "x": 1200,
+            "y": 200
+          },
+          "data": {
+            "label": "Display Report",
+            "id": "6"
+          },
+          "width": 200,
+          "height": 113
+        }
+      ],
+      "edges": [
+        {
+          "id": "e1-2",
+          "source": "1",
+          "target": "2"
+        },
+        {
+          "id": "e2-4",
+          "source": "2",
+          "target": "4"
+        },
+        {
+          "id": "e3-4",
+          "source": "3",
+          "target": "4"
+        },
+        {
+          "id": "e4-5",
+          "source": "4",
+          "target": "5"
+        },
+        {
+          "id": "e5-6",
+          "source": "5",
+          "target": "6"
+        },
+        {
+          "source": "4",
+          "sourceHandle": null,
+          "target": "6",
+          "targetHandle": null,
+          "id": "reactflow__edge-4-6"
+        }
+      ],
+      "agentId": "search-agent"
+    }
+  },
+  {
+    "id": 12,
+    "name": "Search-Agent Workflow_3",
+    "flow_data": {
+      "nodes": [
+        {
+          "id": "1",
+          "type": "chatInput",
+          "position": {
+            "x": 0,
+            "y": 200
+          },
+          "data": {
+            "label": "User Input",
+            "id": "1"
+          },
+          "width": 200,
+          "height": 113
+        },
+        {
+          "id": "2",
+          "type": "search",
+          "position": {
+            "x": 300,
+            "y": 200
+          },
+          "data": {
+            "label": "Search Bus Details",
+            "query": "Bus from {input} to Rajapalayam",
+            "id": "2"
+          },
+          "width": 229,
+          "height": 169
+        },
+        {
+          "id": "3",
+          "type": "gemini",
+          "position": {
+            "x": 525.8920187793427,
+            "y": -52.41784037558685
+          },
+          "data": {
+            "label": "Gemini Config",
+            "model": "gemini-2.5-flash",
+            "id": "3",
+            "provider": "gemini",
+            "apiKey": "",
+            "temperature": 0.7,
+            "maxTokens": 10000
+          },
+          "width": 331,
+          "height": 422,
+          "selected": false,
+          "positionAbsolute": {
+            "x": 525.8920187793427,
+            "y": -52.41784037558685
+          },
+          "dragging": false
+        },
+        {
+          "id": "4",
+          "type": "llm",
+          "position": {
+            "x": 713.8732394366198,
+            "y": 179.21361502347412
+          },
+          "data": {
+            "label": "Process Bus Details",
+            "id": "4"
+          },
+          "width": 281,
+          "height": 387,
+          "selected": false,
+          "positionAbsolute": {
+            "x": 713.8732394366198,
+            "y": 179.21361502347412
+          },
+          "dragging": false
+        },
+        {
+          "id": "6",
+          "type": "chatOutput",
+          "position": {
+            "x": 1200,
+            "y": 200
+          },
+          "data": {
+            "label": "Display Report",
+            "id": "6"
+          },
+          "width": 200,
+          "height": 113
+        },
+        {
+          "id": "pdf_1769604660587",
+          "type": "pdf",
+          "position": {
+            "x": 896.1149958937378,
+            "y": -55.68114424871167
+          },
+          "data": {
+            "id": "pdf_1769604660587",
+            "label": "pdf node"
+          },
+          "width": 305,
+          "height": 140,
+          "selected": false,
+          "positionAbsolute": {
+            "x": 896.1149958937378,
+            "y": -55.68114424871167
+          },
+          "dragging": false
+        }
+      ],
+      "edges": [
+        {
+          "id": "e1-2",
+          "source": "1",
+          "target": "2"
+        },
+        {
+          "id": "e2-4",
+          "source": "2",
+          "target": "4"
+        },
+        {
+          "id": "e3-4",
+          "source": "3",
+          "target": "4"
+        },
+        {
+          "id": "e4-5",
+          "source": "4",
+          "target": "5"
+        },
+        {
+          "id": "e5-6",
+          "source": "5",
+          "target": "6"
+        },
+        {
+          "source": "4",
+          "sourceHandle": null,
+          "target": "pdf_1769604660587",
+          "targetHandle": null,
+          "id": "reactflow__edge-4-pdf_1769604660587"
+        },
+        {
+          "source": "pdf_1769604660587",
+          "sourceHandle": null,
+          "target": "6",
+          "targetHandle": null,
+          "id": "reactflow__edge-pdf_1769604660587-6"
+        }
+      ],
+      "agentId": "search-agent"
+    }
+  },
+  {
+    "id": 14,
+    "name": "excel_extractor",
+    "flow_data": {
+      "nodes": [
+        {
+          "id": "1",
+          "type": "chatInput",
+          "position": {
+            "x": 0,
+            "y": 200
+          },
+          "data": {
+            "label": "User Input",
+            "id": "1"
+          },
+          "width": 200,
+          "height": 113,
+          "className": "",
+          "style": {
+            "border": "none",
+            "boxShadow": "none"
+          }
+        },
+        {
+          "id": "2",
+          "type": "knowledge",
+          "position": {
+            "x": 127.3039053254438,
+            "y": 8.20035502958578
+          },
+          "data": {
+            "label": "Extract Expenses from Excel",
+            "id": "2",
+            "file_id": "1b2021e9-8045-45df-8cc5-450b29bf659e"
+          },
+          "width": 372,
+          "height": 137,
+          "selected": false,
+          "positionAbsolute": {
+            "x": 127.3039053254438,
+            "y": 8.20035502958578
+          },
+          "dragging": false,
+          "className": "",
+          "style": {
+            "border": "none",
+            "boxShadow": "none"
+          }
+        },
+        {
+          "id": "3",
+          "type": "gemini",
+          "position": {
+            "x": 211.8158579881657,
+            "y": 226.9501775147929
+          },
+          "data": {
+            "label": "Gemini Config",
+            "model": "gemini-2.5-flash",
+            "id": "3",
+            "provider": "gemini",
+            "apiKey": "",
+            "temperature": 0.07,
+            "maxTokens": 5000
+          },
+          "width": 331,
+          "height": 420,
+          "selected": false,
+          "positionAbsolute": {
+            "x": 211.8158579881657,
+            "y": 226.9501775147929
+          },
+          "dragging": false,
+          "className": "",
+          "style": {
+            "border": "none",
+            "boxShadow": "none"
+          }
+        },
+        {
+          "id": "4",
+          "type": "llm",
+          "position": {
+            "x": 573.2550295857988,
+            "y": -7.082485207100589
+          },
+          "data": {
+            "label": "Analyze Expenses",
+            "id": "4"
+          },
+          "width": 281,
+          "height": 387,
+          "selected": false,
+          "positionAbsolute": {
+            "x": 573.2550295857988,
+            "y": -7.082485207100589
+          },
+          "dragging": false,
+          "className": "",
+          "style": {
+            "border": "none",
+            "boxShadow": "none"
+          }
+        },
+        {
+          "id": "5",
+          "type": "chatOutput",
+          "position": {
+            "x": 900,
+            "y": 200
+          },
+          "data": {
+            "label": "Answer Questions",
+            "id": "5"
+          },
+          "width": 200,
+          "height": 113,
+          "className": "",
+          "style": {
+            "border": "none",
+            "boxShadow": "none"
+          }
+        }
+      ],
+      "edges": [
+        {
+          "id": "e1-2",
+          "source": "1",
+          "target": "2"
+        },
+        {
+          "id": "e2-4",
+          "source": "2",
+          "target": "4"
+        },
+        {
+          "id": "e3-4",
+          "source": "3",
+          "target": "4"
+        },
+        {
+          "id": "e4-5",
+          "source": "4",
+          "target": "5"
+        }
+      ],
+      "agentId": "analytics-agent"
+    }
+  },
+  {
+    "id": 19,
+    "name": "Analytics-Agent Workflow_1",
+    "flow_data": {
+      "nodes": [
+        {
+          "id": "1",
+          "type": "whatsAppInput",
+          "position": {
+            "x": -218.21188908034964,
+            "y": -85.53257826471288
+          },
+          "data": {
+            "label": "WhatsApp Input",
+            "id": "1",
+            "mode": "specific",
+            "allowedNumbers": "9080154522"
+          },
+          "width": 260,
+          "height": 345,
+          "selected": false,
+          "positionAbsolute": {
+            "x": -218.21188908034964,
+            "y": -85.53257826471288
+          },
+          "dragging": false
+        },
+        {
+          "id": "2",
+          "type": "promptTemplate",
+          "position": {
+            "x": 138.66248626506058,
+            "y": -213.20974740747067
+          },
+          "data": {
+            "label": "Format WhatsApp Message",
+            "template": "{input}",
+            "id": "2"
+          },
+          "width": 309,
+          "height": 314,
+          "selected": false,
+          "positionAbsolute": {
+            "x": 138.66248626506058,
+            "y": -213.20974740747067
+          },
+          "dragging": false
+        },
+        {
+          "id": "3",
+          "type": "openai",
+          "position": {
+            "x": 543.1256246545897,
+            "y": -370.26379051399755
+          },
+          "data": {
+            "label": "OpenAI Config",
+            "model": "gpt-4o-mini",
+            "id": "3"
+          },
+          "width": 292,
+          "height": 414,
+          "selected": false,
+          "positionAbsolute": {
+            "x": 543.1256246545897,
+            "y": -370.26379051399755
+          },
+          "dragging": false
+        },
+        {
+          "id": "4",
+          "type": "llm",
+          "position": {
+            "x": 600,
+            "y": 200
+          },
+          "data": {
+            "label": "Process Message with LLM",
+            "id": "4"
+          },
+          "width": 284,
+          "height": 240
+        },
+        {
+          "id": "5",
+          "type": "whatsAppOutput",
+          "position": {
+            "x": 948.7494645817803,
+            "y": -70.44345827511422
+          },
+          "data": {
+            "label": "WhatsApp Output",
+            "id": "5"
+          },
+          "width": 260,
+          "height": 188,
+          "selected": false,
+          "positionAbsolute": {
+            "x": 948.7494645817803,
+            "y": -70.44345827511422
+          },
+          "dragging": false
+        }
+      ],
+      "edges": [
+        {
+          "id": "e1-2",
+          "source": "1",
+          "target": "2"
+        },
+        {
+          "id": "e2-4",
+          "source": "2",
+          "target": "4"
+        },
+        {
+          "id": "e3-4",
+          "source": "3",
+          "target": "4"
+        },
+        {
+          "id": "e4-5",
+          "source": "4",
+          "target": "5"
+        }
+      ],
+      "agentId": "analytics-agent"
+    }
+  },
+  {
+    "id": 17,
+    "name": "sumarize flow generator",
+    "flow_data": {
+      "nodes": [
+        {
+          "id": "1",
+          "type": "chatInput",
+          "position": {
+            "x": 27.693661971830977,
+            "y": 300.1232394366197
+          },
+          "data": {
+            "label": "User Input",
+            "id": "1"
+          },
+          "width": 200,
+          "height": 113,
+          "className": "",
+          "style": {
+            "border": "none",
+            "boxShadow": "none"
+          },
+          "selected": true,
+          "positionAbsolute": {
+            "x": 27.693661971830977,
+            "y": 300.1232394366197
+          },
+          "dragging": false
+        },
+        {
+          "id": "2",
+          "type": "summarization",
+          "position": {
+            "x": 300,
+            "y": 200
+          },
+          "data": {
+            "label": "Summarization",
+            "id": "2",
+            "style": "bullet-points"
+          },
+          "width": 262,
+          "height": 163,
+          "selected": false,
+          "dragging": false,
+          "className": "",
+          "style": {
+            "border": "none",
+            "boxShadow": "none"
+          }
+        },
+        {
+          "id": "3",
+          "type": "documentGenerator",
+          "position": {
+            "x": 600,
+            "y": 200
+          },
+          "data": {
+            "label": "Document Generator",
+            "id": "3"
+          },
+          "width": 278,
+          "height": 283,
+          "className": "",
+          "style": {
+            "border": "none",
+            "boxShadow": "none"
+          }
+        },
+        {
+          "id": "4",
+          "type": "chatOutput",
+          "position": {
+            "x": 900,
+            "y": 200
+          },
+          "data": {
+            "label": "Chat Output",
+            "id": "4"
+          },
+          "width": 200,
+          "height": 113,
+          "className": "",
+          "style": {
+            "border": "none",
+            "boxShadow": "none"
+          }
+        }
+      ],
+      "edges": [
+        {
+          "id": "e1-2",
+          "source": "1",
+          "target": "2"
+        },
+        {
+          "id": "e2-3",
+          "source": "2",
+          "target": "3"
+        },
+        {
+          "id": "e3-4",
+          "source": "3",
+          "target": "4"
+        }
+      ],
+      "agentId": "analytics-agent"
+    }
+  },
+  {
+    "id": 18,
+    "name": "Analytics-Agent Workflow",
+    "flow_data": {
+      "nodes": [
+        {
+          "id": "1",
+          "type": "whatsAppInput",
+          "position": {
+            "x": -218.21188908034964,
+            "y": -85.53257826471288
+          },
+          "data": {
+            "label": "WhatsApp Input",
+            "id": "1"
+          },
+          "width": 260,
+          "height": 124,
+          "selected": false,
+          "positionAbsolute": {
+            "x": -218.21188908034964,
+            "y": -85.53257826471288
+          },
+          "dragging": false
+        },
+        {
+          "id": "2",
+          "type": "promptTemplate",
+          "position": {
+            "x": 138.66248626506058,
+            "y": -213.20974740747067
+          },
+          "data": {
+            "label": "Format WhatsApp Message",
+            "template": "{input}",
+            "id": "2"
+          },
+          "width": 309,
+          "height": 299,
+          "selected": false,
+          "positionAbsolute": {
+            "x": 138.66248626506058,
+            "y": -213.20974740747067
+          },
+          "dragging": false
+        },
+        {
+          "id": "3",
+          "type": "openai",
+          "position": {
+            "x": 543.1256246545897,
+            "y": -370.26379051399755
+          },
+          "data": {
+            "label": "OpenAI Config",
+            "model": "gpt-4o-mini",
+            "id": "3"
+          },
+          "width": 292,
+          "height": 399,
+          "selected": false,
+          "positionAbsolute": {
+            "x": 543.1256246545897,
+            "y": -370.26379051399755
+          },
+          "dragging": false
+        },
+        {
+          "id": "4",
+          "type": "llm",
+          "position": {
+            "x": 600,
+            "y": 200
+          },
+          "data": {
+            "label": "Process Message with LLM",
+            "id": "4"
+          },
+          "width": 284,
+          "height": 225
+        },
+        {
+          "id": "5",
+          "type": "whatsAppOutput",
+          "position": {
+            "x": 948.7494645817803,
+            "y": -70.44345827511422
+          },
+          "data": {
+            "label": "WhatsApp Output",
+            "id": "5"
+          },
+          "width": 260,
+          "height": 173,
+          "selected": true,
+          "positionAbsolute": {
+            "x": 948.7494645817803,
+            "y": -70.44345827511422
+          },
+          "dragging": false
+        }
+      ],
+      "edges": [
+        {
+          "id": "e1-2",
+          "source": "1",
+          "target": "2"
+        },
+        {
+          "id": "e2-4",
+          "source": "2",
+          "target": "4"
+        },
+        {
+          "id": "e3-4",
+          "source": "3",
+          "target": "4"
+        },
+        {
+          "id": "e4-5",
+          "source": "4",
+          "target": "5"
+        }
+      ],
+      "agentId": "analytics-agent"
+    }
+  }
+]

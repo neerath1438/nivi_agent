@@ -1,0 +1,216 @@
+.badge-view-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 1.5rem;
+    width: 100%;
+}
+
+.badge-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.badge-section-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #111827;
+    margin: 0;
+}
+
+.badge-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.badge-group.items-center {
+    align-items: center;
+}
+
+/* Utility classes for badges */
+.bg-blue-100 {
+    background-color: #dbeafe;
+}
+
+.text-blue-800 {
+    color: #1e40af;
+}
+
+.bg-blue-600 {
+    background-color: #2563eb;
+}
+
+.text-white {
+    color: white;
+}
+
+.border {
+    border-width: 1px;
+}
+
+.border-blue-300 {
+    border-color: #93c5fd;
+}
+
+.text-blue-700 {
+    color: #1d4ed8;
+}
+
+.bg-red-100 {
+    background-color: #fee2e2;
+}
+
+.text-red-800 {
+    color: #991b1b;
+}
+
+.bg-purple-600 {
+    background-color: #9333ea;
+}
+
+.border-orange-300 {
+    border-color: #fdba74;
+}
+
+.text-orange-700 {
+    color: #c2410c;
+}
+
+.text-blue-600 {
+    color: #2563eb;
+}
+
+.text-purple-600 {
+    color: #9333ea;
+}
+
+.text-green-600 {
+    color: #16a34a;
+}
+
+.text-pink-600 {
+    color: #db2777;
+}
+
+.text-gray-700 {
+    color: #374151;
+}
+
+.text-yellow-600 {
+    color: #ca8a04;
+}
+
+.text-red-600 {
+    color: #dc2626;
+}
+
+.gap-1 {
+    gap: 0.25rem;
+}
+
+.px-2 {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+
+.py-0\.5 {
+    padding-top: 0.125rem;
+    padding-bottom: 0.125rem;
+}
+
+.text-xs {
+    font-size: 0.75rem;
+}
+
+.px-2\.5 {
+    padding-left: 0.625rem;
+    padding-right: 0.625rem;
+}
+
+.py-1 {
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+}
+
+.text-sm {
+    font-size: 0.875rem;
+}
+
+.px-3 {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+}
+
+.py-1\.5 {
+    padding-top: 0.375rem;
+    padding-bottom: 0.375rem;
+}
+
+.px-4 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.py-2 {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+.text-base {
+    font-size: 1rem;
+}
+
+.px-5 {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+}
+
+.py-2\.5 {
+    padding-top: 0.625rem;
+    padding-bottom: 0.625rem;
+}
+
+.text-lg {
+    font-size: 1.125rem;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.active\:scale-95:active {
+    transform: scale(0.95);
+}
+
+.hover\:rotate-3:hover {
+    transform: rotate(3deg);
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+    .badge-section-title {
+        color: white;
+    }
+
+    .text-blue-800 {
+        color: #bfdbfe;
+    }
+
+    .text-blue-700 {
+        color: #93c5fd;
+    }
+
+    .text-red-800 {
+        color: #fecaca;
+    }
+
+    .text-orange-700 {
+        color: #fdba74;
+    }
+
+    .text-gray-700 {
+        color: #d1d5db;
+    }
+}

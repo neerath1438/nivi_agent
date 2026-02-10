@@ -1,0 +1,32 @@
+.glitch-vault {
+  position: relative;
+  --glitch-x: 50%;
+  --glitch-y: 50%;
+}
+
+.glitch-vault::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    circle var(--glitch-radius) at var(--glitch-x) var(--glitch-y),
+    var(--glitch-color),
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 1;
+  mix-blend-mode: screen;
+}
+
+.glitch-vault:hover::before {
+  opacity: 0.3;
+}
+
+.glitch-vault > * {
+  position: relative;
+  z-index: 2;
+}
+

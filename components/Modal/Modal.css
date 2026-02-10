@@ -1,0 +1,96 @@
+.wui-chamber-veil {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: wui-chamber-fade-in 0.3s ease;
+}
+
+@keyframes wui-chamber-fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.wui-chamber {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: wui-chamber-slide-up 0.3s ease;
+}
+
+@keyframes wui-chamber-slide-up {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.wui-chamber-small {
+  width: 90%;
+  max-width: 400px;
+}
+
+.wui-chamber-medium {
+  width: 90%;
+  max-width: 600px;
+}
+
+.wui-chamber-large {
+  width: 90%;
+  max-width: 900px;
+}
+
+.wui-chamber-crown {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 1px solid #eee;
+}
+
+.wui-chamber-herald {
+  margin: 0;
+  color: #2c3e50;
+  font-size: 1.5rem;
+}
+
+.wui-chamber-exit {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #999;
+  cursor: pointer;
+  padding: 0;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.3s;
+}
+
+.wui-chamber-exit:hover {
+  color: #333;
+}
+
+.wui-chamber-core {
+  padding: 1.5rem;
+}

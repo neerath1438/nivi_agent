@@ -1,0 +1,272 @@
+{
+    "Accordion": {
+        "name": "Accordion",
+        "purpose": "UI Component",
+        "path": "C:\\Users\\Admin\\Agemt-chatbot\\Agemt-chatbot\\components\\Accordion"
+    },
+    "Alert": {
+        "name": "Alert",
+        "purpose": "UI Component",
+        "path": "C:\\Users\\Admin\\Agemt-chatbot\\Agemt-chatbot\\components\\Alert"
+    },
+    "Background": {
+        "name": "Background",
+        "purpose": "UI Component",
+        "path": "C:\\Users\\Admin\\Agemt-chatbot\\Agemt-chatbot\\components\\Background"
+    },
+    "Badge": {
+        "name": "Badge",
+        "purpose": "UI Component",
+        "path": "C:\\Users\\Admin\\Agemt-chatbot\\Agemt-chatbot\\components\\Badge"
+    },
+    "BlogHeader": {
+        "name": "BlogHeader",
+        "purpose": "UI Component",
+        "path": "C:\\Users\\Admin\\Agemt-chatbot\\Agemt-chatbot\\components\\BlogHeader"
+    },
+    "Button": {
+        "name": "Button",
+        "purpose": "Button / Action",
+        "path": "C:\\Users\\Admin\\Agemt-chatbot\\Agemt-chatbot\\components\\Button"
+    },
+    "Card": {
+        "name": "Card",
+        "purpose": "Card / Display",
+        "path": "C:\\Users\\Admin\\Agemt-chatbot\\Agemt-chatbot\\components\\Card"
+    },
+    "CategoryMultiSelect": {
+        "name": "CategoryMultiSelect",
+        "purpose": "UI Component",
+        "path": "C:\\Users\\Admin\\Agemt-chatbot\\Agemt-chatbot\\components\\CategoryMultiSelect"
+    },
+    "ChatbotUI": {
+        "name": "ChatbotUI",
+        "purpose": "UI Component",
+        "path": "C:\\Users\\Admin\\Agemt-chatbot\\Agemt-chatbot\\components\\ChatbotUI"
+    },
+    "Checkbox": {
+        "name": "Checkbox",
+        "purpose": "UI Component",
+        "path": "C:\\Users\\Admin\\Agemt-chatbot\\Agemt-chatbot\\components\\Checkbox"
+    },
+    "CodeArea": {
+        "name": "CodeArea",
+        "purpose": "UI Component",
+        "path": "C:\\Users\\Admin\\Agemt-chatbot\\Agemt-chatbot\\components\\CodeArea"
+    },
+    "CodeProfile": {
+        "name": "CodeProfile",
+        "purpose": "UI Component",
+        "path": "C:\\Users\\Admin\\Agemt-chatbot\\Agemt-chatbot\\components\\CodeProfile"
+    },
+    "Dropdown": {
+        "name": "Dropdown",
+        "purpose": "UI Component",
+        "path": "C:\\Users\\Admin\\Agemt-chatbot\\Agemt-chatbot\\components\\Dropdown"
+    },
+    "ExpandedTabs": {
+        "name": "ExpandedTabs",
+        "purpose": "Navigation / Tabs",
+        "path": "C:\\Users\\Admin\\Agemt-chatbot\\Agemt-chatbot\\components\\ExpandedTabs"
+    },
+    "ExpandingMenu": {
+        "name": "ExpandingMenu",
+        "purpose": "UI Component",
+        "path": "C:\\Users\\Admin\\Agemt-chatbot\\Agemt-chatbot\\components\\ExpandingMenu"
+    },
+    "FileTree": {
+        "name": "FileTree",
+        "purpose": "UI Component",
+        "path": "C:\\Users\\Admin\\Agemt-chatbot\\Agemt-chatbot\\components\\FileTree"
+    },
+    "Footer": {
+        "name": "Footer",
+        "purpose": "UI Component",
+        "path": "C:\\Users\\Admin\\Agemt-chatbot\\Agemt-chatbot\\components\\Footer"
+    },
+    "GlitchVault": {
+        "name": "GlitchVault",
+        "purpose": "UI Component",
+        "path": "C:\\Users\\Admin\\Agemt-chatbot\\Agemt-chatbot\\components\\GlitchVault"
+    },
+    "GlowButton": {
+        "name": "GlowButton",
+        "purpose": "Button / Action",
+        "path": "C:\\Users\\Admin\\Agemt-chatbot\\Agemt-chatbot\\components\\GlowButton"
+    },
+    "GlowLine": {
+        "name": "GlowLine",
+        "purpose": "UI Component",
+        "path": "C:\\Users\\Admin\\Agemt-chatbot\\Agemt-chatbot\\components\\GlowLine"
+    },
+    "Header": {
+        "name": "Header",
+        "purpose": "UI Component",
+        "path": "C:\\Users\\Admin\\Agemt-chatbot\\Agemt-chatbot\\components\\Header"
+    },
+    "Hero": {
+        "name": "Hero",
+        "purpose": "UI Component",
+        "path": "C:\\Users\\Admin\\Agemt-chatbot\\Agemt-chatbot\\components\\Hero"
+    },
+    "Input": {
+        "name": "Input",
+        "purpose": "Form / Input",
+        "path": "C:\\Users\\Admin\\Agemt-chatbot\\Agemt-chatbot\\components\\Input"
+    },
+    "JobCard": {
+        "name": "JobCard",
+        "purpose": "Card / Display",
+        "path": "C:\\Users\\Admin\\Agemt-chatbot\\Agemt-chatbot\\components\\JobCard"
+    },
+    "Layout": {
+        "name": "Layout",
+        "purpose": "UI Component",
+        "path": "C:\\Users\\Admin\\Agemt-chatbot\\Agemt-chatbot\\components\\Layout"
+    },
+    "Loader": {
+        "name": "Loader",
+        "purpose": "UI Component",
+        "path": "C:\\Users\\Admin\\Agemt-chatbot\\Agemt-chatbot\\components\\Loader"
+    },
+    "LoginForm": {
+        "name": "LoginForm",
+        "purpose": "Form / Input",
+        "path": "C:\\Users\\Admin\\Agemt-chatbot\\Agemt-chatbot\\components\\LoginForm"
+    },
+    "LogoMarquee": {
+        "name": "LogoMarquee",
+        "purpose": "UI Component",
+        "path": "C:\\Users\\Admin\\Agemt-chatbot\\Agemt-chatbot\\components\\LogoMarquee"
+    },
+    "MasonryGrid": {
+        "name": "MasonryGrid",
+        "purpose": "Layout / Content Display",
+        "path": "C:\\Users\\Admin\\Agemt-chatbot\\Agemt-chatbot\\components\\MasonryGrid"
+    },
+    "Modal": {
+        "name": "Modal",
+        "purpose": "UI Component",
+        "path": "C:\\Users\\Admin\\Agemt-chatbot\\Agemt-chatbot\\components\\Modal"
+    },
+    "MultiSelect": {
+        "name": "MultiSelect",
+        "purpose": "UI Component",
+        "path": "C:\\Users\\Admin\\Agemt-chatbot\\Agemt-chatbot\\components\\MultiSelect"
+    },
+    "MultiStepForm": {
+        "name": "MultiStepForm",
+        "purpose": "Form / Input",
+        "path": "C:\\Users\\Admin\\Agemt-chatbot\\Agemt-chatbot\\components\\MultiStepForm"
+    },
+    "NftMarketplace": {
+        "name": "NftMarketplace",
+        "purpose": "UI Component",
+        "path": "C:\\Users\\Admin\\Agemt-chatbot\\Agemt-chatbot\\components\\NftMarketplace"
+    },
+    "OrbitingCarousel": {
+        "name": "OrbitingCarousel",
+        "purpose": "Layout / Content Display",
+        "path": "C:\\Users\\Admin\\Agemt-chatbot\\Agemt-chatbot\\components\\OrbitingCarousel"
+    },
+    "OrbitingSkills": {
+        "name": "OrbitingSkills",
+        "purpose": "UI Component",
+        "path": "C:\\Users\\Admin\\Agemt-chatbot\\Agemt-chatbot\\components\\OrbitingSkills"
+    },
+    "PasswordInput": {
+        "name": "PasswordInput",
+        "purpose": "Form / Input",
+        "path": "C:\\Users\\Admin\\Agemt-chatbot\\Agemt-chatbot\\components\\PasswordInput"
+    },
+    "ProfileCard": {
+        "name": "ProfileCard",
+        "purpose": "Card / Display",
+        "path": "C:\\Users\\Admin\\Agemt-chatbot\\Agemt-chatbot\\components\\ProfileCard"
+    },
+    "ProjectCard": {
+        "name": "ProjectCard",
+        "purpose": "Card / Display",
+        "path": "C:\\Users\\Admin\\Agemt-chatbot\\Agemt-chatbot\\components\\ProjectCard"
+    },
+    "Radio": {
+        "name": "Radio",
+        "purpose": "UI Component",
+        "path": "C:\\Users\\Admin\\Agemt-chatbot\\Agemt-chatbot\\components\\Radio"
+    },
+    "ReactImageSwiper": {
+        "name": "ReactImageSwiper",
+        "purpose": "UI Component",
+        "path": "C:\\Users\\Admin\\Agemt-chatbot\\Agemt-chatbot\\components\\ReactImageSwiper"
+    },
+    "ReactNetworkVisualization": {
+        "name": "ReactNetworkVisualization",
+        "purpose": "UI Component",
+        "path": "C:\\Users\\Admin\\Agemt-chatbot\\Agemt-chatbot\\components\\ReactNetworkVisualization"
+    },
+    "ReactNexusOrbSup": {
+        "name": "ReactNexusOrbSup",
+        "purpose": "UI Component",
+        "path": "C:\\Users\\Admin\\Agemt-chatbot\\Agemt-chatbot\\components\\ReactNexusOrbSup"
+    },
+    "ReactOrbit": {
+        "name": "ReactOrbit",
+        "purpose": "UI Component",
+        "path": "C:\\Users\\Admin\\Agemt-chatbot\\Agemt-chatbot\\components\\ReactOrbit"
+    },
+    "ReactSpider": {
+        "name": "ReactSpider",
+        "purpose": "UI Component",
+        "path": "C:\\Users\\Admin\\Agemt-chatbot\\Agemt-chatbot\\components\\ReactSpider"
+    },
+    "SignUpForm": {
+        "name": "SignUpForm",
+        "purpose": "Form / Input",
+        "path": "C:\\Users\\Admin\\Agemt-chatbot\\Agemt-chatbot\\components\\SignUpForm"
+    },
+    "SimpleTimeline": {
+        "name": "SimpleTimeline",
+        "purpose": "UI Component",
+        "path": "C:\\Users\\Admin\\Agemt-chatbot\\Agemt-chatbot\\components\\SimpleTimeline"
+    },
+    "Textarea": {
+        "name": "Textarea",
+        "purpose": "UI Component",
+        "path": "C:\\Users\\Admin\\Agemt-chatbot\\Agemt-chatbot\\components\\Textarea"
+    },
+    "ThemeSwitch": {
+        "name": "ThemeSwitch",
+        "purpose": "UI Component",
+        "path": "C:\\Users\\Admin\\Agemt-chatbot\\Agemt-chatbot\\components\\ThemeSwitch"
+    },
+    "ThreeDCard": {
+        "name": "ThreeDCard",
+        "purpose": "Card / Display",
+        "path": "C:\\Users\\Admin\\Agemt-chatbot\\Agemt-chatbot\\components\\ThreeDCard"
+    },
+    "ThreeDCarousel": {
+        "name": "ThreeDCarousel",
+        "purpose": "Layout / Content Display",
+        "path": "C:\\Users\\Admin\\Agemt-chatbot\\Agemt-chatbot\\components\\ThreeDCarousel"
+    },
+    "Toast": {
+        "name": "Toast",
+        "purpose": "UI Component",
+        "path": "C:\\Users\\Admin\\Agemt-chatbot\\Agemt-chatbot\\components\\Toast"
+    },
+    "TwoStepVerification": {
+        "name": "TwoStepVerification",
+        "purpose": "UI Component",
+        "path": "C:\\Users\\Admin\\Agemt-chatbot\\Agemt-chatbot\\components\\TwoStepVerification"
+    },
+    "UserProfileDropdown": {
+        "name": "UserProfileDropdown",
+        "purpose": "UI Component",
+        "path": "C:\\Users\\Admin\\Agemt-chatbot\\Agemt-chatbot\\components\\UserProfileDropdown"
+    },
+    "VerticalTabs": {
+        "name": "VerticalTabs",
+        "purpose": "Navigation / Tabs",
+        "path": "C:\\Users\\Admin\\Agemt-chatbot\\Agemt-chatbot\\components\\VerticalTabs"
+    }
+}

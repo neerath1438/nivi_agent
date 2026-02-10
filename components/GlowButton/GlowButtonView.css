@@ -1,0 +1,40 @@
+.glow-button-view-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    width: 100%;
+    padding: 2rem;
+    min-height: 300px;
+}
+
+.glow-button-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 900px;
+}
+
+.glow-section-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #0f172a;
+    margin: 0;
+    text-align: center;
+}
+
+.glow-button-group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 1.25rem;
+}
+
+@media (prefers-color-scheme: dark) {
+    .glow-section-title {
+        color: white;
+    }
+}

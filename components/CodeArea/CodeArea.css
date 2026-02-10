@@ -1,0 +1,143 @@
+.wui-codex-frame {
+    display: flex;
+    flex-direction: column;
+    background: #09090b;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    width: 100%;
+    margin: 0;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+.wui-codex-streak {
+    display: flex;
+    height: 2px;
+    width: 100%;
+}
+
+.wui-codex-streak-left {
+    flex: 1;
+    background: linear-gradient(to right, transparent, #ec4899, #8b5cf6);
+}
+
+.wui-codex-streak-right {
+    flex: 1;
+    background: linear-gradient(to right, #8b5cf6, transparent);
+}
+
+.wui-codex-apex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.wui-codex-controls {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.wui-codex-dot {
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 50%;
+}
+
+.wui-codex-dot.red {
+    background: #ef4444;
+}
+
+.wui-codex-dot.orange {
+    background: #fb923c;
+}
+
+.wui-codex-dot.green {
+    background: #4ade80;
+}
+
+.wui-codex-label {
+    font-family: monospace;
+    font-size: 0.75rem;
+    color: #71717a;
+    letter-spacing: 0.05em;
+}
+
+.wui-codex-void {
+    position: relative;
+    padding: 1rem;
+    overflow: hidden;
+}
+
+.wui-codex-glow-left {
+    position: absolute;
+    top: -5rem;
+    left: -5rem;
+    width: 12rem;
+    height: 12rem;
+    background: #3b82f6;
+    opacity: 0.15;
+    filter: blur(40px);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.wui-codex-glow-right {
+    position: absolute;
+    bottom: -5rem;
+    right: -5rem;
+    width: 12rem;
+    height: 12rem;
+    background: #ec4899;
+    opacity: 0.15;
+    filter: blur(40px);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.wui-codex-pre {
+    margin: 0;
+    padding: 0.5rem;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: #e4e4e7;
+    white-space: pre;
+    overflow: auto;
+    max-height: 500px;
+    background: transparent;
+    position: relative;
+    z-index: 1;
+}
+
+.wui-codex-pre::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.wui-codex-pre::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.wui-codex-pre::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+
+.wui-codex-pre::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.wui-codex-footer {
+    padding: 0.5rem 1rem;
+    background: rgba(255, 255, 255, 0.02);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.7rem;
+    color: #52525b;
+    font-family: monospace;
+}

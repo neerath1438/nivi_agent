@@ -1,0 +1,17 @@
+{
+    "users": {
+        "test_user": "ff2f12ec5c6a2e9ef6b61c958ed701c327469190a18075fd909ec2a9b42b94f2"
+    },
+    "expenses": [
+        {
+            "username": "test_user",
+            "amount": 50,
+            "category": "Food",
+            "description": "Lunch at restaurant",
+            "date": "2026-02-07T13:45:35.201221"
+        }
+    ],
+    "budgets": {
+        "test_user": 100
+    }
+}

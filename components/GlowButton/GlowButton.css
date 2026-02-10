@@ -1,0 +1,64 @@
+.glow-button-outer {
+    position: relative;
+    cursor: pointer;
+    border-radius: 1rem;
+    border: none;
+    padding: 0.125rem;
+    transition: transform 0.3s ease-in-out;
+}
+
+.glow-button-outer:hover {
+    transform: scale(1.05);
+}
+
+.glow-button-outer:active {
+    transform: scale(0.95);
+}
+
+.glow-button-outer-glow {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 60%;
+    width: 65%;
+    border-radius: 120px;
+    z-index: -10;
+}
+
+.glow-button-blob {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 100%;
+    width: 70px;
+    border-radius: 1rem;
+}
+
+.glow-button-inner {
+    position: relative;
+    z-index: 20;
+    display: flex;
+    height: 2.75rem;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 0.875rem;
+    padding: 0 2rem;
+}
+
+.glow-button-inner-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    border-radius: 0.875rem;
+}
+
+.glow-button-text {
+    position: relative;
+    z-index: 10;
+    white-space: nowrap;
+    font-size: 1.125rem;
+    font-weight: 600;
+}

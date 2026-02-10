@@ -1,0 +1,60 @@
+.image-swiper-wrapper {
+  color: white;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  overflow: hidden;
+}
+
+.image-swiper-container {
+  position: relative;
+  display: grid;
+  place-content: center;
+  user-select: none;
+}
+
+.image-card {
+  position: absolute;
+  cursor: grab;
+  place-self: center;
+  border: 2px solid #334155;
+  border-radius: 1rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  background: #1e293b;
+  will-change: transform;
+  transform-style: preserve-3d;
+}
+
+.image-card:active {
+  cursor: grabbing;
+}
+
+.image-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.image-card-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+}
+
+.image-card-title {
+  font-weight: bold;
+  font-size: 1.25rem;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  margin: 0;
+}
+

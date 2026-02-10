@@ -1,0 +1,133 @@
+.wui-layer-stage {
+    width: 100%;
+    max-width: 42rem;
+    margin: 0 auto;
+}
+
+.wui-layer-crown {
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-align: center;
+    color: #1f2937;
+    margin-bottom: 1.5rem;
+}
+
+.wui-layer-stack {
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+/* Accordion Item */
+.wui-layer-brick {
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.wui-layer-brick:last-child {
+    border-bottom: none;
+}
+
+.wui-layer-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 1rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    transition: background-color 0.2s;
+}
+
+.wui-layer-trigger:hover {
+    background-color: #f9fafb;
+}
+
+.wui-layer-trigger:focus {
+    outline: none;
+}
+
+.wui-layer-intent {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.wui-layer-intent svg {
+    color: #6b7280;
+    flex-shrink: 0;
+}
+
+.wui-layer-voice {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #1f2937;
+}
+
+.wui-layer-dial {
+    color: #6b7280;
+    transition: transform 0.3s;
+    flex-shrink: 0;
+}
+
+.wui-layer-dial.open {
+    transform: rotate(180deg);
+}
+
+/* Accordion Content */
+.wui-layer-depth {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.3s ease-in-out;
+}
+
+.wui-layer-depth.open {
+    max-height: 24rem;
+}
+
+.wui-layer-well {
+    padding: 1rem;
+    padding-left: 3rem;
+}
+
+.wui-layer-well p {
+    margin: 0;
+    color: #4b5563;
+    line-height: 1.6;
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+    .wui-layer-crown {
+        color: #f9fafb;
+    }
+
+    .wui-layer-stack {
+        border-color: #374151;
+    }
+
+    .wui-layer-brick {
+        border-color: #374151;
+    }
+
+    .wui-layer-trigger:hover {
+        background-color: #1f2937;
+    }
+
+    .wui-layer-intent svg {
+        color: #9ca3af;
+    }
+
+    .wui-layer-voice {
+        color: #e5e7eb;
+    }
+
+    .wui-layer-dial {
+        color: #9ca3af;
+    }
+
+    .wui-layer-well p {
+        color: #d1d5db;
+    }
+}

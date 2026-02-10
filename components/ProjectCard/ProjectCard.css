@@ -1,0 +1,138 @@
+.project-card-wrapper {
+  width: 100%;
+  max-width: 28rem;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 0.75rem;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+@media (prefers-color-scheme: dark) {
+  .project-card-wrapper {
+    border-color: rgba(30, 41, 59, 0.8);
+    background: rgba(15, 23, 42, 0.5);
+  }
+}
+
+.project-card-content {
+  padding: 1.5rem;
+}
+
+.project-card-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.project-card-icon {
+  width: 3rem;
+  height: 3rem;
+  background: linear-gradient(to bottom right, #f87171, #ec4899);
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.project-card-icon.from-red-400.to-pink-500 {
+  background: linear-gradient(to bottom right, #f87171, #ec4899);
+}
+
+.project-card-icon-text {
+  color: white;
+  font-weight: bold;
+  font-size: 1.125rem;
+}
+
+.project-card-title-section {
+  flex: 1;
+}
+
+.project-card-title {
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0 0 0.25rem 0;
+  font-size: 1rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  .project-card-title {
+    color: #f1f5f9;
+  }
+}
+
+.project-card-status {
+  font-size: 0.875rem;
+  color: #475569;
+  margin: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  .project-card-status {
+    color: #94a3b8;
+  }
+}
+
+.project-card-description {
+  color: #334155;
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+@media (prefers-color-scheme: dark) {
+  .project-card-description {
+    color: #cbd5e1;
+  }
+}
+
+.project-card-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.project-card-button-primary {
+  background: #ef4444;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.project-card-button-primary:hover {
+  background: #dc2626;
+}
+
+.project-card-button-secondary {
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  color: #334155;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.project-card-button-secondary:hover {
+  background: rgba(248, 250, 252, 0.5);
+}
+
+@media (prefers-color-scheme: dark) {
+  .project-card-button-secondary {
+    border-color: rgba(71, 85, 105, 0.6);
+    color: #cbd5e1;
+  }
+
+  .project-card-button-secondary:hover {
+    background: rgba(15, 23, 42, 0.8);
+  }
+}
+

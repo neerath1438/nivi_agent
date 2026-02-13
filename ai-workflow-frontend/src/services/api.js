@@ -92,4 +92,19 @@ export const executePublicFlow = async (shareToken, input) => {
     return response.data;
 };
 
+export const exportPythonFlow = async (flowData) => {
+    const response = await api.post('/flow/export-python', flowData);
+    return response.data;
+};
+
+export const startGhostRecord = async () => {
+    const response = await api.post('/flow/ghost-record/start');
+    return response.data;
+};
+
+export const stopGhostRecord = async () => {
+    const response = await api.post('/flow/ghost-record/stop');
+    return response.data;
+};
+
 export default api;

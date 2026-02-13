@@ -35,6 +35,12 @@ const nodeTypes = [
     { type: 'loop', label: 'For Loop', icon: '🔄', description: 'Iterative control node' },
     { type: 'screenshot', label: 'Capture UI', icon: '📸', description: 'Take high-quality screenshot' },
     { type: 'ide', label: 'IDE Interface', icon: '💻', description: 'Integrated code editor and file explorer' },
+    { type: 'xpathHelper', label: 'XPATH Helper', icon: '🔎', description: 'Extract data from HTML using XPATH' },
+    { type: 'cssSelector', label: 'CSS Selector', icon: '🎨', description: 'Extract data from HTML using CSS' },
+    { type: 'jsonPath', label: 'JSON Path Helper', icon: '📦', description: 'Extract data from JSON using Path' },
+    { type: 'pythonExporter', label: 'Python Exporter', icon: '🐍', description: 'Enable full Python code view in Chat' },
+    { type: 'ghostRecorder', label: 'Ghost Recorder', icon: '👻', description: 'Record manual actions as visual nodes' },
+    { type: 'projectPlanner', label: 'Project Architect', icon: '🏢', description: 'Generate E2E Technical Blueprints & Backend Boilerplate' },
 ];
 
 const Sidebar = ({ isCollapsed, setIsCollapsed, theme, onCreateNew }) => {

@@ -1,0 +1,51 @@
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Node.js
+node_modules/
+dist/
+build/
+.npm
+*.log
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+.pytest_cache/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Database
+*.db
+*.sqlite
+
+# Project Specific
+whatsapp_bridge/auth_info_baileys/
+whatsapp_bridge/node_modules/
+ai-workflow-backend/static/downloads/
+ai-workflow-backend/static/screenshots/
+ai-workflow-frontend/dist/
+ai-workflow-frontend/node_modules/
+ai-workflow-frontend/.env
+ai-workflow-backend/.env
+static/downloads/
+static/screenshots/
+temp/
+tmp/
+*.zip
+*.pdf
+*.png
+*.jpg
+*.jpeg

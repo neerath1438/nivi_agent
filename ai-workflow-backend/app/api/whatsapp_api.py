@@ -44,20 +44,16 @@ async def whatsapp_webhook(request: WhatsAppWebhookRequest, background_tasks: Ba
 
 async def process_whatsapp_message(sender_jid: str, content: str):
     """Find and execute flows that have a WhatsApp Input node."""
-    print(f"\n📩 [DEBUG] Processing WhatsApp message from {sender_jid}: {content}")
     db = SessionLocal()
     try:
         # Fetch flows ordered by updated_at (latest first)
         flows = db.query(Flow).order_by(Flow.updated_at.desc(), Flow.id.desc()).all()
         logger.info(f"🔍 Searching through {len(flows)} flows for WhatsApp triggers...")
-        print(f"🔍 [DEBUG] Checking {len(flows)} saved flows in database...")
         
         found_any = False
         for flow in flows:
             flow_data = flow.flow_data
             nodes = flow_data.get("nodes", [])
-            
-            print(f"📄 [DEBUG] Flow '{flow.name}' (ID: {flow.id})")
             
             # Check if flow has a WhatsApp input node
             wa_input_node = next((node for node in nodes if node.get("type") == "whatsAppInput"), None)
@@ -71,7 +67,7 @@ async def process_whatsapp_message(sender_jid: str, content: str):
                 # Extract clean numbers (only digits) from JID
                 sender_number = "".join(filter(str.isdigit, sender_jid.split("@")[0]))
                 
-                print(f"🛡️ [FILTER] Mode: {mode}, Sender JID: {sender_jid}, Sender Number Only: {sender_number}")
+                logger.info(f"🛡️ [FILTER] Mode: {mode}, Sender JID: {sender_jid}, Sender Number Only: {sender_number}")
                 
                 should_trigger = True
                 if mode == "specific":
@@ -81,32 +77,29 @@ async def process_whatsapp_message(sender_jid: str, content: str):
                     
                     # Check if sender number is in allowed list
                     if sender_number not in allowed_list:
-                        print(f"🚫 [FILTER] Blocked! Sender {sender_number} not in allowed list: {allowed_list}")
+                        logger.warning(f"🚫 [FILTER] Blocked! Sender {sender_number} not in allowed list.")
                         should_trigger = False
                     else:
-                        print(f"✅ [FILTER] Allowed! Sender {sender_number} matched.")
+                        logger.info(f"✅ [FILTER] Allowed! Sender {sender_number} matched.")
 
                 if should_trigger:
                     found_any = True
-                    print(f"🚀 [DEBUG] MATCH FOUND! Triggering flow '{flow.name}'")
                     logger.info(f"🚀 Triggering flow '{flow.name}' (ID: {flow.id}) via WhatsApp")
                     
                     # Execute the flow with initial state containing the sender's JID
-                    await flow_executor.execute(flow_data, content, initial_state={
+                    async for _ in flow_executor.execute(flow_data, content, initial_state={
                         "whatsapp_jid": sender_jid,
                         "from": sender_jid  # For phone number extraction
-                    })
+                    }):
+                        pass
                     
                     # 🛑 Stop after first match to prevent double replies if multiple flows have WhatsApp triggers
-                    print(f"🛑 [DEBUG] Flow '{flow.name}' executed. Stopping further triggers.")
                     break
         
         if not found_any:
-            print("⚠️ [DEBUG] No flows matched the WhatsApp trigger.")
             logger.warning("⚠️ No flows found with a WhatsApp Trigger node.")
                 
     except Exception as e:
-        print(f"❌ [DEBUG] Error: {str(e)}")
         logger.error(f"❌ Error processing WhatsApp message flow: {str(e)}", exc_info=True)
     finally:
         db.close()

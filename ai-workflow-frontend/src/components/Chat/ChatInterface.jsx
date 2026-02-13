@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { runFlow, sendEmail } from '../../services/api';
+import { runFlow, sendEmail, exportPythonFlow } from '../../services/api';
+import CodeViewModal from '../CodeViewModal';
 import IDEView from './IDE/IDEView';
 
 const Loader = () => (
@@ -21,7 +22,27 @@ const ChatInterface = ({ nodes, edges, onClose, onExecutionResult, theme }) => {
     const [sendingEmailId, setSendingEmailId] = useState(null);
     const [currentIdeData, setCurrentIdeData] = useState(null);
     const [isIdeFullscreen, setIsIdeFullscreen] = useState(false);
+    const [isMaximized, setIsMaximized] = useState(false);
+    const [isCodeModalOpen, setIsCodeModalOpen] = useState(false);
+    const [exportedCode, setExportedCode] = useState('');
+    const [isExporting, setIsExporting] = useState(false);
     const messagesEndRef = useRef(null);
+
+    const hasPythonExporter = nodes.some(n => n.type === 'pythonExporter');
+
+    const handleExportPython = async () => {
+        setIsExporting(true);
+        try {
+            const result = await exportPythonFlow({ nodes, edges });
+            setExportedCode(result.code);
+            setIsCodeModalOpen(true);
+        } catch (error) {
+            console.error('Export failed:', error);
+            alert('Failed to generate Python code. See console for details.');
+        } finally {
+            setIsExporting(false);
+        }
+    };
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -238,8 +259,8 @@ const ChatInterface = ({ nodes, edges, onClose, onExecutionResult, theme }) => {
     };
 
     return (
-        <div className="chat-modal-overlay" onClick={onClose}>
-            <div className={`chat-modal ${theme} ${currentIdeData ? 'ide-mode' : ''} ${isIdeFullscreen ? 'fullscreen' : ''}`} onClick={(e) => e.stopPropagation()}>
+        <div className="chat-modal-overlay">
+            <div className={`chat-modal ${theme} ${currentIdeData ? 'ide-mode' : ''} ${isIdeFullscreen ? 'fullscreen' : ''} ${isMaximized ? 'maximized' : ''}`} onClick={(e) => e.stopPropagation()}>
                 {currentIdeData && (
                     <div className="ide-container">
                         <IDEView
@@ -257,9 +278,28 @@ const ChatInterface = ({ nodes, edges, onClose, onExecutionResult, theme }) => {
                             <h3>💬 AI Workflow Chat</h3>
                             <p>Interact with your workflow</p>
                         </div>
-                        <button className="chat-close-btn" onClick={onClose}>
-                            ✕
-                        </button>
+                        <div className="header-actions">
+                            {hasPythonExporter && (
+                                <button
+                                    className="chat-header-action-btn"
+                                    onClick={handleExportPython}
+                                    disabled={isExporting}
+                                    title="Export to Python Code"
+                                >
+                                    {isExporting ? '⏳' : '〈/〉'}
+                                </button>
+                            )}
+                            <button
+                                className="chat-maximize-btn"
+                                onClick={() => setIsMaximized(!isMaximized)}
+                                title={isMaximized ? "Minimize" : "Maximize"}
+                            >
+                                {isMaximized ? '🗗' : '🗖'}
+                            </button>
+                            <button className="chat-close-btn" onClick={onClose}>
+                                ✕
+                            </button>
+                        </div>
                     </div>
 
                     <div className="chat-messages">
@@ -367,6 +407,14 @@ const ChatInterface = ({ nodes, edges, onClose, onExecutionResult, theme }) => {
                     </div>
                 </div>
 
+                <CodeViewModal
+                    isOpen={isCodeModalOpen}
+                    onClose={() => setIsCodeModalOpen(false)}
+                    nodeType="Full Workflow Script"
+                    code={exportedCode}
+                    filePath="exported_workflow.py"
+                />
+
                 <style jsx>{`
                 .chat-modal-overlay {
                     position: fixed;
@@ -389,8 +437,19 @@ const ChatInterface = ({ nodes, edges, onClose, onExecutionResult, theme }) => {
                     flex-direction: column;
                     box-shadow: var(--shadow-lg);
                     animation: modalPop 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+                    position: relative;
                     overflow: hidden;
-                    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+                    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+                }
+
+                .chat-modal.maximized {
+                    width: 95vw;
+                    height: 95vh;
+                    border-radius: 20px;
+                }
+
+                .chat-modal.maximized .chat-section {
+                    width: 100%;
                 }
 
                 .chat-modal.ide-mode {
@@ -461,28 +520,68 @@ const ChatInterface = ({ nodes, edges, onClose, onExecutionResult, theme }) => {
                     color: var(--text-primary);
                 }
 
+                .chat-header-action-btn {
+                    background: transparent;
+                    border: none;
+                    color: var(--text-secondary);
+                    font-size: 1.1rem;
+                    cursor: pointer;
+                    padding: 4px 8px;
+                    border-radius: 6px;
+                    transition: all 0.2s;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-weight: 600;
+                }
+
+                .chat-header-action-btn:hover {
+                    background: var(--bg-primary);
+                    color: var(--accent-primary);
+                }
+
+                .chat-header-action-btn:disabled {
+                    opacity: 0.5;
+                    cursor: not-allowed;
+                }
+                    font-weight: 700;
+                    color: var(--text-primary);
+                }
+
                 .chat-header p {
                     margin: 0;
                     font-size: 0.75rem;
                     color: var(--text-secondary);
                 }
 
-                .chat-close-btn {
+                .chat-close-btn, .chat-maximize-btn {
                     background: rgba(0, 0, 0, 0.05);
                     border: none;
-                    width: 24px;
-                    height: 24px;
+                    width: 28px;
+                    height: 28px;
                     border-radius: 50%;
                     cursor: pointer;
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    font-size: 10px;
+                    font-size: 14px;
                     transition: all 0.2s;
+                    color: var(--text-primary);
                 }
 
-                .chat-close-btn:hover {
+                .chat-maximize-btn {
+                    font-size: 16px;
+                }
+
+                .chat-close-btn:hover, .chat-maximize-btn:hover {
                     background: rgba(0, 0, 0, 0.1);
+                    transform: scale(1.1);
+                }
+
+                .header-actions {
+                    display: flex;
+                    gap: 8px;
+                    align-items: center;
                 }
                 .chat-messages {
                     flex: 1;

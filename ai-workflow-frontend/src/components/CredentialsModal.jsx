@@ -128,7 +128,7 @@ const CredentialsModal = ({ isOpen, onClose }) => {
     if (!isOpen) return null;
 
     return (
-        <div className="credentials-modal-overlay" onClick={onClose}>
+        <div className="credentials-modal-overlay">
             <div className="credentials-modal" onClick={(e) => e.stopPropagation()}>
                 <div className="credentials-modal-header">
                     <h2>🔑 Credentials Manager</h2>

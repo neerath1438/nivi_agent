@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
 import ReactFlow, {
     addEdge,
     MiniMap,
@@ -40,10 +40,17 @@ import FrontendLanguageNode from '../Nodes/FrontendLanguageNode';
 import BackendLanguageNode from '../Nodes/BackendLanguageNode';
 import ThemeNode from '../Nodes/ThemeNode';
 import ZipNode from '../Nodes/ZipNode';
+import { saveFlow, updateFlow, runFlow, startGhostRecord, stopGhostRecord } from '../../services/api';
 import BrowserNode from '../Nodes/BrowserNode';
 import LoopNode from '../Nodes/LoopNode';
 import ScreenshotNode from '../Nodes/ScreenshotNode';
 import IDENode from '../Nodes/IDENode';
+import XPATHHelperNode from '../Nodes/XPATHHelperNode';
+import CSSSelectorNode from '../Nodes/CSSSelectorNode';
+import JSONPathNode from '../Nodes/JSONPathNode';
+import PythonExporterNode from '../Nodes/PythonExporterNode';
+import GhostRecorderNode from '../Nodes/GhostRecorderNode';
+import ProjectPlannerNode from '../Nodes/ProjectPlannerNode';
 import AIArchitect from './AIArchitect';
 
 const nodeTypes = {
@@ -82,6 +89,12 @@ const nodeTypes = {
     loop: LoopNode,
     screenshot: ScreenshotNode,
     ide: IDENode,
+    xpathHelper: XPATHHelperNode,
+    cssSelector: CSSSelectorNode,
+    jsonPath: JSONPathNode,
+    pythonExporter: PythonExporterNode,
+    ghostRecorder: GhostRecorderNode,
+    projectPlanner: ProjectPlannerNode,
 };
 
 const FlowCanvas = ({ activeAgentId, onNodesChange: externalOnNodesChange, onEdgesChange: externalOnEdgesChange, theme }) => {
@@ -89,6 +102,9 @@ const FlowCanvas = ({ activeAgentId, onNodesChange: externalOnNodesChange, onEdg
     const [edges, setEdges, onEdgesChange] = useEdgesState([]);
     const [reactFlowInstance, setReactFlowInstance] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
+    const [isRecording, setIsRecording] = useState(false);
+    const eventSourceRef = useRef(null);
+    const lastNodeRef = useRef(null);
 
     // History for undo/redo
     const [history, setHistory] = useState([{ nodes: [], edges: [] }]);
@@ -110,6 +126,142 @@ const FlowCanvas = ({ activeAgentId, onNodesChange: externalOnNodesChange, onEdg
             })
         );
     }, [setNodes]);
+
+    const processGhostEvent = useCallback((event) => {
+        const data = JSON.parse(event.data);
+        console.log("👻 [FlowCanvas] Ghost Event:", data);
+
+        // 1. INPUT MERGING: Check if we should update an existing 'type' node
+        const last = lastNodeRef.current;
+        if (data.type === 'input' && last) {
+            const isSameSelector = last.data.selector === data.selector;
+            const isClickToType = last.data.action === 'click' && (last.data.selector === data.selector || data.selector.includes(last.data.selector));
+
+            if (isSameSelector || isClickToType) {
+                console.log("👻 [FlowCanvas] Merging input into node:", last.id);
+                setNodes((nds) => nds.map(node => {
+                    if (node.id === last.id) {
+                        return {
+                            ...node,
+                            data: {
+                                ...node.data,
+                                action: 'type',
+                                value: data.value,
+                                isPassword: data.isPassword || node.data.isPassword
+                            }
+                        };
+                    }
+                    return node;
+                }));
+                // Update ref SYNC to prevent race conditions during rapid typing
+                lastNodeRef.current = {
+                    ...last,
+                    data: { ...last.data, action: 'type', value: data.value }
+                };
+                return;
+            }
+        }
+
+        // 2. NAVIGATION SKIP: Skip redundant navigate nodes
+        if (data.type === 'navigation' && last && last.data.url === data.url) {
+            console.log("👻 [FlowCanvas] Skipping redundant navigation node");
+            return;
+        }
+
+        // 3. CREATE NEW NODE: If we reached here, create a fresh action node
+        console.log("👻 [FlowCanvas] Creating new action node for:", data.type);
+        const uniqueId = `browser_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`;
+
+        // Fetch global manual mode state from where it's stored (usually GhostRecorderNode or local state)
+        // For now, we'll check if the user has enabled it in the GhostRecorder UI
+        const isManualCaptureEnabled = document.querySelector('[data-manual-mode="true"]') !== null;
+
+        let newNodeData = {
+            id: uniqueId,
+            onChange: handleNodeDataChange,
+            mode: 'headed',
+            manualMode: isManualCaptureEnabled
+        };
+
+        if (data.type === 'navigation') {
+            newNodeData.action = 'navigate';
+            newNodeData.url = data.url;
+        } else if (data.type === 'click') {
+            newNodeData.action = 'click';
+            newNodeData.selector = data.selector;
+        } else if (data.type === 'input') {
+            newNodeData.action = 'type';
+            newNodeData.selector = data.selector;
+            newNodeData.value = data.value;
+            if (data.isPassword) newNodeData.isPassword = true;
+        }
+
+        const position = last ? { x: last.position.x + 300, y: last.position.y } : { x: 100, y: 100 };
+        const newNode = {
+            id: uniqueId,
+            type: 'browser',
+            position,
+            data: newNodeData
+        };
+
+        // Update ref SYNC immediately so next event sees this as 'lastNode'
+        lastNodeRef.current = newNode;
+
+        setNodes((nds) => {
+            const newNodes = nds.concat(newNode);
+            if (last) {
+                const newEdge = {
+                    id: `e-${last.id}-${newNode.id}`,
+                    source: last.id,
+                    target: newNode.id
+                };
+                setEdges((eds) => eds.concat(newEdge));
+            }
+            return newNodes;
+        });
+
+    }, [handleNodeDataChange, setNodes, setEdges]);
+
+    const handleToggleRecording = useCallback(async (recording) => {
+        setIsRecording(recording);
+        if (recording) {
+            try {
+                // Clear state for new recording
+                lastNodeRef.current = null;
+                await startGhostRecord();
+
+                // Start listening to events
+                const es = new EventSource('/api/flow/ghost-record/events');
+                es.onmessage = processGhostEvent;
+                es.onerror = (err) => {
+                    console.error("EventSource failed:", err);
+                    es.close();
+                };
+                eventSourceRef.current = es;
+            } catch (error) {
+                console.error("Failed to start recording:", error);
+            }
+        } else {
+            try {
+                await stopGhostRecord();
+                if (eventSourceRef.current) {
+                    eventSourceRef.current.close();
+                    eventSourceRef.current = null;
+                }
+            } catch (error) {
+                console.error("Failed to stop recording:", error);
+            }
+        }
+    }, [processGhostEvent]);
+
+    // Cleanup on unmount
+    useEffect(() => {
+        return () => {
+            if (eventSourceRef.current) {
+                eventSourceRef.current.close();
+            }
+        };
+    }, []);
 
     const addToHistory = useCallback((newNodes, newEdges) => {
         setHistory(prev => {
@@ -196,7 +348,8 @@ const FlowCanvas = ({ activeAgentId, onNodesChange: externalOnNodesChange, onEdg
                     data: {
                         ...node.data,
                         id: node.id,
-                        onChange: handleNodeDataChange
+                        onChange: handleNodeDataChange,
+                        onToggleRecording: node.type === 'ghostRecorder' ? handleToggleRecording : undefined
                     }
                 }));
                 setNodes(restoredNodes);
@@ -271,6 +424,7 @@ const FlowCanvas = ({ activeAgentId, onNodesChange: externalOnNodesChange, onEdg
                     id: newNodeId,
                     label: `${type} node`,
                     onChange: handleNodeDataChange,
+                    onToggleRecording: type === 'ghostRecorder' ? handleToggleRecording : undefined
                 },
             };
 

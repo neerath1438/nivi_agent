@@ -1,5 +1,7 @@
 """Flow API endpoints."""
 import logging
+import asyncio
+import json
 import uuid
 from typing import List, Optional
 from datetime import datetime
@@ -10,6 +12,8 @@ from pydantic import BaseModel
 
 from app.models import Flow, FlowRun, RunStatus, get_db
 from app.services.flow_executor import flow_executor
+from app.services.python_exporter_service import python_exporter_service
+from app.services.ghost_recorder_service import ghost_recorder_service
 
 logger = logging.getLogger(__name__)
 
@@ -340,3 +344,34 @@ async def execute_public_flow(share_token: str, request: dict, db: Session = Dep
     except Exception as e:
         logger.error(f"Public execution error: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
+
+@router.post("/flow/export-python")
+async def export_python(request: dict):
+    """Generate a single Python script from flow data."""
+    try:
+        nodes = request.get("nodes", [])
+        edges = request.get("edges", [])
+        code = python_exporter_service.export_flow(nodes, edges)
+        return {"code": code}
+    except Exception as e:
+        logger.error(f"Export error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+@router.post("/flow/ghost-record/start")
+async def start_ghost_record():
+    asyncio.create_task(ghost_recorder_service.start_recording())
+    return {"status": "started"}
+
+@router.post("/flow/ghost-record/stop")
+async def stop_ghost_record():
+    await ghost_recorder_service.stop_recording()
+    return {"status": "stopped"}
+
+@router.get("/flow/ghost-record/events")
+async def ghost_record_events():
+    from fastapi.responses import StreamingResponse
+    
+    async def event_generator():
+        async for event in ghost_recorder_service.get_events():
+            yield f"data: {json.dumps(event)}\n\n"
+            
+    return StreamingResponse(event_generator(), media_type="text/event-stream")

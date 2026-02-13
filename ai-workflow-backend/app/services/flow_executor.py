@@ -3,6 +3,7 @@ import logging
 import sys
 import asyncio
 import json
+import uuid
 from typing import Dict, Any, List
 from sqlalchemy.orm import Session
 from app.runners.base_runner import BaseRunner
@@ -33,11 +34,15 @@ from app.runners.browser_runner import BrowserRunner
 from app.runners.loop_runner import LoopRunner
 from app.runners.screenshot_runner import ScreenshotRunner
 from app.runners.ide_runner import IDERunner
+from app.runners.xpath_helper_runner import XPathHelperRunner
+from app.runners.css_selector_runner import CSSSelectorRunner
+from app.runners.json_path_runner import JSONPathRunner
 from app.runners.whatsapp_input_runner import WhatsAppInputRunner
 from app.runners.whatsapp_runner import whats_app_runner
 from app.runners.mongodb_runner import mongo_db_runner
 from app.runners.tshirt_catalog_runner import tshirt_catalog_runner
 from app.runners.greeting_runner import greeting_runner
+from app.runners.project_planner_runner import ProjectPlannerRunner
 from app.models import Credential, get_db
 from app.services.encryption_service import encryption_service
 
@@ -84,7 +89,12 @@ class FlowExecutor:
             "browser": BrowserRunner(),
             "loop": LoopRunner(),
             "screenshot": ScreenshotRunner(),
-            "ide": IDERunner()
+            "ide": IDERunner(),
+            "xpathHelper": XPathHelperRunner(),
+            "htmlExtractor": XPathHelperRunner(), # Alias for backward compatibility
+            "cssSelector": CSSSelectorRunner(),
+            "jsonPath": JSONPathRunner(),
+            "projectPlanner": ProjectPlannerRunner()
         }
     
     async def execute(self, flow_data: Dict[str, Any], user_input: str, initial_state: Dict[str, Any] = None):
@@ -122,26 +132,53 @@ class FlowExecutor:
                 e["target"] = str(e.get("target", ""))
                 e["sourceHandle"] = str(e.get("sourceHandle", "")) if e.get("sourceHandle") else None
 
-            logger.info(f"📊 Flow Execution Start: {len(nodes)} nodes")
-            yield json.dumps({"type": "start", "message": f"Starting flow with {len(nodes)} nodes..."})
+            logger.info(f"📊 Flow Execution Start: {len(nodes)} nodes found in flow data.")
+            for i, n in enumerate(nodes):
+                logger.info(f"  Node {i}: ID={n.get('id')}, Type={n.get('type')}")
             
-            state = {"input": user_input, "logs": [], "cumulative_html": []}
+            logger.info(f"📈 Edges found: {len(edges)}")
+            for i, e in enumerate(edges):
+                logger.info(f"  Edge {i}: {e.get('source')} -> {e.get('target')} (Handle: {e.get('sourceHandle')})")
+
+            yield json.dumps({"type": "start", "message": f"Starting flow with {len(nodes)} nodes..."})
+
+            run_id = str(uuid.uuid4())
+            state = {"run_id": run_id, "input": user_input, "logs": [], "cumulative_html": []}
             if initial_state: state.update(initial_state)
 
-            # Build maps
-            node_ids = [n["id"] for n in nodes]
+            # Build maps - Only include edges between existing nodes
+            unique_nodes = {}
+            for n in nodes:
+                nid = str(n.get("id", ""))
+                if nid in unique_nodes:
+                    logger.warning(f"⚠️ Duplicate node ID detected: {nid}. Using last occurrence.")
+                unique_nodes[nid] = n
+            
+            node_ids = set(unique_nodes.keys())
             incoming_counts = {nid: 0 for nid in node_ids}
             outputs_map = {nid: [] for nid in node_ids}
             
+            valid_edges = []
             for edge in edges:
-                source, target = edge["source"], edge["target"]
-                if target in incoming_counts:
+                source, target = str(edge.get("source", "")), str(edge.get("target", ""))
+                if source in node_ids and target in node_ids:
+                    # Robustness: Skip self-loops to avoid deadlocks
+                    if source == target:
+                        logger.warning(f"⚠️ Skipping self-loop edge: {source} -> {target}")
+                        continue
+                        
                     incoming_counts[target] += 1
-                if source in outputs_map:
                     outputs_map[source].append(edge)
+                    valid_edges.append(edge)
+                else:
+                    logger.warning(f"⚠️ Skipping dangling edge: {source} -> {target}")
+            
+            # Use valid_edges if needed for logging or further logic
+            edges = valid_edges
 
             queue = [nid for nid in node_ids if incoming_counts[nid] == 0]
             queue.sort()
+            logger.info(f"🚀 Initial Queue: {queue}")
             executed_nodes = set()
             active_nodes = set(node_ids)
 
@@ -169,6 +206,12 @@ class FlowExecutor:
                 node_data = await self._resolve_credentials(node.get("data", {}))
                 node_data["node_id"] = node_id
                 
+                # Documentation Mode Tracking
+                if node_data.get("manualMode"):
+                    state["manual_mode"] = True
+                if "manual_steps" not in state:
+                    state["manual_steps"] = []
+                
                 runner = self.runners.get(node_type)
                 result = {}
                 
@@ -184,6 +227,16 @@ class FlowExecutor:
                         
                         logger.info(f"✅ [ENGINE] Node {node_id} finished. Result status: {result.get('status') if result else 'None'}")
                         
+                        # Accumulate Manual Documentation Steps
+                        if node_data.get("manualMode") and node_type == "browser" and result.get("status") != "error":
+                            state["manual_steps"].append({
+                                "node_id": node_id,
+                                "action": node_data.get("action", "navigate"),
+                                "selector": node_data.get("selector"),
+                                "url": result.get("url"),
+                                "screenshotUrl": result.get("screenshotUrl")
+                            })
+
                         state.update(result or {})
                         
                         # Accumulate visuals
@@ -202,6 +255,15 @@ class FlowExecutor:
                             "status": result.get("status", "success"),
                             "result": result
                         })
+                        
+                        # Debug queue for next items
+                        next_nodes = []
+                        for edge in outputs_map[node_id]:
+                             target_id = edge["target"]
+                             if target_id in incoming_counts:
+                                 next_nodes.append(f"{target_id}(counts:{incoming_counts[target_id]})")
+                        logger.info(f"📡 [ENGINE] Node {node_id} triggered next potential nodes: {next_nodes}")
+                        
                         logger.info(f"📥 [ENGINE] Node {node_id} event yielded successfully")
                     except Exception as e:
                         logger.error(f"Error in {node_id}: {e}", exc_info=True)
@@ -233,13 +295,20 @@ class FlowExecutor:
                             self._deactivate_recursive(edge["target"], outputs_map, active_nodes)
 
                 # Queue next
+                logger.info(f"🔍 [ENGINE] Node {node_id} finished. Processing {len(outputs_map[node_id])} output edges...")
                 for edge in outputs_map[node_id]:
                     target_id = edge["target"]
+                    logger.info(f"   -> Edge: {node_id} -> {target_id}")
                     if target_id in incoming_counts:
                         incoming_counts[target_id] -= 1
+                        logger.info(f"      Remaining counts for {target_id}: {incoming_counts[target_id]}")
                         if incoming_counts[target_id] == 0:
                             queue.append(target_id)
+                            logger.info(f"      ✅ Node {target_id} added to Queue.")
+                    else:
+                        logger.error(f"      ❌ Target node {target_id} NOT found in node list!")
 
+            logger.info("🏁 Flow Execution Loop Finished.")
             # Final result yield
             yield json.dumps({
                 "type": "final",
@@ -247,6 +316,13 @@ class FlowExecutor:
                 "logs": state["logs"],
                 "state": state
             })
+            
+            # Cleanup persistent browser sessions
+            try:
+                from app.runners.browser_runner import session_manager
+                session_manager.close_session(run_id)
+            except Exception as e:
+                logger.error(f"Error during post-flow cleanup: {e}")
 
         except Exception as e:
             logger.error(f"❌ Execution Failure: {str(e)}", exc_info=True)

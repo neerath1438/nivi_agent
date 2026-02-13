@@ -44,7 +44,10 @@ class OutputRunner(BaseRunner):
             final_parts.append(f"\n\n### 📦 [Download Project ZIP]({zip_url})")
 
         # D. FINAL FALLBACK / MAIN OUTPUT
-        if not final_parts and main_output:
+        if main_output:
+            # If we already have content, add a separator
+            if final_parts:
+                final_parts.append("\n\n---\n")
             final_parts.append(main_output)
 
         final_msg = "".join(final_parts).strip() or "No output generated."

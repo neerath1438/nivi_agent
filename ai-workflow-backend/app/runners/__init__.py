@@ -27,6 +27,9 @@ from app.runners.browser_runner import BrowserRunner
 from app.runners.loop_runner import LoopRunner
 from app.runners.screenshot_runner import ScreenshotRunner
 from app.runners.ide_runner import IDERunner
+from app.runners.xpath_helper_runner import XPathHelperRunner
+from app.runners.css_selector_runner import CSSSelectorRunner
+from app.runners.json_path_runner import JSONPathRunner
 
 __all__ = [
     "BaseRunner",
@@ -56,5 +59,8 @@ __all__ = [
     "BrowserRunner",
     "LoopRunner",
     "ScreenshotRunner",
-    "IDERunner"
+    "IDERunner",
+    "XPathHelperRunner",
+    "CSSSelectorRunner",
+    "JSONPathRunner"
 ]

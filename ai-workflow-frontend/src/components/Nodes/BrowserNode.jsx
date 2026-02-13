@@ -33,8 +33,40 @@ const BrowserNode = ({ id, data, isConnectable }) => {
                         <option value="navigate">Navigate Only</option>
                         <option value="screenshot">Take Screenshot</option>
                         <option value="content">Extract Content (HTML)</option>
+                        <option value="click">Click Element</option>
+                        <option value="type">Type Text</option>
+                        <option value="wait">Wait for Duration</option>
                     </select>
                 </div>
+
+                {(data.action === 'click' || data.action === 'type') && (
+                    <div className="input-field">
+                        <label>Selector (CSS/ID)</label>
+                        <input
+                            type="text"
+                            value={data.selector || ''}
+                            onChange={(e) => data.onChange?.(id, { selector: e.target.value })}
+                            placeholder="#login-btn"
+                            className="nodrag"
+                        />
+                    </div>
+                )}
+
+                {(data.action === 'type' || data.action === 'wait') && (
+                    <div className="input-field">
+                        <label>
+                            {data.action === 'wait' ? 'Wait Duration (seconds)' : 'Value to Type'}
+                            {data.isPassword && data.action === 'type' && <span title="Password Field">🔒</span>}
+                        </label>
+                        <input
+                            type={data.isPassword && data.action === 'type' ? "password" : "text"}
+                            value={data.value || ''}
+                            onChange={(e) => data.onChange?.(id, { value: e.target.value })}
+                            placeholder={data.action === 'wait' ? "30" : (data.isPassword ? "••••••••" : "Hello World")}
+                            className="nodrag"
+                        />
+                    </div>
+                )}
 
                 <div className="input-field">
                     <label>Browser Mode</label>
@@ -53,6 +85,30 @@ const BrowserNode = ({ id, data, isConnectable }) => {
                         </button>
                     </div>
                 </div>
+
+                <div className="input-field">
+                    <label>Documentation Mode</label>
+                    <div className="toggle-group">
+                        <button
+                            className={`toggle-btn ${data.manualMode ? 'active' : ''}`}
+                            style={data.manualMode ? { background: '#8b5cf6', borderColor: '#8b5cf6' } : {}}
+                            onClick={() => data.onChange?.(id, { manualMode: !data.manualMode })}
+                        >
+                            {data.manualMode ? '📸 Manual Mode (On)' : '⚙️ Automation Only'}
+                        </button>
+                    </div>
+                </div>
+
+                {data.screenshotUrl && (
+                    <div className="step-preview">
+                        <label>Capture Preview</label>
+                        <img
+                            src={data.screenshotUrl}
+                            alt="Step Screenshot"
+                            style={{ width: '100%', borderRadius: '4px', border: '1px solid #e2e8f0', marginTop: '5px' }}
+                        />
+                    </div>
+                )}
 
                 <div className="info-text">
                     Automation Engine ⚡

@@ -1,0 +1,121 @@
+{
+  "nodes": [
+    {
+      "id": "1",
+      "type": "chatInput",
+      "position": {
+        "x": 0,
+        "y": 200
+      },
+      "data": {
+        "label": "User Input",
+        "id": "1"
+      },
+      "width": 200,
+      "height": 113
+    },
+    {
+      "id": "2",
+      "type": "search",
+      "position": {
+        "x": 300,
+        "y": 200
+      },
+      "data": {
+        "label": "Google Search",
+        "query": "Bus timings from Erode to {input}",
+        "id": "2"
+      },
+      "width": 229,
+      "height": 169
+    },
+    {
+      "id": "3",
+      "type": "gemini",
+      "position": {
+        "x": 1052.2143543248758,
+        "y": -85.7019139244724
+      },
+      "data": {
+        "label": "Gemini Config",
+        "model": "gemini-2.5-flash",
+        "id": "3",
+        "provider": "gemini",
+        "apiKey": "",
+        "temperature": 0.7,
+        "maxTokens": 10000
+      },
+      "width": 331,
+      "height": 426,
+      "selected": true,
+      "dragging": false,
+      "positionAbsolute": {
+        "x": 1052.2143543248758,
+        "y": -85.7019139244724
+      }
+    },
+    {
+      "id": "4",
+      "type": "llm",
+      "position": {
+        "x": 674.7612440617738,
+        "y": 468.0464116361158
+      },
+      "data": {
+        "label": "LLM Execute",
+        "id": "4"
+      },
+      "width": 281,
+      "height": 392,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 674.7612440617738,
+        "y": 468.0464116361158
+      },
+      "dragging": false
+    },
+    {
+      "id": "5",
+      "type": "chatOutput",
+      "position": {
+        "x": 1645.7889956406214,
+        "y": 291.1722488558217
+      },
+      "data": {
+        "label": "Chat Output",
+        "id": "5"
+      },
+      "width": 200,
+      "height": 113,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1645.7889956406214,
+        "y": 291.1722488558217
+      },
+      "dragging": false
+    }
+  ],
+  "edges": [
+    {
+      "id": "e1-2",
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "id": "e2-4",
+      "source": "2",
+      "target": "4"
+    },
+    {
+      "id": "e3-4",
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "id": "e4-5",
+      "source": "4",
+      "target": "5"
+    }
+  ],
+  "agentId": "search-agent"
+}

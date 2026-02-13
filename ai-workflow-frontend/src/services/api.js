@@ -92,6 +92,19 @@ export const executePublicFlow = async (shareToken, input) => {
     return response.data;
 };
 
+export const runPublicFlow = async (shareToken, input) => {
+    const response = await fetch(`${API_BASE_URL}/public/execute/${shareToken}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            input: input,
+        }),
+    });
+    return response;
+};
+
 export const exportPythonFlow = async (flowData) => {
     const response = await api.post('/flow/export-python', flowData);
     return response.data;

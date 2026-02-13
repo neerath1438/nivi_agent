@@ -97,14 +97,15 @@ const nodeTypes = {
     projectPlanner: ProjectPlannerNode,
 };
 
-const FlowCanvas = ({ activeAgentId, onNodesChange: externalOnNodesChange, onEdgesChange: externalOnEdgesChange, theme }) => {
-    const [nodes, setNodes, onNodesChange] = useNodesState([]);
-    const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+const FlowCanvas = ({ activeAgentId, onNodesChange: externalOnNodesChange, onEdgesChange: externalOnEdgesChange, theme, isReadOnly = false, initialNodes = null, initialEdges = null }) => {
+    const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes || []);
+    const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges || []);
     const [reactFlowInstance, setReactFlowInstance] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const [isRecording, setIsRecording] = useState(false);
     const eventSourceRef = useRef(null);
     const lastNodeRef = useRef(null);
+    const initialLoadRef = useRef(false); // Add ref to track if initial data has been loaded
 
     // History for undo/redo
     const [history, setHistory] = useState([{ nodes: [], edges: [] }]);
@@ -264,6 +265,7 @@ const FlowCanvas = ({ activeAgentId, onNodesChange: externalOnNodesChange, onEdg
     }, []);
 
     const addToHistory = useCallback((newNodes, newEdges) => {
+        if (isReadOnly) return;
         setHistory(prev => {
             const newHistory = prev.slice(0, historyIndex + 1);
             newHistory.push({ nodes: newNodes, edges: newEdges });
@@ -329,6 +331,7 @@ const FlowCanvas = ({ activeAgentId, onNodesChange: externalOnNodesChange, onEdg
 
     // Load state whenever activeAgentId changes
     React.useEffect(() => {
+        initialLoadRef.current = false; // Reset on effect trigger
         if (!activeAgentId) {
             setNodes([]);
             setEdges([]);
@@ -337,6 +340,29 @@ const FlowCanvas = ({ activeAgentId, onNodesChange: externalOnNodesChange, onEdg
         }
 
         setIsLoaded(false);
+
+        // If we have initial data (e.g. from shared link), use it directly
+        if (isReadOnly && initialNodes && initialNodes.length > 0 && !initialLoadRef.current) {
+            console.log("🛠️ [FlowCanvas] Loading initial shared nodes:", initialNodes.length);
+            const restoredNodes = initialNodes.map(node => ({
+                ...node,
+                data: {
+                    ...node.data,
+                    id: node.id,
+                    onChange: handleNodeDataChange,
+                    isReadOnly: true
+                }
+            }));
+            setNodes(restoredNodes);
+            setEdges(initialEdges || []);
+            setIsLoaded(true);
+            initialLoadRef.current = true; // Mark as loaded to prevent reset loop
+            return;
+        }
+
+        // If we are in read-only mode and already loaded, don't proceed to localStorage
+        if (isReadOnly && initialLoadRef.current) return;
+
         const savedNodes = localStorage.getItem(`workflow-nodes-${activeAgentId}`);
         const savedEdges = localStorage.getItem(`workflow-edges-${activeAgentId}`);
 
@@ -373,14 +399,14 @@ const FlowCanvas = ({ activeAgentId, onNodesChange: externalOnNodesChange, onEdg
         }
 
         setIsLoaded(true);
-    }, [activeAgentId, setNodes, setEdges, handleNodeDataChange]);
+    }, [activeAgentId, isReadOnly, initialNodes, initialEdges, setNodes, setEdges, handleNodeDataChange]);
 
     // Save to localStorage
     React.useEffect(() => {
-        if (isLoaded && activeAgentId) {
+        if (isLoaded && activeAgentId && !isReadOnly) {
             localStorage.setItem(`workflow-nodes-${activeAgentId}`, JSON.stringify(nodes));
         }
-    }, [nodes, isLoaded, activeAgentId]);
+    }, [nodes, isLoaded, activeAgentId, isReadOnly]);
 
     React.useEffect(() => {
         if (isLoaded && activeAgentId) {
@@ -462,6 +488,8 @@ const FlowCanvas = ({ activeAgentId, onNodesChange: externalOnNodesChange, onEdg
                 event.target.tagName === 'SELECT' ||
                 event.target.isContentEditable;
 
+            if (isReadOnly) return;
+
             if ((event.key === 'Delete' || event.key === 'Backspace') && !isInputField) {
                 const selectedNodes = nodes.filter((node) => node.selected);
                 const selectedEdges = edges.filter((edge) => edge.selected);
@@ -500,9 +528,16 @@ const FlowCanvas = ({ activeAgentId, onNodesChange: externalOnNodesChange, onEdg
         return () => document.removeEventListener('keydown', handleKeyDown);
     }, [nodes, edges, history, historyIndex, setNodes, setEdges, addToHistory]);
 
-    // Propagate changes up
-    React.useEffect(() => { if (externalOnNodesChange) externalOnNodesChange(nodes); }, [nodes, externalOnNodesChange]);
-    React.useEffect(() => { if (externalOnEdgesChange) externalOnEdgesChange(edges); }, [edges, externalOnEdgesChange]);
+    // Propagate changes up (Only if NOT read-only to avoid loops)
+    React.useEffect(() => {
+        if (isReadOnly) return;
+        if (externalOnNodesChange) externalOnNodesChange(nodes);
+    }, [nodes, externalOnNodesChange, isReadOnly]);
+
+    React.useEffect(() => {
+        if (isReadOnly) return;
+        if (externalOnEdgesChange) externalOnEdgesChange(edges);
+    }, [edges, externalOnEdgesChange, isReadOnly]);
 
     if (!activeAgentId) {
         return (
@@ -539,14 +574,17 @@ const FlowCanvas = ({ activeAgentId, onNodesChange: externalOnNodesChange, onEdg
                 onEdgesChange={onEdgesChange}
                 onNodesDelete={onNodesDelete}
                 onEdgesDelete={onEdgesDelete}
-                onConnect={onConnect}
+                onConnect={isReadOnly ? undefined : onConnect}
                 onInit={setReactFlowInstance}
-                onDrop={onDrop}
-                onDragOver={onDragOver}
+                onDrop={isReadOnly ? undefined : onDrop}
+                onDragOver={isReadOnly ? undefined : onDragOver}
                 nodeTypes={nodeTypes}
                 fitView
-                deleteKeyCode={['Backspace', 'Delete']}
-                multiSelectionKeyCode="Shift"
+                deleteKeyCode={isReadOnly ? null : ['Backspace', 'Delete']}
+                nodesDraggable={!isReadOnly}
+                nodesConnectable={!isReadOnly}
+                elementsSelectable={!isReadOnly}
+                multiSelectionKeyCode={isReadOnly ? null : "Shift"}
             >
                 {/* Premium Backgrounds */}
                 {theme === 'theme-light' ? (

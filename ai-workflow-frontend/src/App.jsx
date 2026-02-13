@@ -8,7 +8,7 @@ import CredentialsModal from './components/CredentialsModal';
 import ChatInterface from './components/Chat/ChatInterface';
 import PublicChat from './components/Chat/PublicChat'; // Import PublicChat
 
-import { listFlows, runFlow, deleteFlow, shareFlow } from './services/api'; // Import shareFlow
+import { listFlows, runFlow, deleteFlow, shareFlow, getPublicFlow } from './services/api'; // Import shareFlow
 import ThreeDCard from './components/ThreeDCard'; // Import ThreeDCard
 import GlowButton from './components/GlowButton'; // Import GlowButton
 import KnowledgeBase from './pages/KnowledgeBase';
@@ -83,10 +83,32 @@ function App() {
             const token = path.split('/share/')[1];
             if (token) {
                 setShareToken(token);
-                setActiveView('share');
+                loadPublicFlow(token);
             }
         }
     }, []);
+
+    const loadPublicFlow = async (token) => {
+        setIsLoadingFlows(true);
+        try {
+            const flow = await getPublicFlow(token);
+            if (flow && flow.flow_data) {
+                // Set these first
+                setNodes(flow.flow_data.nodes || []);
+                setEdges(flow.flow_data.edges || []);
+                setFlowId(flow.id);
+                setCurrentFlowName(flow.name);
+
+                // Then switch view - FlowCanvas will pick up the nodes via initialNodes prop
+                setActiveView('workflows');
+            }
+        } catch (error) {
+            console.error('Failed to load shared flow:', error);
+            alert("This shared flow link is invalid or expired.");
+        } finally {
+            setIsLoadingFlows(false);
+        }
+    };
 
     const toggleTheme = () => {
         setTheme(prev => prev === 'theme-light' ? 'theme-dark' : 'theme-light');
@@ -216,43 +238,53 @@ function App() {
                 nodes={nodes}
                 edges={edges}
                 setNodes={setNodes}
-                activeAgent={activeAgent}
+                activeAgent={shareToken ? { name: currentFlowName, icon: '🔗' } : activeAgent}
                 onBack={() => {
                     setActiveAgentId(null);
                     setFlowId(null);
                     setCurrentFlowName('');
-                    // loadSavedFlows();
+                    setShareToken(null);
+                    if (shareToken) window.history.pushState({}, '', '/');
                 }}
                 flowId={flowId}
                 setFlowId={setFlowId}
                 flowName={currentFlowName}
                 setFlowName={setCurrentFlowName}
                 theme={theme}
+                isReadOnly={!!shareToken}
+                shareToken={shareToken}
             />
             <div className="app-container">
-                <LeftNavbar
-                    activeView={activeView}
-                    onViewChange={setActiveView}
-                    theme={theme}
-                    toggleTheme={toggleTheme}
-                />
+                {!shareToken && (
+                    <LeftNavbar
+                        activeView={activeView}
+                        onViewChange={setActiveView}
+                        theme={theme}
+                        toggleTheme={toggleTheme}
+                    />
+                )}
 
                 {/* Workflows View */}
                 {activeView === 'workflows' && (
                     <>
-                        <Sidebar
-                            isCollapsed={isSidebarCollapsed}
-                            setIsCollapsed={setIsSidebarCollapsed}
-                            theme={theme}
-                            onCreateNew={handleCreateNew}
-                        />
-                        <div className={`canvas-container ${isSidebarCollapsed ? 'collapsed' : ''}`}>
+                        {!shareToken && (
+                            <Sidebar
+                                isCollapsed={isSidebarCollapsed}
+                                setIsCollapsed={setIsSidebarCollapsed}
+                                theme={theme}
+                                onCreateNew={handleCreateNew}
+                            />
+                        )}
+                        <div className={`canvas-container ${(isSidebarCollapsed || shareToken) ? 'collapsed' : ''}`}>
                             <FlowCanvas
-                                key={activeAgentId || 'default-flow'}
-                                activeAgentId={activeAgentId || 'default-flow'}
+                                key={shareToken ? `share-${shareToken}` : (activeAgentId || 'default-flow')}
+                                activeAgentId={shareToken ? `share-${shareToken}` : (activeAgentId || 'default-flow')}
                                 onNodesChange={setNodes}
                                 onEdgesChange={setEdges}
                                 theme={theme}
+                                isReadOnly={!!shareToken}
+                                initialNodes={shareToken ? nodes : null}
+                                initialEdges={shareToken ? edges : null}
                             />
                         </div>
                     </>
@@ -421,6 +453,7 @@ function App() {
 
                 .canvas-container.collapsed {
                     margin-left: 0;
+                    width: 100%;
                 }
             `}</style>
         </div>

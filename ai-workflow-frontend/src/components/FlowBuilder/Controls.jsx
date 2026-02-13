@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import ChatInterface from '../Chat/ChatInterface';
 import { saveFlow, updateFlow } from '../../services/api';
 
-const Controls = ({ nodes, edges, setNodes, activeAgent, onBack, flowId, setFlowId, flowName, setFlowName, theme }) => {
+const Controls = ({ nodes, edges, setNodes, activeAgent, onBack, flowId, setFlowId, flowName, setFlowName, theme, isReadOnly = false, shareToken = null }) => {
     const [showChat, setShowChat] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
     const [showSaveModal, setShowSaveModal] = useState(false);
@@ -62,6 +62,7 @@ const Controls = ({ nodes, edges, setNodes, activeAgent, onBack, flowId, setFlow
     };
 
     const handleSaveClick = () => {
+        if (isReadOnly) return;
         if (flowId) {
             handleSaveConfirm();
         } else {
@@ -70,6 +71,7 @@ const Controls = ({ nodes, edges, setNodes, activeAgent, onBack, flowId, setFlow
     };
 
     React.useEffect(() => {
+        if (isReadOnly) return;
         const handleKeyDown = (event) => {
             if ((event.ctrlKey || event.metaKey) && (event.key === 's' || event.key === 'S')) {
                 event.preventDefault();
@@ -78,7 +80,7 @@ const Controls = ({ nodes, edges, setNodes, activeAgent, onBack, flowId, setFlow
         };
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [activeAgent, nodes, edges, flowName, flowId]);
+    }, [activeAgent, nodes, edges, flowName, flowId, isReadOnly]);
 
     const handleRun = () => {
         if (nodes.length === 0) {
@@ -87,7 +89,7 @@ const Controls = ({ nodes, edges, setNodes, activeAgent, onBack, flowId, setFlow
         }
 
         // Clear previous error styles before running
-        if (setNodes) {
+        if (setNodes && !isReadOnly) {
             setNodes(prev => prev.map(node => ({
                 ...node,
                 className: (node.className || '').replace('node-error', '').trim(),
@@ -99,6 +101,7 @@ const Controls = ({ nodes, edges, setNodes, activeAgent, onBack, flowId, setFlow
     };
 
     const handleClear = () => {
+        if (isReadOnly) return;
         if (activeAgent) {
             if (window.confirm(`Clear the entire ${activeAgent.name} canvas?`)) {
                 localStorage.removeItem(`workflow-nodes-${activeAgent.id}`);
@@ -118,16 +121,25 @@ const Controls = ({ nodes, edges, setNodes, activeAgent, onBack, flowId, setFlow
             <div className="controls-panel">
                 <div className="controls-left">
                     <div className="breadcrumb">
-                        <span className="breadcrumb-item" onClick={onBack} style={{ cursor: 'pointer', opacity: activeAgent ? 0.6 : 1 }}>
-                            🤖 Project
-                        </span>
-                        {activeAgent && (
+                        {!isReadOnly && (
                             <>
-                                <span className="breadcrumb-separator">/</span>
-                                <span className="breadcrumb-item active">
-                                    {activeAgent.icon} {activeAgent.name}
+                                <span className="breadcrumb-item" onClick={onBack} style={{ cursor: 'pointer', opacity: activeAgent ? 0.6 : 1 }}>
+                                    🤖 Project
                                 </span>
+                                {activeAgent && (
+                                    <>
+                                        <span className="breadcrumb-separator">/</span>
+                                        <span className="breadcrumb-item active">
+                                            {activeAgent.icon} {activeAgent.name}
+                                        </span>
+                                    </>
+                                )}
                             </>
+                        )}
+                        {isReadOnly && (
+                            <span className="breadcrumb-item active">
+                                🔗 Shared View: {flowName}
+                            </span>
                         )}
                     </div>
                     <p className="controls-subtitle">
@@ -138,7 +150,7 @@ const Controls = ({ nodes, edges, setNodes, activeAgent, onBack, flowId, setFlow
                 </div>
 
                 <div className="controls-right">
-                    {activeAgent && (
+                    {activeAgent && !isReadOnly && (
                         <div className="flow-meta">
                             <input
                                 type="text"
@@ -152,15 +164,20 @@ const Controls = ({ nodes, edges, setNodes, activeAgent, onBack, flowId, setFlow
                             </button>
                         </div>
                     )}
-                    <button className="mac-btn mac-btn-danger" onClick={handleClear}>
-                        Clear
-                    </button>
+
+                    {!isReadOnly && (
+                        <button className="mac-btn mac-btn-danger" onClick={handleClear}>
+                            Clear
+                        </button>
+                    )}
+
                     {activeAgent && (
                         <button
                             className="mac-btn mac-btn-primary"
                             onClick={handleRun}
+                            style={{ padding: '8px 20px', fontSize: '0.95rem' }}
                         >
-                            Open Chat & Run
+                            🚀 Run Flow
                         </button>
                     )}
                 </div>
@@ -377,6 +394,8 @@ const Controls = ({ nodes, edges, setNodes, activeAgent, onBack, flowId, setFlow
                     nodes={nodes}
                     edges={edges}
                     onClose={() => setShowChat(false)}
+                    theme={theme}
+                    shareToken={shareToken}
                     onExecutionResult={(logs) => {
                         const errorNodeIds = logs
                             .filter(log => log.status === 'error')

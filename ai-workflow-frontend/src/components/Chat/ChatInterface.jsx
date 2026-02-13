@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { runFlow, sendEmail, exportPythonFlow } from '../../services/api';
+import { runFlow, runPublicFlow, sendEmail, exportPythonFlow } from '../../services/api';
 import CodeViewModal from '../CodeViewModal';
 import IDEView from './IDE/IDEView';
 
@@ -15,7 +15,7 @@ const Loader = () => (
     </div>
 );
 
-const ChatInterface = ({ nodes, edges, onClose, onExecutionResult, theme }) => {
+const ChatInterface = ({ nodes, edges, onClose, onExecutionResult, theme, shareToken = null }) => {
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -62,8 +62,13 @@ const ChatInterface = ({ nodes, edges, onClose, onExecutionResult, theme }) => {
         setIsLoading(true);
 
         try {
-            const flowData = { nodes, edges };
-            const response = await runFlow(flowData, userMessage);
+            let response;
+            if (shareToken) {
+                response = await runPublicFlow(shareToken, userMessage);
+            } else {
+                const flowData = { nodes, edges };
+                response = await runFlow(flowData, userMessage);
+            }
 
             if (!response.ok) throw new Error('Failed to start flow');
 

@@ -69,7 +69,7 @@ const Sidebar = ({ isCollapsed, setIsCollapsed, theme, onCreateNew }) => {
             <div className="sidebar-header">
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
                     <h3 style={{ margin: 0 }}>🧩 Node Palette</h3>
-                    <button className="new-flow-btn" onClick={onCreateNew}>
+                    <button className="new-flow-btn" onClick={() => onCreateNew(true)}>
                         ✨ New
                     </button>
                 </div>

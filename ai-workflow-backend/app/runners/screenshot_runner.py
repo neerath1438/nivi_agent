@@ -65,6 +65,12 @@ class ScreenshotRunner(BaseRunner):
                 await page.screenshot(path=abs_path, full_page=False)
                 
                 await browser.close()
+
+                # --- CLOUDINARY INTEGRATION ---
+                from app.utils.cloudinary_utils import upload_file
+                cloud_url = upload_file(abs_path, folder="screenshots")
+                
+                final_url = cloud_url if cloud_url else screenshot_url
                 
                 # Terminal Log Generation for Node UI
                 log_entries = [
@@ -72,7 +78,7 @@ class ScreenshotRunner(BaseRunner):
                     f"🔗 Target: {url}",
                     f"🖼️ Resolution: 1280x720",
                     f"✨ Processing: PNG / HD",
-                    f"✅ Saved to: {screenshot_url}"
+                    f"✅ Saved to: {final_url}"
                 ]
                 display_log = "<br>".join(log_entries)
                 terminal_ui = (
@@ -85,8 +91,8 @@ class ScreenshotRunner(BaseRunner):
                 
                 return {
                     "status": "success",
-                    "screenshot_url": screenshot_url,
-                    "html_content": terminal_ui + f'### 📸 UI Capture\n\n![Screenshot]({screenshot_url})\n\nURL: {url}',
+                    "screenshot_url": final_url,
+                    "html_content": terminal_ui + f'### 📸 UI Capture\n\n![Screenshot]({final_url})\n\nURL: {url}',
                     "output": f"Screenshot captured successfully",
                     "url": url
                 }

@@ -1,22 +1,38 @@
-import React, { useState } from 'react';
+import {
+    RefreshCw,
+    Save,
+    BookText,
+    BarChart3,
+    Key,
+    Settings,
+    Palette,
+    Users,
+    HelpCircle,
+    Moon,
+    Sun,
+    LogOut,
+    Bot
+} from 'lucide-react';
 
 const LeftNavbar = ({ activeView, onViewChange, theme, toggleTheme }) => {
     const navItems = [
-        { id: 'workflows', icon: '🔄', label: 'Workflows', tooltip: 'Build Workflows' },
-        { id: 'saved-flows', icon: '💾', label: 'Saved Flows', tooltip: 'Manage Saved Flows' },
-        { id: 'knowledge', icon: '📚', label: 'Knowledge Base', tooltip: 'Manage Knowledge Base' },
-        { id: 'analytics', icon: '📊', label: 'Analytics', tooltip: 'View Analytics' },
-        { id: 'credentials', icon: '🔑', label: 'Credentials', tooltip: 'Manage Credentials' },
-        { id: 'settings', icon: '⚙️', label: 'Settings', tooltip: 'Settings' },
-        { id: 'themes', icon: '🎨', label: 'Themes', tooltip: 'Theme Customizer' },
-        { id: 'users', icon: '👥', label: 'Users', tooltip: 'User Management' },
-        { id: 'help', icon: '❓', label: 'Help', tooltip: 'Help & Support' },
+        { id: 'workflows', icon: <RefreshCw size={24} />, label: 'Workflows', tooltip: 'Build Workflows' },
+        { id: 'saved-flows', icon: <Save size={24} />, label: 'Saved Flows', tooltip: 'Manage Saved Flows' },
+        { id: 'knowledge', icon: <BookText size={24} />, label: 'Knowledge Base', tooltip: 'Manage Knowledge Base' },
+        { id: 'analytics', icon: <BarChart3 size={24} />, label: 'Analytics', tooltip: 'View Analytics' },
+        { id: 'credentials', icon: <Key size={24} />, label: 'Credentials', tooltip: 'Manage Credentials' },
+        { id: 'settings', icon: <Settings size={24} />, label: 'Settings', tooltip: 'Settings' },
+        { id: 'themes', icon: <Palette size={24} />, label: 'Themes', tooltip: 'Theme Customizer' },
+        { id: 'users', icon: <Users size={24} />, label: 'Users', tooltip: 'User Management' },
+        { id: 'help', icon: <HelpCircle size={24} />, label: 'Help', tooltip: 'Help & Support' },
     ];
 
     return (
         <div className="left-navbar">
             <div className="left-navbar-logo">
-                <div className="logo-icon">🤖</div>
+                <div className="logo-icon">
+                    <Bot size={28} color="var(--accent-primary)" />
+                </div>
             </div>
 
             <div className="left-navbar-items">
@@ -41,10 +57,14 @@ const LeftNavbar = ({ activeView, onViewChange, theme, toggleTheme }) => {
                     onClick={toggleTheme}
                     title={theme === 'theme-light' ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
                 >
-                    <div className="nav-item-icon">{theme === 'theme-light' ? '🌙' : '☀️'}</div>
+                    <div className="nav-item-icon">
+                        {theme === 'theme-light' ? <Moon size={24} /> : <Sun size={24} />}
+                    </div>
                 </div>
                 <div className="nav-item" title="Logout">
-                    <div className="nav-item-icon">🚪</div>
+                    <div className="nav-item-icon">
+                        <LogOut size={24} />
+                    </div>
                 </div>
             </div>
 
@@ -109,14 +129,15 @@ const LeftNavbar = ({ activeView, onViewChange, theme, toggleTheme }) => {
                 }
 
                 .nav-item:hover {
-                    background: rgba(0, 0, 0, 0.05);
-                    color: #000000;
-                    transform: scale(1.02);
+                    background: var(--bg-tertiary);
+                    color: var(--accent-primary);
+                    transform: translateY(-1px);
                 }
 
                 .nav-item.active {
                     background: var(--accent-primary);
                     color: #ffffff;
+                    box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
                 }
 
                 .nav-item-icon {

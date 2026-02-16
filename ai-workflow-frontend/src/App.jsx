@@ -1,4 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+    setNodes, setEdges, setFlowId, setCurrentFlowName,
+    setSavedFlows, setIsLoadingFlows, setActiveAgentId, resetWorkflow
+} from './store/workflowSlice';
+import { toggleTheme, setCustomGradient, setIsThemeAnimated } from './store/themeSlice';
+
+import { Database, Plus, LayoutGrid, List } from 'lucide-react';
+
 import LeftNavbar from './components/LeftNavbar';
 import ThemeCustomizer from './components/ThemeCustomizer';
 import Sidebar from './components/FlowBuilder/Sidebar';
@@ -11,33 +20,43 @@ import PublicChat from './components/Chat/PublicChat'; // Import PublicChat
 import { listFlows, runFlow, deleteFlow, shareFlow, getPublicFlow } from './services/api'; // Import shareFlow
 import ThreeDCard from './components/ThreeDCard'; // Import ThreeDCard
 import GlowButton from './components/GlowButton'; // Import GlowButton
+import SimpleFlowCard from './components/SimpleFlowCard';
+import FlowTable from './components/FlowTable';
 import KnowledgeBase from './pages/KnowledgeBase';
 import KnowledgeNode from './components/Nodes/KnowledgeNode';
 
 function App() {
-    const [nodes, setNodes] = useState([]);
-    const [edges, setEdges] = useState([]);
+    const dispatch = useDispatch();
+
+    // Redux workflow state
+    const nodes = useSelector(state => state.workflow.nodes);
+    const edges = useSelector(state => state.workflow.edges);
+    const flowId = useSelector(state => state.workflow.flowId);
+    const currentFlowName = useSelector(state => state.workflow.currentFlowName);
+    const savedFlows = useSelector(state => state.workflow.savedFlows);
+    const isLoadingFlows = useSelector(state => state.workflow.isLoadingFlows);
+    const activeAgentId = useSelector(state => state.workflow.activeAgentId);
+
+    // Redux theme state
+    const theme = useSelector(state => state.theme.theme);
+    const customGradient = useSelector(state => state.theme.customGradient);
+    const isThemeAnimated = useSelector(state => state.theme.isThemeAnimated);
+
     const [activeView, setActiveView] = useState('workflows');
-    const [customGradient, setCustomGradient] = useState('');
-    const [isThemeAnimated, setIsThemeAnimated] = useState(false);
-    const [activeAgentId, setActiveAgentId] = useState(() => {
-        return localStorage.getItem('active-agent-id') || null;
-    });
+    const [shareToken, setShareToken] = useState(null);
 
-    const [theme, setTheme] = useState(() => {
-        return localStorage.getItem('theme') || 'theme-light';
-    });
-
-    const [savedFlows, setSavedFlows] = useState([]);
-    const [isLoadingFlows, setIsLoadingFlows] = useState(false);
-    const [flowId, setFlowId] = useState(null);
-    const [currentFlowName, setCurrentFlowName] = useState('');
-    const [shareToken, setShareToken] = useState(null); // State for shared flow
+    // Redux Action Wrappers
+    const handleSetNodes = (newNodes) => dispatch(setNodes(newNodes));
+    const handleSetEdges = (newEdges) => dispatch(setEdges(newEdges));
+    const handleSetFlowId = (id) => dispatch(setFlowId(id));
+    const handleSetFlowName = (name) => dispatch(setCurrentFlowName(name));
 
     // State for running flow via ChatInterface
     const [showRunChat, setShowRunChat] = useState(false);
     const [runNodes, setRunNodes] = useState([]);
     const [runEdges, setRunEdges] = useState([]);
+    const [dashboardViewMode, setDashboardViewMode] = useState('grid'); // 'grid' or 'table'
+    const [canvasResetKey, setCanvasResetKey] = useState(0);
 
     const [agents] = useState([
         { id: 'default-flow', name: 'Main Canvas', icon: '🎨', color: '#ff7a00' },
@@ -47,34 +66,25 @@ function App() {
     ]);
 
     useEffect(() => {
-        if (activeView === 'saved-flows') {
+        if (activeView === 'saved-flows' && savedFlows.length === 0) {
             loadSavedFlows();
         }
-    }, [activeView]);
+    }, [activeView, savedFlows.length]);
 
-    const loadSavedFlows = async () => {
-        setIsLoadingFlows(true);
+    const loadSavedFlows = async (forceRefresh = false) => {
+        if (!forceRefresh && savedFlows.length > 0) return;
+
+        dispatch(setIsLoadingFlows(true));
         try {
             const flows = await listFlows();
-            setSavedFlows(flows);
+            dispatch(setSavedFlows(flows));
         } catch (error) {
             console.error('Failed to load flows:', error);
         } finally {
-            setIsLoadingFlows(false);
+            dispatch(setIsLoadingFlows(false));
         }
     };
 
-    useEffect(() => {
-        if (activeAgentId) {
-            localStorage.setItem('active-agent-id', activeAgentId);
-        } else {
-            localStorage.removeItem('active-agent-id');
-        }
-    }, [activeAgentId]);
-
-    useEffect(() => {
-        localStorage.setItem('theme', theme);
-    }, [theme]);
 
     // Handle initial route for shared links
     useEffect(() => {
@@ -89,15 +99,15 @@ function App() {
     }, []);
 
     const loadPublicFlow = async (token) => {
-        setIsLoadingFlows(true);
+        dispatch(setIsLoadingFlows(true));
         try {
             const flow = await getPublicFlow(token);
             if (flow && flow.flow_data) {
                 // Set these first
-                setNodes(flow.flow_data.nodes || []);
-                setEdges(flow.flow_data.edges || []);
-                setFlowId(flow.id);
-                setCurrentFlowName(flow.name);
+                dispatch(setNodes(flow.flow_data.nodes || []));
+                dispatch(setEdges(flow.flow_data.edges || []));
+                dispatch(setFlowId(flow.id));
+                dispatch(setCurrentFlowName(flow.name));
 
                 // Then switch view - FlowCanvas will pick up the nodes via initialNodes prop
                 setActiveView('workflows');
@@ -106,12 +116,12 @@ function App() {
             console.error('Failed to load shared flow:', error);
             alert("This shared flow link is invalid or expired.");
         } finally {
-            setIsLoadingFlows(false);
+            dispatch(setIsLoadingFlows(false));
         }
     };
 
-    const toggleTheme = () => {
-        setTheme(prev => prev === 'theme-light' ? 'theme-dark' : 'theme-light');
+    const toggleThemeState = () => {
+        dispatch(toggleTheme());
     };
 
     const activeAgent = agents.find(a => a.id === activeAgentId);
@@ -131,9 +141,9 @@ function App() {
                 localStorage.setItem(`workflow-nodes-${agentId}`, JSON.stringify(flowData.nodes));
                 localStorage.setItem(`workflow-edges-${agentId}`, JSON.stringify(flowData.edges));
 
-                setFlowId(flow.id);
-                setCurrentFlowName(flow.name);
-                setActiveAgentId(agentId);
+                dispatch(setFlowId(flow.id));
+                dispatch(setCurrentFlowName(flow.name));
+                dispatch(setActiveAgentId(agentId));
                 setActiveView('workflows');
             } else {
                 console.error("Flow data missing nodes", flowData);
@@ -158,8 +168,8 @@ function App() {
                 }));
                 setRunNodes(cleanedNodes);
                 setRunEdges(flowData.edges || []);
-                setFlowId(flow.id);
-                setCurrentFlowName(flow.name);
+                dispatch(setFlowId(flow.id));
+                dispatch(setCurrentFlowName(flow.name));
                 setShowRunChat(true); // Open Chat Interface
             } else {
                 console.error("Flow data missing nodes for run");
@@ -175,7 +185,7 @@ function App() {
         if (window.confirm("Are you sure you want to delete this flow?")) {
             try {
                 await deleteFlow(id);
-                loadSavedFlows(); // Refresh list
+                loadSavedFlows(true); // Force refresh after deletion
             } catch (error) {
                 console.error("Error deleting flow:", error);
                 alert("Failed to delete flow");
@@ -196,29 +206,24 @@ function App() {
         }
     };
 
-    const handleCreateNew = () => {
-        if (window.confirm("Create a new workflow? This will clear the current unsaved canvas.")) {
+    const handleCreateNew = (skipConfirm = false) => {
+        const isCanvasEmpty = nodes.length === 0;
+
+        if (skipConfirm || isCanvasEmpty || window.confirm("Create a new workflow? This will clear any unsaved changes on the canvas.")) {
             // Reset state
-            setNodes([]);
-            setEdges([]);
-            setFlowId(null);
-            setCurrentFlowName('');
+            dispatch(resetWorkflow());
 
-            // Default to a specific agent or null to force selection?
-            // Let's set it to 'default-flow' (Main Canvas)
-            setActiveAgentId('default-flow');
-
-            // Clear localStorage for the default flow to ensure it's fresh
+            // Also clear default flow storage
             localStorage.removeItem('workflow-nodes-default-flow');
             localStorage.removeItem('workflow-edges-default-flow');
 
+            // Increment reset key to force FlowCanvas remount
+            setCanvasResetKey(prev => prev + 1);
+
+            // Set to default flow and switch view
+            dispatch(setActiveAgentId('default-flow'));
             setActiveView('workflows');
         }
-    };
-
-    const handleApplyTheme = (gradient, animated) => {
-        setCustomGradient(gradient);
-        setIsThemeAnimated(animated);
     };
 
     const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
@@ -237,19 +242,16 @@ function App() {
             <Controls
                 nodes={nodes}
                 edges={edges}
-                setNodes={setNodes}
                 activeAgent={shareToken ? { name: currentFlowName, icon: '🔗' } : activeAgent}
                 onBack={() => {
-                    setActiveAgentId(null);
-                    setFlowId(null);
-                    setCurrentFlowName('');
+                    dispatch(setActiveAgentId(null));
+                    dispatch(setFlowId(null));
+                    dispatch(setCurrentFlowName(''));
                     setShareToken(null);
                     if (shareToken) window.history.pushState({}, '', '/');
                 }}
                 flowId={flowId}
-                setFlowId={setFlowId}
                 flowName={currentFlowName}
-                setFlowName={setCurrentFlowName}
                 theme={theme}
                 isReadOnly={!!shareToken}
                 shareToken={shareToken}
@@ -260,7 +262,7 @@ function App() {
                         activeView={activeView}
                         onViewChange={setActiveView}
                         theme={theme}
-                        toggleTheme={toggleTheme}
+                        toggleTheme={toggleThemeState}
                     />
                 )}
 
@@ -277,10 +279,10 @@ function App() {
                         )}
                         <div className={`canvas-container ${(isSidebarCollapsed || shareToken) ? 'collapsed' : ''}`}>
                             <FlowCanvas
-                                key={shareToken ? `share-${shareToken}` : (activeAgentId || 'default-flow')}
+                                key={shareToken ? `share-${shareToken}` : `${activeAgentId || 'default-flow'}-${canvasResetKey}`}
                                 activeAgentId={shareToken ? `share-${shareToken}` : (activeAgentId || 'default-flow')}
-                                onNodesChange={setNodes}
-                                onEdgesChange={setEdges}
+                                onNodesChange={handleSetNodes}
+                                onEdgesChange={handleSetEdges}
                                 theme={theme}
                                 isReadOnly={!!shareToken}
                                 initialNodes={shareToken ? nodes : null}
@@ -300,42 +302,121 @@ function App() {
                 {/* Saved Flows View */}
                 {activeView === 'saved-flows' && (
                     <div className="dashboard-view" style={{ padding: '2rem', width: '100%', overflowY: 'auto' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
-                            <h2 style={{ color: 'white', margin: 0 }}>💾 Saved Workflows</h2>
-                            <GlowButton variant="blue" onClick={handleCreateNew}>
-                                ✨ Create New Flow
-                            </GlowButton>
+                        <div className="saved-flows-header" style={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                            marginBottom: '2rem',
+                            padding: '0 10px'
+                        }}>
+                            <h2 style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '12px',
+                                fontSize: '1.8rem',
+                                fontWeight: '700',
+                                color: 'var(--text-primary)',
+                                margin: 0
+                            }}>
+                                <Database size={28} color="var(--accent-primary)" /> Saved Workflows
+                            </h2>
+                            <div style={{ display: 'flex', gap: '15px', alignItems: 'center' }}>
+                                <div className="view-toggle" style={{
+                                    display: 'flex',
+                                    background: 'var(--bg-tertiary)',
+                                    padding: '4px',
+                                    borderRadius: '10px',
+                                    border: '1px solid var(--border-color)'
+                                }}>
+                                    <button
+                                        onClick={() => setDashboardViewMode('grid')}
+                                        style={{
+                                            padding: '6px 12px',
+                                            borderRadius: '7px',
+                                            border: 'none',
+                                            background: dashboardViewMode === 'grid' ? 'var(--bg-primary)' : 'transparent',
+                                            color: dashboardViewMode === 'grid' ? 'var(--accent-primary)' : 'var(--text-secondary)',
+                                            cursor: 'pointer',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: '6px',
+                                            fontWeight: '600',
+                                            boxShadow: dashboardViewMode === 'grid' ? '0 2px 8px rgba(0,0,0,0.1)' : 'none'
+                                        }}
+                                    >
+                                        <LayoutGrid size={16} /> Grid
+                                    </button>
+                                    <button
+                                        onClick={() => setDashboardViewMode('table')}
+                                        style={{
+                                            padding: '6px 12px',
+                                            borderRadius: '7px',
+                                            border: 'none',
+                                            background: dashboardViewMode === 'table' ? 'var(--bg-primary)' : 'transparent',
+                                            color: dashboardViewMode === 'table' ? 'var(--accent-primary)' : 'var(--text-secondary)',
+                                            cursor: 'pointer',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: '6px',
+                                            fontWeight: '600',
+                                            boxShadow: dashboardViewMode === 'table' ? '0 2px 8px rgba(0,0,0,0.1)' : 'none'
+                                        }}
+                                    >
+                                        <List size={16} /> Table
+                                    </button>
+                                </div>
+                                <button
+                                    onClick={() => handleCreateNew(true)}
+                                    className="create-flow-btn"
+                                    style={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '8px',
+                                        padding: '10px 20px',
+                                        borderRadius: '10px',
+                                        border: 'none',
+                                        background: 'var(--accent-primary)',
+                                        color: 'white',
+                                        fontWeight: '600',
+                                        cursor: 'pointer',
+                                        transition: 'all 0.2s ease',
+                                        boxShadow: '0 4px 12px rgba(0, 122, 255, 0.3)'
+                                    }}
+                                >
+                                    <Plus size={20} /> Create New Flow
+                                </button>
+                            </div>
                         </div>
-                        {isLoadingFlows ? (
-                            <p>Loading flows...</p>
-                        ) : savedFlows.length === 0 ? (
-                            <p style={{ opacity: 0.6 }}>No saved flows yet.</p>
-                        ) : (
-                            <div className="flows-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(380px, 1fr))', gap: '2rem' }}>
-                                {savedFlows.map(flow => (
-                                    <ThreeDCard key={flow.id} glowOpacity={0.4} shadowBlur={20} animatedGradient={true}>
-                                        <div className="flow-card-content" style={{ padding: '1.5rem', height: '100%', display: 'flex', flexDirection: 'column', color: 'white' }}>
-                                            <div style={{ marginBottom: '1rem' }}>
-                                                <h3 style={{ margin: '0 0 0.5rem 0', color: 'white' }}>{flow.name}</h3>
-                                                <p style={{ fontSize: '0.9rem', opacity: 0.8, color: '#e5e7eb', marginBottom: '0' }}>{flow.description || "No description"}</p>
-                                            </div>
 
-                                            <div style={{ marginTop: 'auto', display: 'flex', gap: '1rem', paddingTop: '1rem', borderTop: '1px solid rgba(255,255,255,0.1)', justifyContent: 'center' }}>
-                                                <GlowButton variant="blue" onClick={() => handleEditFlow(flow)}>
-                                                    ✏️ Edit
-                                                </GlowButton>
-                                                <GlowButton variant="green" onClick={() => handleRunFlow(flow)}>
-                                                    ▶️ Run
-                                                </GlowButton>
-                                                <GlowButton variant="pink" onClick={() => handleShareFlow(flow)}>
-                                                    🔗
-                                                </GlowButton>
-                                                <GlowButton variant="pink" onClick={() => handleDeleteFlow(flow.id)}>
-                                                    🗑️
-                                                </GlowButton>
-                                            </div>
-                                        </div>
-                                    </ThreeDCard>
+                        {isLoadingFlows ? (
+                            <div style={{ color: 'var(--text-primary)', textAlign: 'center', padding: '4rem' }}>
+                                <p>Loading your workflows...</p>
+                            </div>
+                        ) : savedFlows.length === 0 ? (
+                            <div style={{ color: 'var(--text-secondary)', textAlign: 'center', padding: '4rem', opacity: 0.6 }}>
+                                <p>No saved flows yet. Create your first one!</p>
+                            </div>
+                        ) : dashboardViewMode === 'table' ? (
+                            <FlowTable
+                                flows={savedFlows}
+                                onEdit={handleEditFlow}
+                                onRun={handleRunFlow}
+                                onShare={handleShareFlow}
+                                onDelete={handleDeleteFlow}
+                                theme={theme}
+                            />
+                        ) : (
+                            <div className="flows-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '1.5rem' }}>
+                                {savedFlows.map(flow => (
+                                    <SimpleFlowCard
+                                        key={flow.id}
+                                        flow={flow}
+                                        onEdit={handleEditFlow}
+                                        onRun={handleRunFlow}
+                                        onShare={handleShareFlow}
+                                        onDelete={handleDeleteFlow}
+                                        theme={theme}
+                                    />
                                 ))}
                             </div>
                         )}
@@ -365,7 +446,7 @@ function App() {
                 {/* Themes View */}
                 {activeView === 'themes' && (
                     <div className="full-page-view" style={{ background: 'transparent' }}>
-                        <ThemeCustomizer onApplyTheme={handleApplyTheme} theme={theme} />
+                        <ThemeCustomizer theme={theme} />
                     </div>
                 )}
 
@@ -429,8 +510,8 @@ function App() {
                                     return node;
                                 });
 
-                                setNodes(updateNodes);
-                                setRunNodes(updateNodes);
+                                dispatch(setNodes(updateNodes(nodes)));
+                                setRunNodes(updateNodes(runNodes));
                             } else {
                                 // Reset borders on success? Maybe not immediately, but let's clear them when next run starts
                             }

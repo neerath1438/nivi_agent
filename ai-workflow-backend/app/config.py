@@ -50,6 +50,11 @@ class Settings(BaseSettings):
     # Encryption Configuration
     encryption_key: str  # Fernet encryption key for credentials
     
+    # Cloudinary Configuration
+    cloudinary_cloud_name: str = ""
+    cloudinary_api_key: str = ""
+    cloudinary_api_secret: str = ""
+    
     class Config:
         env_file = ".env"
         case_sensitive = False

@@ -118,8 +118,12 @@ class PdfRunner(BaseRunner):
             filepath = os.path.join(output_dir, filename)
             pdf.output(filepath)
             
-            public_url = f"/static/downloads/{filename}"
-            logger.info(f"✅ [PdfRunner] PDF generated: {filepath}")
+            # --- CLOUDINARY INTEGRATION ---
+            from app.utils.cloudinary_utils import upload_file
+            cloud_url = upload_file(filepath, folder="reports")
+            
+            public_url = cloud_url if cloud_url else f"/static/downloads/{filename}"
+            logger.info(f"✅ [PdfRunner] PDF generated and uploaded: {public_url}")
 
             # Prepare UI Content
             terminal_ui = (
@@ -133,7 +137,6 @@ class PdfRunner(BaseRunner):
                 "pdf_url": public_url,
                 "output": f"Successfully generated PDF: {title}.",
                 "html_content": terminal_ui,
-                "filename": filename,
                 "status": "success"
             }
             

@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
+import { Play } from 'lucide-react';
 import ChatInterface from '../Chat/ChatInterface';
-import { saveFlow, updateFlow } from '../../services/api';
+import { saveFlow, updateFlow, listFlows } from '../../services/api';
+import { useDispatch } from 'react-redux';
+import {
+    setNodes, setFlowId, setCurrentFlowName, setSavedFlows, resetWorkflow, setActiveAgentId
+} from '../../store/workflowSlice';
 
-const Controls = ({ nodes, edges, setNodes, activeAgent, onBack, flowId, setFlowId, flowName, setFlowName, theme, isReadOnly = false, shareToken = null }) => {
+const Controls = ({ nodes, edges, activeAgent, onBack, flowId, flowName, theme, isReadOnly = false, shareToken = null }) => {
+    const dispatch = useDispatch();
     const [showChat, setShowChat] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
     const [showSaveModal, setShowSaveModal] = useState(false);
     const [saveError, setSaveError] = useState(null);
 
-    // Sync internal name with global name when loading
-    React.useEffect(() => {
-        if (flowName) {
-            // If we have a name from prop, use it
-        } else if (activeAgent && !flowId) {
-            setFlowName(`${activeAgent.name} Workflow`);
-        }
-    }, [activeAgent, flowId, flowName, setFlowName]);
+    // Initial default name logic removed to allow manual clearing/editing
+    // Default name is now handled by the parent (App.jsx) when a new flow is created.
 
     const handleSaveConfirm = async () => {
         if (!activeAgent || nodes.length === 0) {
@@ -48,8 +48,13 @@ const Controls = ({ nodes, edges, setNodes, activeAgent, onBack, flowId, setFlow
                 savedFlow = await updateFlow(flowId, payload);
             } else {
                 savedFlow = await saveFlow(payload);
-                setFlowId(savedFlow.id);
+                dispatch(setFlowId(savedFlow.id));
             }
+
+            // Refresh the saved flows list in Redux
+            const flows = await listFlows();
+            dispatch(setSavedFlows(flows));
+
             setShowSaveModal(false);
             alert('Flow saved successfully!');
         } catch (error) {
@@ -89,12 +94,13 @@ const Controls = ({ nodes, edges, setNodes, activeAgent, onBack, flowId, setFlow
         }
 
         // Clear previous error styles before running
-        if (setNodes && !isReadOnly) {
-            setNodes(prev => prev.map(node => ({
+        if (!isReadOnly) {
+            const cleanedNodes = nodes.map(node => ({
                 ...node,
                 className: (node.className || '').replace('node-error', '').trim(),
                 style: { ...node.style, border: 'none', boxShadow: 'none' }
-            })));
+            }));
+            dispatch(setNodes(cleanedNodes));
         }
 
         setShowChat(true);
@@ -102,17 +108,16 @@ const Controls = ({ nodes, edges, setNodes, activeAgent, onBack, flowId, setFlow
 
     const handleClear = () => {
         if (isReadOnly) return;
-        if (activeAgent) {
-            if (window.confirm(`Clear the entire ${activeAgent.name} canvas?`)) {
+        if (window.confirm('Clear current workflow?')) {
+            if (activeAgent) {
                 localStorage.removeItem(`workflow-nodes-${activeAgent.id}`);
                 localStorage.removeItem(`workflow-edges-${activeAgent.id}`);
-                window.location.reload();
             }
-        } else {
-            if (window.confirm('Clear all agent workflows?')) {
-                localStorage.clear();
-                window.location.reload();
-            }
+            localStorage.removeItem('workflow-nodes-default-flow');
+            localStorage.removeItem('workflow-edges-default-flow');
+
+            dispatch(resetWorkflow());
+            dispatch(setActiveAgentId('default-flow'));
         }
     };
 
@@ -156,7 +161,7 @@ const Controls = ({ nodes, edges, setNodes, activeAgent, onBack, flowId, setFlow
                                 type="text"
                                 className="flow-name-input"
                                 value={flowName}
-                                onChange={(e) => setFlowName(e.target.value)}
+                                onChange={(e) => dispatch(setCurrentFlowName(e.target.value))}
                                 placeholder="Workflow Name"
                             />
                             <button className="mac-btn mac-btn-secondary" onClick={handleSaveClick} disabled={isSaving}>
@@ -175,9 +180,15 @@ const Controls = ({ nodes, edges, setNodes, activeAgent, onBack, flowId, setFlow
                         <button
                             className="mac-btn mac-btn-primary"
                             onClick={handleRun}
-                            style={{ padding: '8px 20px', fontSize: '0.95rem' }}
+                            style={{
+                                padding: '8px 20px',
+                                fontSize: '0.95rem',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '8px'
+                            }}
                         >
-                            🚀 Run Flow
+                            <Play size={18} fill="currentColor" /> Run Flow
                         </button>
                     )}
                 </div>
@@ -195,7 +206,7 @@ const Controls = ({ nodes, edges, setNodes, activeAgent, onBack, flowId, setFlow
                             <input
                                 type="text"
                                 value={flowName}
-                                onChange={(e) => setFlowName(e.target.value)}
+                                onChange={(e) => dispatch(setCurrentFlowName(e.target.value))}
                                 placeholder="Enter workflow name..."
                                 autoFocus
                             />
@@ -401,8 +412,8 @@ const Controls = ({ nodes, edges, setNodes, activeAgent, onBack, flowId, setFlow
                             .filter(log => log.status === 'error')
                             .map(log => log.node_id);
 
-                        if (errorNodeIds.length > 0 && setNodes) {
-                            setNodes(prev => prev.map(node => {
+                        if (errorNodeIds.length > 0) {
+                            const updatedNodes = nodes.map(node => {
                                 if (errorNodeIds.includes(node.id)) {
                                     return {
                                         ...node,
@@ -410,7 +421,8 @@ const Controls = ({ nodes, edges, setNodes, activeAgent, onBack, flowId, setFlow
                                     };
                                 }
                                 return node;
-                            }));
+                            });
+                            dispatch(setNodes(updatedNodes));
                         }
                     }}
                 />

@@ -1,19 +1,25 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { setFiles } from '../store/workflowSlice';
 import axios from 'axios';
 
 const KnowledgeBase = () => {
-    const [files, setFiles] = useState([]);
+    const dispatch = useDispatch();
+    const files = useSelector(state => state.workflow.files);
+
     const [isUploading, setIsUploading] = useState(false);
     const [dragActive, setDragActive] = useState(false);
 
     useEffect(() => {
-        fetchFiles();
+        if (files.length === 0) {
+            fetchFiles();
+        }
     }, []);
 
     const fetchFiles = async () => {
         try {
             const response = await axios.get('/api/knowledge/files');
-            setFiles(response.data);
+            dispatch(setFiles(response.data));
         } catch (err) {
             console.error("Failed to fetch files", err);
         }
@@ -29,7 +35,7 @@ const KnowledgeBase = () => {
             await axios.post('/api/knowledge/upload', formData, {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
-            fetchFiles();
+            fetchFiles(); // Force update Redux after upload
         } catch (err) {
             alert("Upload failed: " + err.message);
         } finally {
@@ -41,7 +47,7 @@ const KnowledgeBase = () => {
         if (!window.confirm("Are you sure you want to delete this file?")) return;
         try {
             await axios.delete(`/api/knowledge/files/${id}`);
-            fetchFiles();
+            fetchFiles(); // Force update Redux after delete
         } catch (err) {
             alert("Delete failed: " + err.message);
         }

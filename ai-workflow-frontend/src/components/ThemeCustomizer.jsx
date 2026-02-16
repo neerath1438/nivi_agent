@@ -1,7 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { setCustomGradient, setIsThemeAnimated } from '../store/themeSlice';
 import GlowButton from './GlowButton';
 
-const ThemeCustomizer = ({ onApplyTheme, theme }) => {
+const ThemeCustomizer = ({ theme }) => {
+    const dispatch = useDispatch();
     const [colors, setColors] = useState(['#4f46e5', '#4654e3']);
     const [type, setType] = useState('linear');
     const [angle, setAngle] = useState(45);
@@ -42,7 +45,9 @@ const ThemeCustomizer = ({ onApplyTheme, theme }) => {
     const currentGradient = generateGradient();
 
     const handleApply = () => {
-        onApplyTheme(currentGradient, isAnimating);
+        dispatch(setCustomGradient(currentGradient));
+        dispatch(setIsThemeAnimated(isAnimating));
+        alert('Theme applied successfully!');
     };
 
     const addColor = () => {
@@ -67,7 +72,8 @@ const ThemeCustomizer = ({ onApplyTheme, theme }) => {
         setAngle(45);
         setIsAnimating(false);
         setBaseColor('#4f46e5');
-        onApplyTheme('', false);
+        dispatch(setCustomGradient(''));
+        dispatch(setIsThemeAnimated(false));
     };
 
     return (

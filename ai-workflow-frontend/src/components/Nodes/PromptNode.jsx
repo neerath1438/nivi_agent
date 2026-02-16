@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, memo } from 'react';
 import { Handle, Position } from 'reactflow';
 import CodeViewModal from '../CodeViewModal';
 
@@ -248,4 +248,4 @@ const PromptNode = ({ data, id, isConnectable }) => {
     );
 };
 
-export default PromptNode;
+export default memo(PromptNode);

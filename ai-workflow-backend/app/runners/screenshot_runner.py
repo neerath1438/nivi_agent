@@ -66,11 +66,26 @@ class ScreenshotRunner(BaseRunner):
                 
                 await browser.close()
 
-                # --- CLOUDINARY INTEGRATION ---
-                from app.utils.cloudinary_utils import upload_file
-                cloud_url = upload_file(abs_path, folder="screenshots")
+                # --- CLOUDINARY BACKGROUND UPLOAD ---
+                background_tasks = state.get("background_tasks")
                 
-                final_url = cloud_url if cloud_url else screenshot_url
+                if background_tasks:
+                    logger.info(f"🚀 [ScreenshotRunner] Enqueuing background upload for {abs_path}")
+                    
+                    def background_upload(file_path):
+                        from app.utils.cloudinary_utils import upload_file
+                        try:
+                            upload_file(file_path, folder="screenshots")
+                            logger.info(f"✅ [Background] Uploaded {file_path} to Cloudinary")
+                        except Exception as e:
+                            logger.error(f"❌ [Background] Failed to upload {file_path}: {e}")
+                    
+                    background_tasks.add_task(background_upload, abs_path)
+                    final_url = screenshot_url # Use local URL immediately
+                else:
+                    from app.utils.cloudinary_utils import upload_file
+                    cloud_url = upload_file(abs_path, folder="screenshots")
+                    final_url = cloud_url if cloud_url else screenshot_url
                 
                 # Terminal Log Generation for Node UI
                 log_entries = [

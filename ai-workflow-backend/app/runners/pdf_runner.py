@@ -118,12 +118,29 @@ class PdfRunner(BaseRunner):
             filepath = os.path.join(output_dir, filename)
             pdf.output(filepath)
             
-            # --- CLOUDINARY INTEGRATION ---
-            from app.utils.cloudinary_utils import upload_file
-            cloud_url = upload_file(filepath, folder="reports")
+            # --- CLOUDINARY BACKGROUND UPLOAD ---
+            background_tasks = state.get("background_tasks")
+            local_url = f"/static/downloads/{filename}"
             
-            public_url = cloud_url if cloud_url else f"/static/downloads/{filename}"
-            logger.info(f"✅ [PdfRunner] PDF generated and uploaded: {public_url}")
+            if background_tasks:
+                logger.info(f"🚀 [PdfRunner] Enqueuing background upload for {filepath}")
+                
+                def background_upload(file_p):
+                    from app.utils.cloudinary_utils import upload_file
+                    try:
+                        upload_file(file_p, folder="reports")
+                        logger.info(f"✅ [Background] Uploaded {file_p} to Cloudinary")
+                    except Exception as e:
+                        logger.error(f"❌ [Background] Failed to upload {file_p}: {e}")
+                
+                background_tasks.add_task(background_upload, filepath)
+                public_url = local_url
+            else:
+                from app.utils.cloudinary_utils import upload_file
+                cloud_url = upload_file(filepath, folder="reports")
+                public_url = cloud_url if cloud_url else local_url
+
+            logger.info(f"✅ [PdfRunner] PDF generated: {public_url}")
 
             # Prepare UI Content
             terminal_ui = (

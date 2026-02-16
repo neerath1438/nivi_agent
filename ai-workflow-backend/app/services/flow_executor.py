@@ -97,7 +97,7 @@ class FlowExecutor:
             "projectPlanner": ProjectPlannerRunner()
         }
     
-    async def execute(self, flow_data: Dict[str, Any], user_input: str, initial_state: Dict[str, Any] = None):
+    async def execute(self, flow_data: Dict[str, Any], user_input: str, initial_state: Dict[str, Any] = None, background_tasks=None, flow_run_id=None):
         """Execute a complete flow yielding progress events as JSON strings."""
         
         # 0. Windows Specific Asyncio Policy Enforcement & Debug
@@ -143,7 +143,14 @@ class FlowExecutor:
             yield json.dumps({"type": "start", "message": f"Starting flow with {len(nodes)} nodes..."})
 
             run_id = str(uuid.uuid4())
-            state = {"run_id": run_id, "input": user_input, "logs": [], "cumulative_html": []}
+            state = {
+                "run_id": run_id, 
+                "input": user_input, 
+                "logs": [], 
+                "cumulative_html": [],
+                "background_tasks": background_tasks,
+                "flow_run_id": flow_run_id
+            }
             if initial_state: state.update(initial_state)
 
             # Build maps - Only include edges between existing nodes

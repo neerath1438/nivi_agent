@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Handle, Position } from 'reactflow';
 import { useNodeCode } from '../../hooks/useNodeCode';
 import { CodeButton } from '../CodeButton';
@@ -156,4 +156,4 @@ const LLMNode = ({ data, isConnectable }) => {
     );
 };
 
-export default LLMNode;
+export default memo(LLMNode);

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, memo } from 'react';
 import { Handle, Position } from 'reactflow';
 
 const GeminiNode = ({ data, id, isConnectable }) => {
@@ -282,4 +282,4 @@ const GeminiNode = ({ data, id, isConnectable }) => {
     );
 };
 
-export default GeminiNode;
+export default memo(GeminiNode);

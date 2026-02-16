@@ -29,7 +29,9 @@ def upload_file(file_path: str, folder: str = "ai-workflow"):
         response = cloudinary.uploader.upload(
             file_path, 
             folder=folder,
-            resource_type="auto" # Handles both images and PDFs
+            resource_type="auto", # Handles both images and PDFs
+            fetch_format="auto",
+            quality="auto"
         )
         return response.get("secure_url")
     except Exception as e:

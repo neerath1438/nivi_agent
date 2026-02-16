@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Handle, Position } from 'reactflow';
 import { useNodeCode } from '../../hooks/useNodeCode';
 import { CodeButton } from '../CodeButton';
@@ -124,4 +124,4 @@ const OutputNode = ({ data, isConnectable }) => {
     );
 };
 
-export default OutputNode;
+export default memo(OutputNode);

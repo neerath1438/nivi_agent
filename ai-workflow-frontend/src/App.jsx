@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
     setNodes, setEdges, setFlowId, setCurrentFlowName,
@@ -9,21 +9,86 @@ import { toggleTheme, setCustomGradient, setIsThemeAnimated } from './store/them
 import { Database, Plus, LayoutGrid, List } from 'lucide-react';
 
 import LeftNavbar from './components/LeftNavbar';
-import ThemeCustomizer from './components/ThemeCustomizer';
-import Sidebar from './components/FlowBuilder/Sidebar';
-import FlowCanvas from './components/FlowBuilder/FlowCanvas';
-import Controls from './components/FlowBuilder/Controls';
-import CredentialsModal from './components/CredentialsModal';
-import ChatInterface from './components/Chat/ChatInterface';
-import PublicChat from './components/Chat/PublicChat'; // Import PublicChat
 
-import { listFlows, runFlow, deleteFlow, shareFlow, getPublicFlow } from './services/api'; // Import shareFlow
-import ThreeDCard from './components/ThreeDCard'; // Import ThreeDCard
-import GlowButton from './components/GlowButton'; // Import GlowButton
-import SimpleFlowCard from './components/SimpleFlowCard';
-import FlowTable from './components/FlowTable';
-import KnowledgeBase from './pages/KnowledgeBase';
+// Lazy load heavy components
+const ThemeCustomizer = lazy(() => import('./components/ThemeCustomizer'));
+const Sidebar = lazy(() => import('./components/FlowBuilder/Sidebar'));
+const FlowCanvas = lazy(() => import('./components/FlowBuilder/FlowCanvas'));
+const Controls = lazy(() => import('./components/FlowBuilder/Controls'));
+const CredentialsModal = lazy(() => import('./components/CredentialsModal'));
+const ChatInterface = lazy(() => import('./components/Chat/ChatInterface'));
+const PublicChat = lazy(() => import('./components/Chat/PublicChat'));
+const ThreeDCard = lazy(() => import('./components/ThreeDCard'));
+const SimpleFlowCard = lazy(() => import('./components/SimpleFlowCard'));
+const FlowTable = lazy(() => import('./components/FlowTable'));
+const KnowledgeBase = lazy(() => import('./pages/KnowledgeBase'));
+
+import { listFlows, runFlow, deleteFlow, shareFlow, getPublicFlow } from './services/api';
+import GlowButton from './components/GlowButton';
 import KnowledgeNode from './components/Nodes/KnowledgeNode';
+
+// Loading component for Suspense fallback
+// Custom SVG Loading component for Suspense fallback
+const LoadingFallback = () => (
+    <div className="premium-loading-overlay">
+        <div className="loader-container">
+            <svg className="custom-spinner" viewBox="0 0 24 24" fill="currentColor">
+                <rect x="11" y="1" width="2" height="5" opacity="1" />
+                <rect x="11" y="1" width="2" height="5" transform="rotate(30 12 12)" opacity="0.9" />
+                <rect x="11" y="1" width="2" height="5" transform="rotate(60 12 12)" opacity="0.8" />
+                <rect x="11" y="1" width="2" height="5" transform="rotate(90 12 12)" opacity="0.7" />
+                <rect x="11" y="1" width="2" height="5" transform="rotate(120 12 12)" opacity="0.6" />
+                <rect x="11" y="1" width="2" height="5" transform="rotate(150 12 12)" opacity="0.5" />
+                <rect x="11" y="1" width="2" height="5" transform="rotate(180 12 12)" opacity="0.4" />
+                <rect x="11" y="1" width="2" height="5" transform="rotate(210 12 12)" opacity="0.3" />
+                <rect x="11" y="1" width="2" height="5" transform="rotate(240 12 12)" opacity="0.2" />
+                <rect x="11" y="1" width="2" height="5" transform="rotate(270 12 12)" opacity="0.1" />
+                <rect x="11" y="1" width="2" height="5" transform="rotate(300 12 12)" opacity="0.05" />
+                <rect x="11" y="1" width="2" height="5" transform="rotate(330 12 12)" opacity="0.02" />
+            </svg>
+            <p className="loader-text">AI Intelligence Loading...</p>
+        </div>
+        <style jsx>{`
+            .premium-loading-overlay {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 100%;
+                width: 100%;
+                min-height: 400px;
+                background: transparent;
+            }
+            .loader-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 24px;
+            }
+            .custom-spinner {
+                width: 80px;
+                height: 80px;
+                animation: spin 1.6s linear infinite, colorShift 4s linear infinite;
+            }
+            .loader-text {
+                color: var(--text-secondary);
+                font-size: 0.95rem;
+                font-weight: 600;
+                letter-spacing: 0.5px;
+                text-transform: uppercase;
+                text-align: center;
+            }
+            @keyframes spin {
+                from { transform: rotate(0deg); }
+                to { transform: rotate(360deg); }
+            }
+            @keyframes colorShift {
+                0%, 100% { color: var(--accent-primary); }
+                33% { color: var(--accent-secondary); }
+                66% { color: #8b5cf6; /* A nice purple/violet for the 3rd color */ }
+            }
+        `}</style>
+    </div>
+);
 
 function App() {
     const dispatch = useDispatch();
@@ -239,23 +304,25 @@ function App() {
                 transition: 'background 0.5s ease'
             }}
         >
-            <Controls
-                nodes={nodes}
-                edges={edges}
-                activeAgent={shareToken ? { name: currentFlowName, icon: '🔗' } : activeAgent}
-                onBack={() => {
-                    dispatch(setActiveAgentId(null));
-                    dispatch(setFlowId(null));
-                    dispatch(setCurrentFlowName(''));
-                    setShareToken(null);
-                    if (shareToken) window.history.pushState({}, '', '/');
-                }}
-                flowId={flowId}
-                flowName={currentFlowName}
-                theme={theme}
-                isReadOnly={!!shareToken}
-                shareToken={shareToken}
-            />
+            <Suspense fallback={<LoadingFallback />}>
+                <Controls
+                    nodes={nodes}
+                    edges={edges}
+                    activeAgent={shareToken ? { name: currentFlowName, icon: '🔗' } : activeAgent}
+                    onBack={() => {
+                        dispatch(setActiveAgentId(null));
+                        dispatch(setFlowId(null));
+                        dispatch(setCurrentFlowName(''));
+                        setShareToken(null);
+                        if (shareToken) window.history.pushState({}, '', '/');
+                    }}
+                    flowId={flowId}
+                    flowName={currentFlowName}
+                    theme={theme}
+                    isReadOnly={!!shareToken}
+                    shareToken={shareToken}
+                />
+            </Suspense>
             <div className="app-container">
                 {!shareToken && (
                     <LeftNavbar
@@ -268,7 +335,7 @@ function App() {
 
                 {/* Workflows View */}
                 {activeView === 'workflows' && (
-                    <>
+                    <Suspense fallback={<LoadingFallback />}>
                         {!shareToken && (
                             <Sidebar
                                 isCollapsed={isSidebarCollapsed}
@@ -289,13 +356,15 @@ function App() {
                                 initialEdges={shareToken ? edges : null}
                             />
                         </div>
-                    </>
+                    </Suspense>
                 )}
 
                 {/* Credentials View */}
                 {activeView === 'credentials' && (
                     <div className="full-page-view">
-                        <CredentialsModal isOpen={true} onClose={() => setActiveView('workflows')} />
+                        <Suspense fallback={<LoadingFallback />}>
+                            <CredentialsModal isOpen={true} onClose={() => setActiveView('workflows')} />
+                        </Suspense>
                     </div>
                 )}
 
@@ -388,38 +457,40 @@ function App() {
                             </div>
                         </div>
 
-                        {isLoadingFlows ? (
-                            <div style={{ color: 'var(--text-primary)', textAlign: 'center', padding: '4rem' }}>
-                                <p>Loading your workflows...</p>
-                            </div>
-                        ) : savedFlows.length === 0 ? (
-                            <div style={{ color: 'var(--text-secondary)', textAlign: 'center', padding: '4rem', opacity: 0.6 }}>
-                                <p>No saved flows yet. Create your first one!</p>
-                            </div>
-                        ) : dashboardViewMode === 'table' ? (
-                            <FlowTable
-                                flows={savedFlows}
-                                onEdit={handleEditFlow}
-                                onRun={handleRunFlow}
-                                onShare={handleShareFlow}
-                                onDelete={handleDeleteFlow}
-                                theme={theme}
-                            />
-                        ) : (
-                            <div className="flows-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '1.5rem' }}>
-                                {savedFlows.map(flow => (
-                                    <SimpleFlowCard
-                                        key={flow.id}
-                                        flow={flow}
-                                        onEdit={handleEditFlow}
-                                        onRun={handleRunFlow}
-                                        onShare={handleShareFlow}
-                                        onDelete={handleDeleteFlow}
-                                        theme={theme}
-                                    />
-                                ))}
-                            </div>
-                        )}
+                        <Suspense fallback={<LoadingFallback />}>
+                            {isLoadingFlows ? (
+                                <div style={{ color: 'var(--text-primary)', textAlign: 'center', padding: '4rem' }}>
+                                    <p>Loading your workflows...</p>
+                                </div>
+                            ) : savedFlows.length === 0 ? (
+                                <div style={{ color: 'var(--text-secondary)', textAlign: 'center', padding: '4rem', opacity: 0.6 }}>
+                                    <p>No saved flows yet. Create your first one!</p>
+                                </div>
+                            ) : dashboardViewMode === 'table' ? (
+                                <FlowTable
+                                    flows={savedFlows}
+                                    onEdit={handleEditFlow}
+                                    onRun={handleRunFlow}
+                                    onShare={handleShareFlow}
+                                    onDelete={handleDeleteFlow}
+                                    theme={theme}
+                                />
+                            ) : (
+                                <div className="flows-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '1.5rem' }}>
+                                    {savedFlows.map(flow => (
+                                        <SimpleFlowCard
+                                            key={flow.id}
+                                            flow={flow}
+                                            onEdit={handleEditFlow}
+                                            onRun={handleRunFlow}
+                                            onShare={handleShareFlow}
+                                            onDelete={handleDeleteFlow}
+                                            theme={theme}
+                                        />
+                                    ))}
+                                </div>
+                            )}
+                        </Suspense>
                     </div>
                 )}
 
@@ -446,14 +517,18 @@ function App() {
                 {/* Themes View */}
                 {activeView === 'themes' && (
                     <div className="full-page-view" style={{ background: 'transparent' }}>
-                        <ThemeCustomizer theme={theme} />
+                        <Suspense fallback={<LoadingFallback />}>
+                            <ThemeCustomizer theme={theme} />
+                        </Suspense>
                     </div>
                 )}
 
                 {/* Knowledge Base View */}
                 {activeView === 'knowledge' && (
                     <div className="full-page-view" style={{ overflowY: 'auto' }}>
-                        <KnowledgeBase />
+                        <Suspense fallback={<LoadingFallback />}>
+                            <KnowledgeBase />
+                        </Suspense>
                     </div>
                 )}
 
@@ -470,7 +545,9 @@ function App() {
                 {/* Shared Flow View */}
                 {activeView === 'share' && shareToken && (
                     <div className="full-page-view" style={{ background: 'transparent', width: '100%' }}>
-                        <PublicChat shareToken={shareToken} theme={theme} />
+                        <Suspense fallback={<LoadingFallback />}>
+                            <PublicChat shareToken={shareToken} theme={theme} />
+                        </Suspense>
                     </div>
                 )}
 

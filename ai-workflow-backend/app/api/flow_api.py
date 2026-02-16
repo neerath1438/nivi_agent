@@ -5,7 +5,7 @@ import json
 import uuid
 from typing import List, Optional
 from datetime import datetime
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, BackgroundTasks
 from fastapi.responses import StreamingResponse
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
@@ -149,7 +149,7 @@ async def delete_flow(flow_id: int, db: Session = Depends(get_db)):
 
 
 @router.post("/flow/run")
-async def run_flow(request: FlowRunRequest, db: Session = Depends(get_db)):
+async def run_flow(request: FlowRunRequest, background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
     """Execute a flow with streaming progress."""
     try:
         # Create flow run record
@@ -165,7 +165,12 @@ async def run_flow(request: FlowRunRequest, db: Session = Depends(get_db)):
         async def event_generator():
             final_result = None
             try:
-                async for event_json in flow_executor.execute(request.flow_data, request.input):
+                async for event_json in flow_executor.execute(
+                    request.flow_data, 
+                    request.input, 
+                    background_tasks=background_tasks,
+                    flow_run_id=flow_run.id
+                ):
                     import json
                     event = json.loads(event_json)
                     if event["type"] == "final":
@@ -327,7 +332,7 @@ async def get_public_flow(share_token: str, db: Session = Depends(get_db)):
 
 
 @router.post("/public/execute/{share_token}")
-async def execute_public_flow(share_token: str, request: dict, db: Session = Depends(get_db)):
+async def execute_public_flow(share_token: str, request: dict, background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
     """Execute a shared flow with streaming progress."""
     try:
         flow = db.query(Flow).filter(Flow.share_token == share_token).first()
@@ -337,7 +342,11 @@ async def execute_public_flow(share_token: str, request: dict, db: Session = Dep
         user_input = request.get("input", "")
         
         async def event_generator():
-            async for event_json in flow_executor.execute(flow.flow_data, user_input):
+            async for event_json in flow_executor.execute(
+                flow.flow_data, 
+                user_input, 
+                background_tasks=background_tasks
+            ):
                 yield f"data: {event_json}\n\n"
 
         return StreamingResponse(event_generator(), media_type="text/event-stream")
